@@ -16,7 +16,7 @@ pipeline {
 			
 				              }			    
                                             }
-				echo "Stage InputRunName"
+				echo "In Stage InputRunName"
 				  }
                        }
 
@@ -27,9 +27,9 @@ pipeline {
 						RUN_NAME = "${pathMap['RunName']}"
 			                }
 			    steps{
-				echo "Stage Init"
+				echo "In Stage Init"
 				//sh 'echo "In Jenkins file $RUN_NAME"'
-				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
+				//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
 			        }
 
                      }
@@ -41,8 +41,8 @@ pipeline {
 						RUN_NAME = "${pathMap['RunName']}"
 			                }
 			        steps{	
-					echo "Stage Trimmomatic"
-					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
+					echo "In Stage Trimmomatic"
+					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
 				     }	
 			    }		
 
@@ -53,8 +53,8 @@ pipeline {
 			                }
 
 				steps{
-					echo "Stage Fastqc"
-					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
+					echo "In Stage Fastqc"
+					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
 					
 				     }
 		       }
@@ -67,8 +67,8 @@ pipeline {
 			                }
 
 			       steps{
-					echo "Stage Spades"
-					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
+					echo "In Stage Spades"
+					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
 				    }
 		       }
 
@@ -79,8 +79,8 @@ pipeline {
 			                }
 
 			       steps{
-					echo "Stage Prokka"
-					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
+					echo "In Stage Prokka"
+					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
 				    }
 		       }
 
