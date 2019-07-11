@@ -17,6 +17,7 @@ pipeline {
 				              }			    
                                             }
 				echo "In Stage InputRunName"
+				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckRunName.sh ${pathMap['RunName']}"
 				  }
                        }
 
