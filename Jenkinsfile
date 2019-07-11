@@ -42,7 +42,7 @@ pipeline {
 			                }
 			        steps{	
 					echo "In Stage Trimmomatic"
-					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
+					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
 				     }	
 			    }		
 
@@ -54,7 +54,7 @@ pipeline {
 
 				steps{
 					echo "In Stage Fastqc"
-					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
+					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
 					
 				     }
 		       }
@@ -68,7 +68,7 @@ pipeline {
 
 			       steps{
 					echo "In Stage Spades"
-					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
+					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
 				    }
 		       }
 
@@ -80,7 +80,7 @@ pipeline {
 
 			       steps{
 					echo "In Stage Prokka"
-					//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
+					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
 				    }
 		       }
 
