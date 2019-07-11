@@ -29,7 +29,7 @@ pipeline {
 			    steps{
 				echo "In Stage Init"
 				//sh 'echo "In Jenkins file $RUN_NAME"'
-				//sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
+				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
 			        }
 
                      }
