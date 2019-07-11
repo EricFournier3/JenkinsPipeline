@@ -5,6 +5,9 @@ Eric Fournier 2019-07-09
 
 HEADER
 
+echo "******************************* TESTING *******************"
+
+
 PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
 
 source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
