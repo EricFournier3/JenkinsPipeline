@@ -47,5 +47,6 @@ organism:
    Inconnu: 5000000
    Rhuminococcaceae: 3800000
    Prevotella: 4000000
+GenomeLengthFile: "/home/foueri01@inspq.qc.ca/ProjetsNGS/NCBI_REPORTS/ProkaryotesGenomeLength.csv"
 ...
 

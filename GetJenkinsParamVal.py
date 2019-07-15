@@ -19,6 +19,7 @@ all_dict = yaml.load(snakemake_param_handle)
 snakemake_file_dict = all_dict["snakemake_file"][0]
 snakemake_rules_dict = all_dict["snakemake_rules"][0]
 organism_dict = all_dict["organism"][0]
+genome_length_file = all_dict["GenomeLengthFile"]
 
 snakemake_param_handle.close()
 
@@ -49,6 +50,9 @@ elif mykey == "organism":
     sample_sheet_handle.close()
     genome_length = organism_dict[organism_from_samplesheet]
     print genome_length
+elif mykey == "genome_length_file":
+    pass
+    print genome_length_file
 
 
 else:

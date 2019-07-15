@@ -2,9 +2,7 @@
 pipeline {
     agent any
 
-
     stages   {
-
         stage('InputRunName') {
 
 			    steps {
@@ -16,11 +14,10 @@ pipeline {
 			
 				              }			    
                                             }
-				echo "In Stage InputRunName"
+				echo "Stage InputRunName"
 				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckRunName.sh ${pathMap['RunName']}"
 				  }
                        }
-
 	stage('Init'){
 			    
                              environment{
@@ -28,25 +25,22 @@ pipeline {
 						RUN_NAME = "${pathMap['RunName']}"
 			                }
 			    steps{
-				echo "In Stage Init"
+				echo "Stage Init"
 				//sh 'echo "In Jenkins file $RUN_NAME"'
 				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
-			        }
 
-                     }
-
-
+                                 }
+		     }
 	stage('Trimmomatic'){
                              environment{
 
 						RUN_NAME = "${pathMap['RunName']}"
 			                }
 			        steps{	
-					echo "In Stage Trimmomatic"
+					echo "Stage Trimmomatic"
 					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
 				     }	
 			    }		
-
 	stage('Fastqc'){
                              environment{
 
@@ -54,13 +48,11 @@ pipeline {
 			                }
 
 				steps{
-					echo "In Stage Fastqc"
+					echo "Stage Fastqc"
 					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
 					
 				     }
 		       }
-
-
 	stage('Spades'){
                              environment{
 
@@ -68,11 +60,10 @@ pipeline {
 			                }
 
 			       steps{
-					echo "In Stage Spades"
+					echo "Stage Spades"
 					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
 				    }
 		       }
-
 	stage('Prokka'){
                              environment{
 
@@ -80,11 +71,44 @@ pipeline {
 			                }
 
 			       steps{
-					echo "In Stage Prokka"
+					echo "Stage Prokka"
 					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
 				    }
 		       }
+	stage('RunStat'){
+                             environment{
 
+						RUN_NAME = "${pathMap['RunName']}"
+			                }
+
+			     steps{
+
+					echo "In Stage RunStat"
+					//voir https://stackoverflow.com/questions/40213654/how-to-invoke-bash-functions-defined-in-a-resource-file-from-a-jenkins-pipeline?rq=1
+					sh '''#!/bin/bash
+				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
+				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CountReads
+				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
+				      
+				   	   '''
+			        }
+			}
+	stage('Clean'){
+                             environment{
+
+						RUN_NAME = "${pathMap['RunName']}"
+			                }
+
+			     steps{
+
+					echo "In Stage Clean"
+					sh '''#!/bin/bash
+				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh Clean
+				      
+				   	   '''
+			        }
+			}
+	
    }
 }
 

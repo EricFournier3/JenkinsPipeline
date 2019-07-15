@@ -6,7 +6,9 @@ Eric Fournier 2019-07-09
 HEADER
 PARAM_FILE="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/JenkinsParameter.yaml"
 GET_PARAM_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetJenkinsParamVal.py"
-RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat6.py"
+RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat7.py"
+GET_SPECIMENS_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetSpecimensForTask.py"
+COMPUTE_SAMPLE_COVERAGE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/ComputeExpectedGenomesCoverage.py"
 
 if grep -qs '/mnt/Partage' /proc/mounts
         then
@@ -50,6 +52,8 @@ SetStaticPath(){
         SLBIO_SPADES_STAT=${slbio_subdir_arr[6]}"/"
         SLBIO_PROKKA=${slbio_subdir_arr[7]}"/"
         SLBIO_LOG=${slbio_subdir_arr[8]}"/"
+
+	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
 

@@ -13,8 +13,6 @@ source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
-PARAM_FILE="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/JenkinsParameter.yaml"
-GET_SPECIMENS_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetSpecimensForTask.py"
 STEP="Spades"
 
 for proj in "${projects_list[@]}"
