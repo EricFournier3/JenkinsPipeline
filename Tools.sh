@@ -4,6 +4,29 @@ source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
+CoreSnvReference(){
+	echo "In Core snv check ref"
+	for proj in "${projects_list[@]}"
+                do
+                PROJECT_NAME=$proj
+                SetFinalPath $PROJECT_NAME
+		organism=$(sed -n '/epidemio/p' ${SLBIO_PROJECT_PATH}${RUN_NAME}.csv.temp3 | awk 'BEGIN{FS=","}NR==1{print $12}')
+		echo "Organism is $organism"
+		check_ref_cmd="/usr/bin/python2.7 $CORESNV_REFERENCE_SCRIPT $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH $PARAM_FILE \"${organism}\" check"
+		eval $check_ref_cmd
+		errno=$?
+		if [ $errno -eq 0 ]
+		    then
+		    :
+		else
+	            echo "Reference manquante dans JenkinsParameter.yaml"
+		    sudo rm -rf $SLBIO_RUN_PATH
+		    exit 1
+		fi
+	done
+}
+
+
 ComputeExpectedGenomesCoverage(){
 	echo "Genome file is $GENOME_LENGTH_FILE"
 	temp_file_base=$(echo $(dirname $GENOME_LENGTH_FILE))/
@@ -35,8 +58,8 @@ Clean(){
                 do
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
-                #rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
-                #rm ${SLBIO_FASTQ_TRIMMO_PATH}*"fastq.gz"
+                rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
+                rm ${SLBIO_FASTQ_TRIMMO_PATH}*"fastq.gz"
         done
 }
 
@@ -86,49 +109,5 @@ CountReads(){
 
 $1
 
-exit 0
 
 
-<<TEMP
-ComputeMiSeqStat(){
-
-        echo -e "Calcul des metrics de la run\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
-
-        MiSeq_Stat_Command="/usr/bin/python2.7 $RUN_QUAL_SCRIPT --runno $RUN_NAME --gl $genome_length --param $PARAM_FILE"
-        if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
-                then
-                :
-        else
-                echo "Running MiSeqStat6.py ..."
-                #echo $MiSeq_Stat_Command
-                eval $MiSeq_Stat_Command > /dev/null 2>&1
-        fi
-}
-
-
-CountReads(){
-        read_count_file_name="ReadCount.txt"
-        read_count_file_before=${SLBIO_FASTQ_BRUT_PATH}"$read_count_file_name"
-        read_count_file_after=${SLBIO_FASTQ_TRIMMO_PATH}"$read_count_file_name"
-
-        echo -e "Fichier_FASTQ\tRead_Count\n" > $read_count_file_before
-        for i in $(ls -1 ${SLBIO_FASTQ_BRUT_PATH}*".fastq.gz")
-                do
-                fastq_name=$(echo $(basename $i))
-                echo -e "Count reads for $fastq_name \t$(date "+%Y-%m-%d @ %H:%M")" >>$SLBIO_LOG_FILE
-                count=$(zcat $i | expr $(wc -l) / 4)
-                echo -e "$fastq_name\t$count" >> $read_count_file_before
-        done
-
-        echo -e "Fichier_FASTQ\tRead_Count\n" > $read_count_file_after
-        for i in $(ls -1 ${SLBIO_FASTQ_TRIMMO_PATH}*".fastq.gz")
-                do
-                fastq_name=$(echo $(basename $i))
-                echo -e "Count reads for $fastq_name \t$(date "+%Y-%m-%d @ %H:%M")" >>$SLBIO_LOG_FILE
-                count=$(zcat $i | expr $(wc -l) / 4)
-                echo -e "$fastq_name\t$count" >> $read_count_file_after
-        done
-
-
-}
-TEMP

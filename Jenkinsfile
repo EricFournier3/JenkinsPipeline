@@ -28,7 +28,7 @@ pipeline {
 				echo "Stage Init"
 				//sh 'echo "In Jenkins file $RUN_NAME"'
 				sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
-
+				sh '/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CoreSnvReference'
                                  }
 		     }
 	stage('Trimmomatic'){
@@ -75,6 +75,17 @@ pipeline {
 					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
 				    }
 		       }
+	stage('CoreSNV'){
+                             environment{
+
+						RUN_NAME = "${pathMap['RunName']}"
+			                }
+			     steps{
+					echo "Stage CoreSNV"
+					sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoCoreSNV.sh"
+				  }
+
+			}
 	stage('RunStat'){
                              environment{
 
@@ -85,12 +96,14 @@ pipeline {
 
 					echo "In Stage RunStat"
 					//voir https://stackoverflow.com/questions/40213654/how-to-invoke-bash-functions-defined-in-a-resource-file-from-a-jenkins-pipeline?rq=1
+                                        
 					sh '''#!/bin/bash
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CountReads
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
 				      
 				   	   '''
+					
 			        }
 			}
 	stage('Clean'){
@@ -102,10 +115,12 @@ pipeline {
 			     steps{
 
 					echo "In Stage Clean"
+					
 					sh '''#!/bin/bash
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh Clean
 				      
 				   	   '''
+					
 			        }
 			}
 	

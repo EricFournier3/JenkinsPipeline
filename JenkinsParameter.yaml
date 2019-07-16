@@ -29,6 +29,7 @@ slbio_subdir:
  - "6_SPADES_STAT"
  - "7_PROKKA"
  - "LOG"
+ - "8_CORESVN"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
    assemb_bact: ["Spades"]
@@ -48,5 +49,9 @@ organism:
    Rhuminococcaceae: 3800000
    Prevotella: 4000000
 GenomeLengthFile: "/home/foueri01@inspq.qc.ca/ProjetsNGS/NCBI_REPORTS/ProkaryotesGenomeLength.csv"
+coresnv_ref:
+ - "Cutibacterium acnes": "NC_014039.1"
+   "Staphylococcus epidermidis": "NC_004461.1"
+coresnv_ref_path: "/home/foueri01@inspq.qc.ca/ProjetsNGS/CORESNV_REF/"
 ...
 

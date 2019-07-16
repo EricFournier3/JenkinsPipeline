@@ -9,6 +9,9 @@ GET_PARAM_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetJenkinsParamVa
 RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat7.py"
 GET_SPECIMENS_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetSpecimensForTask.py"
 COMPUTE_SAMPLE_COVERAGE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/ComputeExpectedGenomesCoverage.py"
+CORESNV_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckCoreSnvReference.py"
+CORESNV_EXEC="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/snvphyl-galaxy-cli/bin/snvphyl.py"
+POSITION2PHYLOVIZ_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/PerlScript/positions2phyloviz.pl"
 
 if grep -qs '/mnt/Partage' /proc/mounts
         then
@@ -52,7 +55,8 @@ SetStaticPath(){
         SLBIO_SPADES_STAT=${slbio_subdir_arr[6]}"/"
         SLBIO_PROKKA=${slbio_subdir_arr[7]}"/"
         SLBIO_LOG=${slbio_subdir_arr[8]}"/"
-
+	SLBIO_CORESNV=${slbio_subdir_arr[9]}"/"
+	
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
@@ -76,6 +80,7 @@ SetFinalPath(){
 	SLBIO_SPADES_FILTER_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_FILTER}
 	SLBIO_SPADES_STAT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_STAT}
 	SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
+	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
 }
 
 GetProjectsNamefromRunName(){
