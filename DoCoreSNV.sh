@@ -43,8 +43,7 @@ for proj in "${projects_list[@]}"
 			echo "spec is $spec"
 			for primer in R1 R2
 				do
-				echo "temp"
-				#cp ${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_${primer}_PAIR.fastq.gz" ${temp_fastq_dir}${spec}"_${primer}.fastq.gz"
+				cp ${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_${primer}_PAIR.fastq.gz" ${temp_fastq_dir}${spec}"_${primer}.fastq.gz"
 			done	
 		done
 

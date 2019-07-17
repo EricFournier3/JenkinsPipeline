@@ -11,17 +11,19 @@ CoreSnvReference(){
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
 		organism=$(sed -n '/epidemio/p' ${SLBIO_PROJECT_PATH}${RUN_NAME}.csv.temp3 | awk 'BEGIN{FS=","}NR==1{print $12}')
-		echo "Organism is $organism"
-		check_ref_cmd="/usr/bin/python2.7 $CORESNV_REFERENCE_SCRIPT $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH $PARAM_FILE \"${organism}\" check"
-		eval $check_ref_cmd
-		errno=$?
-		if [ $errno -eq 0 ]
-		    then
-		    :
-		else
-	            echo "Reference manquante dans JenkinsParameter.yaml"
-		    sudo rm -rf $SLBIO_RUN_PATH
-		    exit 1
+                if [ ${#organism} -gt 0 ]
+			then          
+			check_ref_cmd="/usr/bin/python2.7 $CORESNV_REFERENCE_SCRIPT $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH $PARAM_FILE \"${organism}\" check"
+			eval $check_ref_cmd
+			errno=$?
+			if [ $errno -eq 0 ]
+			    then
+			    :
+			else
+			    echo "Reference manquante dans JenkinsParameter.yaml"
+			    sudo rm -rf $SLBIO_RUN_PATH
+			    exit 1
+			fi
 		fi
 	done
 }
@@ -40,9 +42,9 @@ ComputeExpectedGenomesCoverage(){
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
 		OUT_FILE=${SLBIO_RUN_PATH}"ExpectedGenomeCoverage.txt"
-		compute_cov_cmd="/usr/bin/python2.7 $COMPUTE_SAMPLE_COVERAGE_SCRIPT  $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH  $temp_file  $LSPQ_MISEQ_RUN_PATH $OUT_FILE ${LSPQ_ANALYSES} $SLBIO_FASTQ_BRUT"
+		compute_cov_cmd="/usr/bin/python2.7 $COMPUTE_SAMPLE_COVERAGE_SCRIPT  $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH  $temp_file  $LSPQ_MISEQ_RUN_PATH $OUT_FILE $SLBIO_FASTQ_BRUT"
 
-		echo $compute_cov_cmd
+		#echo $compute_cov_cmd
                 eval $compute_cov_cmd 
 	done
 
