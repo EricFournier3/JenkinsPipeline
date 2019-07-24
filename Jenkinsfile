@@ -86,6 +86,23 @@ pipeline {
 				  }
 
 			}
+	stage('Funannotate'){
+                             environment{
+
+						RUN_NAME = "${pathMap['RunName']}"
+			                }
+			     steps{
+					echo "Stage Funannotate"
+					
+                                        sh '''#!/bin/bash
+				           . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate funannotate
+					   /home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFunannotate.sh
+				           conda deactivate
+					   
+					'''
+				  }
+
+			}
 	stage('RunStat'){
                              environment{
 
@@ -96,14 +113,14 @@ pipeline {
 
 					echo "In Stage RunStat"
 					//voir https://stackoverflow.com/questions/40213654/how-to-invoke-bash-functions-defined-in-a-resource-file-from-a-jenkins-pipeline?rq=1
-                                        
+                                                                              
 					sh '''#!/bin/bash
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CountReads
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
 				      
 				   	   '''
-					
+					  
 			        }
 			}
 	stage('Clean'){
@@ -119,8 +136,7 @@ pipeline {
 					sh '''#!/bin/bash
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh Clean
 				      
-				   	   '''
-					
+				   	   '''	
 			        }
 			}
 	

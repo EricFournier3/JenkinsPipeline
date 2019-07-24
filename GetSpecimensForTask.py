@@ -36,7 +36,7 @@ all_spec_pipelines_tup = ()
 for line in sample_sheet_handle:
     #print line,
     arr = line.split(',')
-    spec_pipelines_tup =  ((arr[0], arr[10].split('-')),)
+    spec_pipelines_tup =  ((arr[0], arr[9].split('-')),)
     all_spec_pipelines_tup = all_spec_pipelines_tup + spec_pipelines_tup
 sample_sheet_handle.close()
 

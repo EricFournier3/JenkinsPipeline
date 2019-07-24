@@ -30,6 +30,7 @@ slbio_subdir:
  - "7_PROKKA"
  - "LOG"
  - "8_CORESVN"
+ - "9_FUNANNOTATE"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
    assemb_bact: ["Spades"]

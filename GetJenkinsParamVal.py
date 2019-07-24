@@ -28,7 +28,7 @@ if mykey == "snakemake_files":
     sample_sheet = sys.argv[3]
     sample_sheet_handle = open(sample_sheet)
     header = sample_sheet_handle.readline()
-    pipeline_from_samplesheet = sample_sheet_handle.readline().split(',')[10]
+    pipeline_from_samplesheet = sample_sheet_handle.readline().split(',')[9]
     sample_sheet_handle.close()
     file_list = snakemake_file_dict[pipeline_from_samplesheet]
     #print len(file_list)
@@ -38,7 +38,7 @@ elif mykey == "snakemake_rules":
     sample_sheet = sys.argv[3]
     sample_sheet_handle = open(sample_sheet)
     header = sample_sheet_handle.readline()
-    pipeline_from_samplesheet = sample_sheet_handle.readline().split(',')[10]
+    pipeline_from_samplesheet = sample_sheet_handle.readline().split(',')[9]
     sample_sheet_handle.close()
     rules_list = snakemake_rules_dict[pipeline_from_samplesheet]
     print ' '.join(rules_list)
@@ -46,7 +46,7 @@ elif mykey == "organism":
     sample_sheet = sys.argv[3]
     sample_sheet_handle = open(sample_sheet)
     header = sample_sheet_handle.readline()
-    organism_from_samplesheet = sample_sheet_handle.readline().split(',')[11]
+    organism_from_samplesheet = sample_sheet_handle.readline().split(',')[10]
     sample_sheet_handle.close()
     genome_length = organism_dict[organism_from_samplesheet]
     print genome_length
