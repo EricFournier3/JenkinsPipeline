@@ -79,6 +79,8 @@ for proj in "${projects_list[@]}"
 		
 			#echo -e "${funannotate_mask_cmd}\n${funannotate_predict_cmd}\n${funannotate_iprscan_cmd}\n${funannotate_annotate_cmd}\n"
 
+			echo -e "Funannotate pour ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")"   >> $SLBIO_LOG_FILE
+
 			eval $funannotate_mask_cmd
 			eval $funannotate_predict_cmd
 			eval $funannotate_iprscan_cmd

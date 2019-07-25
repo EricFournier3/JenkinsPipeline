@@ -22,6 +22,34 @@ BuildSlbioStruct(){
         echo -e "Création des sous répertoires 1_FASTQ_BRUT 2_FASTQC_BRUT 3_FASTQ_TRIMMO  4_FASTQC_TRIMMO\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 }
 
+CreateSymLink(){
+
+        echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq vers 1_FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+
+        sudo cp $LSPQ_MISEQ_SAMPLESHEET_PATH $SLBIO_PROJECT_PATH
+        sample_sheet_name=$(basename $LSPQ_MISEQ_SAMPLESHEET_PATH)
+        #convertir de DOS vers Linux format
+        awk '{sub("\r$", "");print}' ${SLBIO_PROJECT_PATH}${sample_sheet_name} > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp"
+
+        #Supprimer le header
+        sed -n '/Sample_ID/,$p' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp" >  ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2"
+
+        #Extraire les sample id du projet cible
+        awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}"ID_list.txt"
+        awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_ID"){print $0}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3"
+
+        myarr=();
+        for i in $(cat ${SLBIO_PROJECT_PATH}"ID_list.txt")
+                do
+                myarr+=($i)
+        done
+
+        for j in ${myarr[@]}
+                do
+		ln -s ${LSPQ_MISEQ_FASTQ_PATH}${j}*".fastq.gz" $SLBIO_FASTQ_BRUT_PATH
+        done
+}
+
 CopyFASTQ(){
 
         echo -e "Copie des fichiers fastq.gz de S:Partage/LSPQ_MiSeq vers 1_FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
@@ -72,7 +100,8 @@ for proj in "${projects_list[@]}"
 	SetFinalPath $PROJECT_NAME
 	#echo "In InitGEnomicPipeline $SLBIO_SPADES_FILTER_PATH"
 	BuildSlbioStruct
-	CopyFASTQ
+	#CopyFASTQ
+	CreateSymLink
 	RenameFastq
 done
 
