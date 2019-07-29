@@ -4,6 +4,31 @@ source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
+
+AddNumericPrefixToSubdir(){
+ 	slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
+
+	for proj in "${projects_list[@]}"
+                do
+		prefix=1
+                PROJECT_NAME=$proj
+                SetFinalPath $PROJECT_NAME
+		
+		for subdir in "${slbio_subdir_arr[@]}"
+			do
+			subdir_path=${SLBIO_PROJECT_PATH}${subdir}
+			if [ -d ${subdir_path} ]
+				then
+				new_subdir_name="${prefix}_${subdir}"
+				new_subdir_path="${SLBIO_PROJECT_PATH}${new_subdir_name}"
+				mv $subdir_path  $new_subdir_path
+				prefix=$(echo $((++prefix)))
+			fi
+		done
+	done
+}
+
+
 CoreSnvReference(){
 	echo "In Core snv check ref"
 	for proj in "${projects_list[@]}"

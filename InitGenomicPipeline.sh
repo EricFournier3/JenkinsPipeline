@@ -19,12 +19,12 @@ BuildSlbioStruct(){
 		mkdir $SLBIO_RUN_PATH
 	fi
         mkdir -p $SLBIO_FASTQ_BRUT_PATH $SLBIO_FASTQ_TRIMMO_PATH  $SLBIO_FASTQC_BRUT_PATH   $SLBIO_FASTQC_TRIMMO_PATH   $SLBIO_LOG_PATH
-        echo -e "Création des sous répertoires 1_FASTQ_BRUT 2_FASTQC_BRUT 3_FASTQ_TRIMMO  4_FASTQC_TRIMMO\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+        echo -e "Création des sous répertoires FASTQ_BRUT QC_FASTQC_BRUT_FASTQC FASTQ_CLEAN_TRIMMOMATIC  QC_FASTQ_CLEAN_FASTQC\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 }
 
 CreateSymLink(){
 
-        echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq vers 1_FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+        echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
         sudo cp $LSPQ_MISEQ_SAMPLESHEET_PATH $SLBIO_PROJECT_PATH
         sample_sheet_name=$(basename $LSPQ_MISEQ_SAMPLESHEET_PATH)
@@ -52,7 +52,7 @@ CreateSymLink(){
 
 CopyFASTQ(){
 
-        echo -e "Copie des fichiers fastq.gz de S:Partage/LSPQ_MiSeq vers 1_FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+        echo -e "Copie des fichiers fastq.gz de S:Partage/LSPQ_MiSeq vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
         sudo cp $LSPQ_MISEQ_SAMPLESHEET_PATH $SLBIO_PROJECT_PATH
         sample_sheet_name=$(basename $LSPQ_MISEQ_SAMPLESHEET_PATH)
@@ -100,7 +100,6 @@ for proj in "${projects_list[@]}"
 	SetFinalPath $PROJECT_NAME
 	#echo "In InitGEnomicPipeline $SLBIO_SPADES_FILTER_PATH"
 	BuildSlbioStruct
-	#CopyFASTQ
 	CreateSymLink
 	RenameFastq
 done

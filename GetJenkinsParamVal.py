@@ -20,6 +20,7 @@ snakemake_file_dict = all_dict["snakemake_file"][0]
 snakemake_rules_dict = all_dict["snakemake_rules"][0]
 organism_dict = all_dict["organism"][0]
 genome_length_file = all_dict["GenomeLengthFile"]
+slbio_subdir_dict = all_dict["slbio_subdir"]
 
 snakemake_param_handle.close()
 
@@ -54,6 +55,8 @@ elif mykey == "genome_length_file":
     pass
     print genome_length_file
 
+elif mykey == "slbio_subdir":
+    print ' '.join(slbio_subdir_dict)
 
 else:
     #print len(all_dict[mykey])

@@ -47,18 +47,36 @@ SetStaticPath(){
         LSPQ_MISEQ_SEQ_BRUT=${lspq_miseq_subdir_arr[1]}"/"
         LSPQ_ANALYSES=${lspq_miseq_subdir_arr[2]}"/"
 
-        slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
+
+     slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
+#OLD
+#        SLBIO_FASTQ_BRUT=${slbio_subdir_arr[0]}"/"
+#        SLBIO_FASTQC_1=${slbio_subdir_arr[1]}"/"
+#        SLBIO_FASTQ_TRIMMO=${slbio_subdir_arr[2]}"/"
+#        SLBIO_FASTQC_2=${slbio_subdir_arr[3]}"/"
+#        SLBIO_SPADES=${slbio_subdir_arr[4]}"/"
+#        SLBIO_SPADES_FILTER=${slbio_subdir_arr[5]}"/"
+#        SLBIO_SPADES_STAT=${slbio_subdir_arr[6]}"/"
+#        SLBIO_PROKKA=${slbio_subdir_arr[7]}"/"
+#        SLBIO_LOG=${slbio_subdir_arr[8]}"/"
+#	SLBIO_CORESNV=${slbio_subdir_arr[9]}"/"
+#	SLBIO_FUNANNOTATE=${slbio_subdir_arr[10]}"/"
+
+#NEW
         SLBIO_FASTQ_BRUT=${slbio_subdir_arr[0]}"/"
         SLBIO_FASTQC_1=${slbio_subdir_arr[1]}"/"
         SLBIO_FASTQ_TRIMMO=${slbio_subdir_arr[2]}"/"
         SLBIO_FASTQC_2=${slbio_subdir_arr[3]}"/"
-        SLBIO_SPADES=${slbio_subdir_arr[4]}"/"
-        SLBIO_SPADES_FILTER=${slbio_subdir_arr[5]}"/"
-        SLBIO_SPADES_STAT=${slbio_subdir_arr[6]}"/"
-        SLBIO_PROKKA=${slbio_subdir_arr[7]}"/"
-        SLBIO_LOG=${slbio_subdir_arr[8]}"/"
-	SLBIO_CORESNV=${slbio_subdir_arr[9]}"/"
-	SLBIO_FUNANNOTATE=${slbio_subdir_arr[10]}"/"
+	SLBIO_SPADES=${slbio_subdir_arr[4]}"/"
+	SLBIO_SPADES_BRUT=${SLBIO_SPADES}${slbio_subdir_arr[5]}"/"
+	SLBIO_SPADES_FILTER=${SLBIO_SPADES}${slbio_subdir_arr[6]}"/"
+	SLBIO_SPADES_QC=${slbio_subdir_arr[7]}"/"
+	SLBIO_SPADES_QC_QUALIMAP=${SLBIO_SPADES}${slbio_subdir_arr[8]}"/"
+	SLBIO_SPADES_QC_QUAST=${SLBIO_SPADES}${slbio_subdir_arr[9]}"/"
+	SLBIO_PROKKA=${slbio_subdir_arr[10]}"/"
+	SLBIO_FUNANNOTATE=${slbio_subdir_arr[11]}"/"
+	SLBIO_CORESNV=${slbio_subdir_arr[12]}"/"
+	SLBIO_LOG=${slbio_subdir_arr[13]}"/"
 
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
@@ -77,14 +95,17 @@ SetFinalPath(){
 	SLBIO_FASTQC_BRUT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FASTQC_1}	
         SLBIO_FASTQ_TRIMMO_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FASTQ_TRIMMO}
         SLBIO_FASTQC_TRIMMO_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FASTQC_2}
+	SLBIO_SPADES_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES}
+        SLBIO_SPADES_BRUT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_BRUT}
+	SLBIO_SPADES_FILTER_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_FILTER}
+	SLBIO_SPADES_QC_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC}
+	SLBIO_SPADES_QC_QUALIMAP=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUALIMAP}
+        SLBIO_SPADES_QC_QUAST=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUAST}
+	SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
+	SLBIO_FUNANNOTATE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FUNANNOTATE}
+	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
         SLBIO_LOG_PATH=${SLBIO_PROJECT_PATH}${SLBIO_LOG}
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"SnakeMakeLog.log"
-	SLBIO_SPADES_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES}
-	SLBIO_SPADES_FILTER_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_FILTER}
-	SLBIO_SPADES_STAT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_STAT}
-	SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
-	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
-	SLBIO_FUNANNOTATE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FUNANNOTATE}
 }
 
 GetProjectsNamefromRunName(){
