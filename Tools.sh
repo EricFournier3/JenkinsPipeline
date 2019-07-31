@@ -92,7 +92,7 @@ Clean(){
 
 ComputeMiSeqStat(){
 	MiSeq_Stat_Command="/usr/bin/python2.7 $RUN_QUAL_SCRIPT --runno $RUN_NAME  --param $PARAM_FILE"
-	LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_ANALYSES}"MiSeqStat_"*
+	LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
 
 	if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
                 then

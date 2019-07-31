@@ -17,8 +17,9 @@ path:
  - "/home/foueri01@inspq.qc.ca/GitScript" #basedir des git script
 lspq_miseq_subdir:
  - "1_Experimental"
- - "2_SequencesBrutes"
- - "3_Analyse"
+ - "2_MiSeqRunTrace"
+ - "3_SequencesBrutes"
+ - "4_Analyse"
 slbio_subdir:
  - "FASTQ_BRUT" 
  - "QC_FASTQ_BRUT_FASTQC"
