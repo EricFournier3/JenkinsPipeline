@@ -72,8 +72,8 @@ SetStaticPath(){
 	SLBIO_SPADES_BRUT=${SLBIO_SPADES}${slbio_subdir_arr[5]}"/"
 	SLBIO_SPADES_FILTER=${SLBIO_SPADES}${slbio_subdir_arr[6]}"/"
 	SLBIO_SPADES_QC=${slbio_subdir_arr[7]}"/"
-	SLBIO_SPADES_QC_QUALIMAP=${SLBIO_SPADES}${slbio_subdir_arr[8]}"/"
-	SLBIO_SPADES_QC_QUAST=${SLBIO_SPADES}${slbio_subdir_arr[9]}"/"
+	SLBIO_SPADES_QC_QUALIMAP=${SLBIO_SPADES_QC}${slbio_subdir_arr[8]}"/"
+	SLBIO_SPADES_QC_QUAST=${SLBIO_SPADES_QC}${slbio_subdir_arr[9]}"/"
 	SLBIO_PROKKA=${slbio_subdir_arr[10]}"/"
 	SLBIO_FUNANNOTATE=${slbio_subdir_arr[11]}"/"
 	SLBIO_CORESNV=${slbio_subdir_arr[12]}"/"
@@ -107,6 +107,7 @@ SetFinalPath(){
 	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
         SLBIO_LOG_PATH=${SLBIO_PROJECT_PATH}${SLBIO_LOG}
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"SnakeMakeLog.log"
+	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}"CoreSnvSamplesToAdd/"${RUN_NAME}"_${PROJECT_NAME}.txt"
 }
 
 GetProjectsNamefromRunName(){

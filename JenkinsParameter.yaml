@@ -37,11 +37,11 @@ slbio_subdir:
  - "LOG"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
-   assemb_bact: ["Spades"]
-   annot_bact: ["Spades", "Prokka"]
+   assemb_bact: ["Spades","Qualimap"]
+   annot_bact: ["Spades", "Prokka", "Qualimap"]
    epidemio: ["CoreSNV"]
-   assemb_myc: ["Spades"]
-   annot_myc: ["Spades","Funannotate"]
+   assemb_myc: ["Spades","Qualimap"]
+   annot_myc: ["Spades","Funannotate","Qualimap"]
 organism:
  - salmonella: 5000000
    ecoli: 5000000

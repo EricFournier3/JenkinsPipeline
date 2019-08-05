@@ -86,7 +86,7 @@ Clean(){
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
                 rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
-                rm ${SLBIO_FASTQ_TRIMMO_PATH}*"fastq.gz"
+                #rm ${SLBIO_FASTQ_TRIMMO_PATH}*"fastq.gz"
         done
 }
 
