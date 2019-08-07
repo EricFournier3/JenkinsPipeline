@@ -21,7 +21,7 @@ SamToBam(){
 	sample=$1
 	spec_dir=$2
 	tobam_cmd="samtools view -h -bS ${spec_dir}/${sample}.sam > ${spec_dir}/${sample}.bam"
-	echo $tobam_cmd
+	#echo $tobam_cmd
 	eval $tobam_cmd
 }
 
@@ -37,7 +37,7 @@ IndexBam(){
 	sample=$1
 	spec_dir=$2
 	index_cmd="samtools index ${spec_dir}/${sample}_sort.bam"
-	echo $index_cmd
+	#echo $index_cmd
 	eval $index_cmd
 }
 

@@ -17,6 +17,26 @@ for proj in "${projects_list[@]}"
         SetFinalPath $PROJECT_NAME
 	SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
 	spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
+        
+	to_concat_spec_arr=()
+
+        if [ -s $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH ]
+		then
+		while read myspec runs
+			do
+			to_concat_spec_arr+=($myspec)
+		done < $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH	
+	fi
+
+	for myspec in "${to_concat_spec_arr[@]}"
+		do
+		if [[ " ${spec_arr[@]} " =~ " $myspec " ]]
+			then
+			:
+		else
+			spec_arr+=($myspec)
+		fi
+	done
 	
 	if [ ${#spec_arr[@]} -gt 0 ]
 		then
@@ -40,7 +60,6 @@ for proj in "${projects_list[@]}"
 
 		for spec in "${spec_arr[@]}"
 			do 
-			echo "spec is $spec"
 			for primer in R1 R2
 				do
 				cp ${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_${primer}_PAIR.fastq.gz" ${temp_fastq_dir}${spec}"_${primer}.fastq.gz"
@@ -56,7 +75,7 @@ for proj in "${projects_list[@]}"
 			sudo service docker start	
 		fi
               
-		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2"
+		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 10  --filter-density-threshold 2"
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
