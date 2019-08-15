@@ -75,7 +75,7 @@ for proj in "${projects_list[@]}"
 			sudo service docker start	
 		fi
               
-		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 10  --filter-density-threshold 2"
+		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2"
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	

@@ -133,6 +133,7 @@ pipeline {
 				      
 				   	   '''
 					  
+       					                                  
 			        }
 			}
 	stage('Clean'){
@@ -150,7 +151,6 @@ pipeline {
 				      		/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
 				      
 				   	   '''	
-                                        
 			        }
 			}
 	

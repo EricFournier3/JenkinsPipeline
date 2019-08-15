@@ -121,7 +121,7 @@ CreateSymLink(){
 
 		for j in ${myarr[@]}
 			do
-			ln -s ${LSPQ_MISEQ_FASTQ_PATH}${j}*".fastq.gz" $SLBIO_FASTQ_BRUT_PATH
+			ln -s ${LSPQ_MISEQ_FASTQ_PATH}${j}"_"*".fastq.gz" $SLBIO_FASTQ_BRUT_PATH
 		done
 	fi
 }

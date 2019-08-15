@@ -86,8 +86,12 @@ Clean(){
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
                 rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
-                #rm ${SLBIO_FASTQ_TRIMMO_PATH}*"fastq.gz"
         done
+
+	if [ -d ${LSPQ_MISEQ_FASTQ_PATH}"CORE_SNV_TEMP/" ]
+		then
+		sudo rm ${LSPQ_MISEQ_FASTQ_PATH}"CORE_SNV_TEMP/"*".fastq.gz"
+	fi
 }
 
 ComputeMiSeqStat(){
@@ -133,6 +137,7 @@ CountReads(){
 	done
 
 }
+
 
 $1
 
