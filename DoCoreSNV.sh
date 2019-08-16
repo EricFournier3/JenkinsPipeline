@@ -10,6 +10,16 @@ GetProjectsNamefromRunName
 
 STEP="CoreSNV"
 
+
+ConcatContig(){
+
+	grep -v ">" $ref_file  >  ${refpath}${acc}"_temp.fna" 
+	header=$(head -n 1 $ref_file)
+	sed -i "1i $header" ${refpath}${acc}"_temp.fna" 
+	ref_file=${refpath}${acc}"_temp.fna"
+}
+
+
 for proj in "${projects_list[@]}"
 
         do
@@ -54,6 +64,13 @@ for proj in "${projects_list[@]}"
 		   ref_file=${refpath}${acc}".fna"
 		fi
 
+                nb_contig=$(sed -n '/>/p' ${ref_file} | wc -l)
+                if [ $nb_contig > 1 ]
+			then
+			ConcatContig
+		fi
+
+ 
 		temp_fastq_dir=${SLBIO_FASTQ_TRIMMO_PATH}"TEMP/"
 
 		mkdir  $temp_fastq_dir
@@ -83,6 +100,11 @@ for proj in "${projects_list[@]}"
 		eval $position2phyloviz_cmd
 
 		rm -r $temp_fastq_dir
+		
+		if [ -e  ${refpath}${acc}"_temp.fna" ]
+			then
+			rm ${refpath}${acc}"_temp.fna"
+		fi
 	else
 	        :
 	fi
