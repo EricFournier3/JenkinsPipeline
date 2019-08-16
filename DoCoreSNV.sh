@@ -46,9 +46,9 @@ for proj in "${projects_list[@]}"
 		acc=${ref_acc_refpath[0]}
 		refpath=${ref_acc_refpath[1]}
 		
-		if grep -l "$acc" ${refpath}{*.fna,*.fa,*.fasta}
+		if grep -l "$acc" ${refpath}*".fna" 2>/dev/null  || grep -l "$acc" ${refpath}*".fa" 2>/dev/null || grep -l "$acc" ${refpath}*".fasta" 2>/dev/null
 			then
-			ref_file=$(grep -l "$acc" ${refpath}{*.fna,*.fa,*.fasta} | head -n 1)
+			ref_file=$(grep -l "$acc" ${refpath}{*.fna,*.fa,*.fasta} 2>/dev/null  | head -n 1)
 		else 
 		   ncbi-acc-download -m nucleotide -F fasta  -o  ${refpath}${acc}".fna"  $acc 
 		   ref_file=${refpath}${acc}".fna"

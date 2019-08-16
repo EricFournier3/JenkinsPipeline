@@ -10,6 +10,7 @@ RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat7
 GET_SPECIMENS_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetSpecimensForTask.py"
 COMPUTE_SAMPLE_COVERAGE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/ComputeExpectedGenomesCoverage.py"
 CORESNV_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckCoreSnvReference.py"
+QUAST_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckQuastReference.py"
 CORESNV_EXEC="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/snvphyl-galaxy-cli/bin/snvphyl.py"
 POSITION2PHYLOVIZ_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/PerlScript/positions2phyloviz.pl"
 FUNANNOTATE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/Funannotate/funannotate/funannotate.py"
@@ -49,21 +50,7 @@ SetStaticPath(){
         LSPQ_ANALYSES=${lspq_miseq_subdir_arr[3]}"/"
 
 
-     slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
-#OLD
-#        SLBIO_FASTQ_BRUT=${slbio_subdir_arr[0]}"/"
-#        SLBIO_FASTQC_1=${slbio_subdir_arr[1]}"/"
-#        SLBIO_FASTQ_TRIMMO=${slbio_subdir_arr[2]}"/"
-#        SLBIO_FASTQC_2=${slbio_subdir_arr[3]}"/"
-#        SLBIO_SPADES=${slbio_subdir_arr[4]}"/"
-#        SLBIO_SPADES_FILTER=${slbio_subdir_arr[5]}"/"
-#        SLBIO_SPADES_STAT=${slbio_subdir_arr[6]}"/"
-#        SLBIO_PROKKA=${slbio_subdir_arr[7]}"/"
-#        SLBIO_LOG=${slbio_subdir_arr[8]}"/"
-#	SLBIO_CORESNV=${slbio_subdir_arr[9]}"/"
-#	SLBIO_FUNANNOTATE=${slbio_subdir_arr[10]}"/"
-
-#NEW
+        slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
         SLBIO_FASTQ_BRUT=${slbio_subdir_arr[0]}"/"
         SLBIO_FASTQC_1=${slbio_subdir_arr[1]}"/"
         SLBIO_FASTQ_TRIMMO=${slbio_subdir_arr[2]}"/"
@@ -102,6 +89,7 @@ SetFinalPath(){
 	SLBIO_SPADES_QC_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC}
 	SLBIO_SPADES_QC_QUALIMAP=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUALIMAP}
         SLBIO_SPADES_QC_QUAST=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUAST}
+	SLBIO_SPADES_QC_QUAST_ALL=${SLBIO_SPADES_QC_QUAST}"ALL/"
 	SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
 	SLBIO_FUNANNOTATE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FUNANNOTATE}
 	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
