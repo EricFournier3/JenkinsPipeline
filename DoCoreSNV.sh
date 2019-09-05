@@ -16,7 +16,10 @@ ConcatContig(){
 	grep -v ">" $ref_file  >  ${refpath}${acc}"_temp.fna" 
 	header=$(head -n 1 $ref_file)
 	sed -i "1i $header" ${refpath}${acc}"_temp.fna" 
-	ref_file=${refpath}${acc}"_temp.fna"
+	# on linearise la reference
+	seqkit seq -w 0 ${refpath}${acc}"_temp.fna" > ${refpath}${acc}"_temp2.fna"
+	rm ${refpath}${acc}"_temp.fna"
+	ref_file=${refpath}${acc}"_temp2.fna"
 }
 
 

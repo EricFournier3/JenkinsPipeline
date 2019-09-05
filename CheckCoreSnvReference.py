@@ -16,6 +16,8 @@ run_path,project_path,jenkins_param,organism, request= sys.argv[1:6]
 def CheckRef():
     pass
     try:
+        #print organism_dict
+        #print organism
         check = organism_dict[organism]
         #print check
     except:
