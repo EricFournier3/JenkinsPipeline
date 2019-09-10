@@ -10,6 +10,44 @@ GetProjectsNamefromRunName
 
 STEP="CoreSNV"
 
+MakeGrapeTreeProfile(){
+	profile_file="${SLBIO_CORESNV_PATH}prefix-profile.tsv"
+	strain_file="${SLBIO_CORESNV_PATH}prefix-strains.tsv"
+	grapetree_profile_file="${SLBIO_CORESNV_PATH}grapetree-profile.tsv"
+
+	awk '/^ST/{print "#Name\t"$0}' $profile_file > $grapetree_profile_file
+
+	{
+	read
+	while read ST STRAIN
+		do
+		awk -v mystrain="${STRAIN}" -v myst="^${ST}$" '$1 ~ myst {print mystrain"\t"$0}' $profile_file >> $grapetree_profile_file
+	done
+	
+	} < $strain_file
+
+}
+
+MakeGrapeTreeMetadata(){
+	strain_file="${SLBIO_CORESNV_PATH}prefix-strains.tsv"
+	metadata_file="${SLBIO_CORESNV_PATH}metadata.tsv"
+	grapetree_metadata_file="${SLBIO_CORESNV_PATH}grapetree-metadata.tsv"
+
+	awk '/^ID/{print $0"\tST"}' $metadata_file > $grapetree_metadata_file
+
+	{
+	read
+	while read ST STRAIN
+		do
+		awk -v mystrain="${STRAIN}$" -v myst="${ST}" '$1 ~ mystrain {print $0"\t"myst}' $metadata_file >> $grapetree_metadata_file
+	done
+	
+	} < $strain_file
+	
+	#pour entrer ^M il faut faire <ctrl>+V+M
+	sed -i 's///g' $grapetree_metadata_file
+}
+
 
 ConcatContig(){
 
@@ -99,8 +137,19 @@ for proj in "${projects_list[@]}"
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
-		eval $coresnv_cmd	
-		eval $position2phyloviz_cmd
+		#eval $coresnv_cmd	
+		#eval $position2phyloviz_cmd
+
+		MakeGrapeTreeProfile
+
+		if [ -s $LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH ]
+			then
+			sudo cp $LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH "${SLBIO_CORESNV_PATH}metadata.tsv"
+			MakeGrapeTreeMetadata
+		fi
+
+		grapetree_cmd="/usr/bin/python2.7 $GRAPETREE_SCRIPT -p $grapetree_profile_file -m MSTreeV2 > ${SLBIO_CORESNV_PATH}grapetree-tree.nwk"
+		eval $grapetree_cmd
 
 		rm -r $temp_fastq_dir
 		

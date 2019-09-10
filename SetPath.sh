@@ -14,7 +14,7 @@ QUAST_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckQuastR
 CORESNV_EXEC="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/snvphyl-galaxy-cli/bin/snvphyl.py"
 POSITION2PHYLOVIZ_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/PerlScript/positions2phyloviz.pl"
 FUNANNOTATE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/Funannotate/funannotate/funannotate.py"
-
+GRAPETREE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/GrapeTree/GrapeTree/grapetree.py"
 
 if grep -qs '/mnt/Partage' /proc/mounts
         then
@@ -95,7 +95,8 @@ SetFinalPath(){
 	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
         SLBIO_LOG_PATH=${SLBIO_PROJECT_PATH}${SLBIO_LOG}
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"JenkinsLog.log"
-	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
+	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
+	LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvMetadata_"${RUN_NAME}"_${PROJECT_NAME}.txt"
 }
 
 GetProjectsNamefromRunName(){
