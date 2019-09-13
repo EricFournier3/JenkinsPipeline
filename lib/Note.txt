@@ -1,0 +1,5 @@
+Pour eukaryotes.csv => https://www.ncbi.nlm.nih.gov/genome/browse#!/eukaryotes/  > Dans Filter chosir Fungi au niveau de Group et Complete au niveau de Assembly level
+Pour prokaryotes.csv => https://www.ncbi.nlm.nih.gov/genome/browse#!/prokaryotes/ > Dans Filter choisir Complete au niveau de Assembly level
+
+awk 'NR>1{print}' prokaryotes.csv > ProkaryotesFungiGenomeLength.csv; awk 'NR>1{print}' eukaryotes.csv >> ProkaryotesFungiGenomeLength.csv 
+
