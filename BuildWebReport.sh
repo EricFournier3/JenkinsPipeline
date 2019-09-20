@@ -60,6 +60,7 @@ SetStaticPath(){
 
 SetFinalPath(){
         LSPQ_MISEQ_RUN_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}/
+	LSPQ_MISEQ_ANALYSES_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_ANALYSES}
         LSPQ_MISEQ_SAMPLESHEET_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}.csv"
         LSPQ_MISEQ_FASTQ_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_SEQ_BRUT}
         LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
@@ -169,9 +170,46 @@ BuildAbout(){
 }
 
 BuildProcedure(){
- echo "Build Procedure"
+ 	sed -i 's/linkpage=\"\"/linkpage=\"proc\"/' $procedure_slbio_html
+        sed -i '/<\/body>/i <script id="buildprocedurejs" src="BuildProcedure.js"> </script>' $procedure_slbio_html
+
+	if [ -d ${SLBIO_SPADES_PATH} ]
+		then
+		sed -i "/add object/a var myAssemblyObj = new AssemblyObj();\nvar myAssemblyQCObj = new AssemblyQCObj();" $build_procedure_slbio_js_path
+	fi
+
+	if [ -d ${SLBIO_PROKKA_PATH} ]
+		then
+		sed -i "/add object/a var myBactAnnotObj = new BactAnnotObj();" $build_procedure_slbio_js_path
+	fi
+	
+	if [ -d ${SLBIO_FUNANNOTATE_PATH} ]
+		then
+		sed -i "/add object/a var myMycAnnotObj = new MycAnnotObj();" $build_procedure_slbio_js_path
+	fi
+
+	if [ -d ${SLBIO_CORESNV_PATH} ]
+		then
+		sed -i "/add object/a var myEpidemioObj = new EpidemioObj();" $build_procedure_slbio_js_path
+	fi
 }
 
+
+BuildResult(){
+	echo "In BuildResult"
+	sed -i 's/linkpage=\"\"/linkpage=\"res\"/' $resultats_slbio_html
+	sed -i '/<\/body>/i <script id="buildresultjs" src="BuildResultats.js"> </script>' $resultats_slbio_html
+
+	#sed -i "1i var lspqMiseq_run_basedir = \"$RUN_NAME\";" $build_resultats_slbio_js_path
+
+	if [ -d ${SLBIO_SPADES_PATH} ]
+		then
+		:
+		#$LSPQ_MISEQ_ANALYSES_PATH
+		#sed -i "1i var project_name = \"$PROJECT_NAME\";" $build_info_slbio_js_path
+		#sed -i "/add object/a var myAssemblyObj = new AssemblyObj();\nvar myAssemblyQCObj = new AssemblyQCObj();" $build_resultats_slbio_js_path
+	fi
+}
 
 SetStaticPath
 SetFinalPath
@@ -181,3 +219,4 @@ BuildInfo
 BuildSpecimen
 BuildAbout
 BuildProcedure
+BuildResult

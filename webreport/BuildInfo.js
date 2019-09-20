@@ -1,4 +1,3 @@
-
 var container_div = document.getElementById("contenu");
 
 var run_name_h = document.createElement("h4");
