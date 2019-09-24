@@ -59,10 +59,6 @@ function EpidemioObj(){
  this.steps = {"Mapping des reads et construction du pseudo-alignement avec ":{"prog":this.software_1,"url":this.software_1_url}, "Construction et visualisation du Minimum Spanning Tree (MSP) avec ":{"prog":this.software_2,"url":this.software_2_url}};
 }
 
-function AssembResObj(){
- this.testing = "";
-
-}
 
 
 var myCleanFastqObj = new CleanFastqObj();
@@ -72,6 +68,7 @@ var myAssemblyQCObj;
 var myBactAnnotObj;
 var myMycAnnotObj;
 var myEpidemioObj;
+
 
 var step_incr = 1;
 
@@ -88,7 +85,7 @@ var epidemio_div = document.createElement("div");
 //add object
 
 //Fastq Cleaning
-var fastq_cleaning_header = document.createElement("h2");
+var fastq_cleaning_header = document.createElement("h3");
 var prog_link = document.createElement("a");
 prog_link.href = myCleanFastqObj.software_url;
 prog_link.target = "_blank";
@@ -108,7 +105,7 @@ container_div.appendChild(fastq_cleaning_div);
 step_incr += 1;
 
 //Fastq QC
-var fastq_qc_header = document.createElement("h2");
+var fastq_qc_header = document.createElement("h3");
 var prog_link = document.createElement("a");
 prog_link.href = myQcFastqObj.software_url;
 prog_link.target = "_blank";
@@ -130,7 +127,7 @@ step_incr += 1;
 
 //Assembly
 if (myAssemblyObj != undefined ){
-	var assemb_header = document.createElement("h2");
+	var assemb_header = document.createElement("h3");
 	var prog_link = document.createElement("a");
 	prog_link.href = myAssemblyObj.software_url;
 	prog_link.target = "_blank";
@@ -153,7 +150,7 @@ if (myAssemblyObj != undefined ){
 
 //Assembly QC
 if (myAssemblyQCObj != undefined){
-	var assemb_qc_header = document.createElement("h2");
+	var assemb_qc_header = document.createElement("h3");
         assemb_qc_header.innerHTML = step_incr + " - " + myAssemblyQCObj.procedure_name;
 	var assemb_qc_ol = document.createElement("ol");
         var assemb_qc_step;
@@ -177,7 +174,7 @@ if (myAssemblyQCObj != undefined){
 
 //Annotation Bact
 if (myBactAnnotObj != undefined){
-	var bact_annot_header = document.createElement("h2");
+	var bact_annot_header = document.createElement("h3");
 	var prog_link = document.createElement("a");
 	prog_link.href = myBactAnnotObj.software_url;
 	prog_link.target = "_blank";
@@ -200,7 +197,7 @@ if (myBactAnnotObj != undefined){
 
 //Annotation Myc
 if (myMycAnnotObj != undefined){
-	var myc_annot_header = document.createElement("h2");
+	var myc_annot_header = document.createElement("h3");
 	var prog_link = document.createElement("a");
         prog_link.href = myMycAnnotObj.software_url;
         prog_link.target = "_blank";
@@ -224,7 +221,7 @@ if (myMycAnnotObj != undefined){
 
 //Epidemio
 if (myEpidemioObj != undefined){
-	var epidemio_header = document.createElement("h2");
+	var epidemio_header = document.createElement("h3");
 	epidemio_header.innerHTML = step_incr + " - " + myEpidemioObj.procedure_name;
 	var epidemio_ol = document.createElement("ol");
 	var epidemio_step;
