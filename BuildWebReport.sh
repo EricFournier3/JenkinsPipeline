@@ -30,7 +30,10 @@ SetStaticPath(){
         LSPQ_MISEQ_BASE_PATH=${path_arr[0]}"/"
         SLBIO_BASE_PATH=${path_arr[1]}"/"
         GITSCRIPT_BASE_PATH=${path_arr[2]}"/"
+	LSPQ_MISEQ_BASE_PATH_FROM_SPARTAGE=${path_arr[3]}"\\\\"
+	#echo $LSPQ_MISEQ_BASE_PATH_FROM_SPARTAGE
 
+	
         lspq_miseq_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  lspq_miseq_subdir  2>&1))
         LSPQ_MISEQ_EXPERIMENTAL=${lspq_miseq_subdir_arr[0]}"/"
         LSPQ_MISEQ_MISEQ_RUN_TRACE=${lspq_miseq_subdir_arr[1]}"/"
@@ -53,19 +56,22 @@ SetStaticPath(){
         SLBIO_FUNANNOTATE=${slbio_subdir_arr[11]}"/"
         SLBIO_CORESNV=${slbio_subdir_arr[12]}"/"
         SLBIO_LOG=${slbio_subdir_arr[13]}"/"
-
+	SLBIO_WEBREPORT=${slbio_subdir_arr[14]}"/"
         GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
 
 SetFinalPath(){
         LSPQ_MISEQ_RUN_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}/
+	LSPQ_MISEQ_RUN_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_BASE_PATH_FROM_SPARTAGE}${RUN_NAME}"\\\\"
 	LSPQ_MISEQ_ANALYSES_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_ANALYSES}
+	LSPQ_MISEQ_ANALYSE_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_RUN_PATH_FROM_SPARTAGE}${LSPQ_ANALYSES}
         LSPQ_MISEQ_SAMPLESHEET_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}.csv"
         LSPQ_MISEQ_FASTQ_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_SEQ_BRUT}
         LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
 
         SLBIO_RUN_PATH=${SLBIO_BASE_PATH}"$RUN_NAME/"
+#	echo SLBIO_BASE_PATH $SLBIO_BASE_PATH
         SLBIO_PROJECT_PATH=${SLBIO_RUN_PATH}"$PROJECT_NAME/"
         SLBIO_FASTQ_BRUT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FASTQ_BRUT}
         SLBIO_FASTQC_BRUT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FASTQC_1}
@@ -75,9 +81,9 @@ SetFinalPath(){
         SLBIO_SPADES_BRUT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_BRUT}
         SLBIO_SPADES_FILTER_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_FILTER}
         SLBIO_SPADES_QC_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC}
-        SLBIO_SPADES_QC_QUALIMAP=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUALIMAP}
-        SLBIO_SPADES_QC_QUAST=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUAST}
-        SLBIO_SPADES_QC_QUAST_ALL=${SLBIO_SPADES_QC_QUAST}"ALL/"
+        SLBIO_SPADES_QC_QUALIMAP_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUALIMAP}
+        SLBIO_SPADES_QC_QUAST_PATH=${SLBIO_PROJECT_PATH}${SLBIO_SPADES_QC_QUAST}
+        SLBIO_SPADES_QC_QUAST_ALL=${SLBIO_SPADES_QC_QUAST_PATH}"ALL/"
         SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
         SLBIO_FUNANNOTATE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FUNANNOTATE}
         SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
@@ -85,7 +91,7 @@ SetFinalPath(){
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"JenkinsLog.log"
         LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
         LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvMetadata_"${RUN_NAME}"_${PROJECT_NAME}.txt"
-	SLBIO_WEBREPORT_PATH=${SLBIO_PROJECT_PATH}"WEB_REPORT/"
+	SLBIO_WEBREPORT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_WEBREPORT}
 }
 
 ImportWebFiles(){
@@ -103,7 +109,11 @@ ImportWebFiles(){
 
 	for webfile in ${webfiles_arr[@]}
 	 do
-	 cp $webfile $SLBIO_WEBREPORT_PATH	
+	  :
+	  #echo $webfile
+	  #echo $SLBIO_WEBREPORT_PATH
+          #echo "***"
+	  cp $webfile $SLBIO_WEBREPORT_PATH	
 	done
 		
 	template_html="${webfiles_basedir}template.html"
@@ -118,6 +128,7 @@ ImportWebFiles(){
 
 	for htmlfile in ${htmlfiles_arr[@]}
 	 do
+	 :
 	 cp $template_html $htmlfile
 	done 
 
@@ -175,41 +186,134 @@ BuildProcedure(){
 
 	if [ -d ${SLBIO_SPADES_PATH} ]
 		then
-		sed -i "/add object/a var myAssemblyObj = new AssemblyObj();\nvar myAssemblyQCObj = new AssemblyQCObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myAssemblyObj = new AssemblyObj();\nvar myAssemblyQCObj = new AssemblyQCObj();" $build_procedure_slbio_js_path
 	fi
 
 	if [ -d ${SLBIO_PROKKA_PATH} ]
 		then
-		sed -i "/add object/a var myBactAnnotObj = new BactAnnotObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myBactAnnotObj = new BactAnnotObj();" $build_procedure_slbio_js_path
 	fi
 	
 	if [ -d ${SLBIO_FUNANNOTATE_PATH} ]
 		then
-		sed -i "/add object/a var myMycAnnotObj = new MycAnnotObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myMycAnnotObj = new MycAnnotObj();" $build_procedure_slbio_js_path
 	fi
 
 	if [ -d ${SLBIO_CORESNV_PATH} ]
 		then
-		sed -i "/add object/a var myEpidemioObj = new EpidemioObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myEpidemioObj = new EpidemioObj();" $build_procedure_slbio_js_path
 	fi
 }
 
 
 BuildResult(){
-	echo "In BuildResult"
+	#echo "In BuildResult"
 	sed -i 's/linkpage=\"\"/linkpage=\"res\"/' $resultats_slbio_html
 	sed -i '/<\/body>/i <script id="buildresultjs" src="BuildResultats.js"> </script>' $resultats_slbio_html
+	LSPQ_MISEQ_PROJECT_ANALYSES_PATH=${LSPQ_MISEQ_ANALYSES_PATH}${PROJECT_NAME}"/"
+	LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_ANALYSE_PATH_FROM_SPARTAGE}${PROJECT_NAME}"\\\\"
+	
+	#SUPPRIMER LA LIGNE SUIVANTE CAR PLUS NECESSAIRE
+	#LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE//\//\\\\}
 
-	#sed -i "1i var lspqMiseq_run_basedir = \"$RUN_NAME\";" $build_resultats_slbio_js_path
+
+	sed -i "1i var project_analysis_basedir = \"$LSPQ_MISEQ_PROJECT_ANALYSES_PATH\";" $build_resultats_slbio_js_path
+
+	sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1}
+	sudo cp ${SLBIO_FASTQC_BRUT_PATH}*".html" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1}
+	sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2}
+	sudo cp ${SLBIO_FASTQC_TRIMMO_PATH}*".html" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2}
+	path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_FASTQC_1}
+	#echo "before $path_1"
+	path_1=${path_1//\//\\\\}
+	path_1=${path_1//\\/\\\\}
+	#echo "after $path_1"
+
+	path_2=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_FASTQC_2}
+	path_2=${path_2//\//\\\\}
+	path_2=${path_2//\\/\\\\}
+	
+	sed -i "/add object/a  myFastqQcResObj = new FastqQcResObj(\"${path_1}\",\"${path_2}\");" $build_resultats_slbio_js_path
+	
+	#echo "MY PAPTH IS $LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE"	
 
 	if [ -d ${SLBIO_SPADES_PATH} ]
 		then
 		:
-		#$LSPQ_MISEQ_ANALYSES_PATH
-		#sed -i "1i var project_name = \"$PROJECT_NAME\";" $build_info_slbio_js_path
-		#sed -i "/add object/a var myAssemblyObj = new AssemblyObj();\nvar myAssemblyQCObj = new AssemblyQCObj();" $build_resultats_slbio_js_path
+		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}
+		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}
+		sudo cp ${SLBIO_SPADES_FILTER_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}		
+
+		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUALIMAP}
+
+		for subdir in $(ls -d ${SLBIO_SPADES_QC_QUALIMAP_PATH}*)
+			do
+			spec=$(basename $subdir)
+			#echo "spec is $spec"
+			sudo cp ${SLBIO_SPADES_QC_QUALIMAP_PATH}${spec}"/report.pdf" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUALIMAP}"${spec}.pdf"  
+			
+		done
+
+		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST}
+		sudo cp -r ${SLBIO_SPADES_QC_QUAST_ALL}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST} 2>/dev/null
+
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_SPADES_BRUT}
+		path_1=${path_1//\//\\\\}
+	        path_1=${path_1//\\/\\\\}
+		
+		path_2=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_SPADES_FILTER}
+		path_2=${path_2//\//\\\\}
+	        path_2=${path_2//\\/\\\\}
+
+		path_3=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_SPADES_QC_QUALIMAP}
+		path_3=${path_3//\//\\\\}
+        	path_3=${path_3//\\/\\\\}
+
+		path_4=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_SPADES_QC_QUAST}
+		path_4=${path_4//\//\\\\}
+        	path_4=${path_4//\\/\\\\}
+
+		sed -i "/add object/a myAssembResObj = new AssembResObj(\"${path_1}\",\"${path_2}\");"  $build_resultats_slbio_js_path
+
+		sed -i "/add object/a myAssembQcResObj = new AssembQcResObj(\"${path_3}\",\"${path_4}\");"  $build_resultats_slbio_js_path
 	fi
+
+	 if [ -d ${SLBIO_PROKKA_PATH} ]
+		then
+		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_PROKKA}
+		path_1=${path_1//\//\\\\}
+                path_1=${path_1//\\/\\\\}
+		sed -i "/add object/a myBactAnnotResObj = new BactAnnotResObj(\"${path_1}\");"  $build_resultats_slbio_js_path
+	fi	
+
+	if [ -d ${SLBIO_FUNANNOTATE_PATH} ] 
+		then
+		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_PROKKA}
+		path_1=${path_1//\//\\\\}
+                path_1=${path_1//\\/\\\\}
+		sed -i "/add object/a myMycAnnotResObj = new MycAnnotResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+	fi
+
+	if [ -d ${SLBIO_CORESNV_PATH} ]
+		then
+		:
+            	sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV}
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_CORESNV}
+		path_1=${path_1//\//\\\\}
+                path_1=${path_1//\\/\\\\}
+		sed -i "/add object/a myEpidemioResObj = new EpidemioResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+	fi
+	
 }
+
+TransferWebFiles(){
+	echo "in TransferWebFiles"
+        sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
+	sudo cp ${SLBIO_WEBREPORT_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
+}
+
 
 SetStaticPath
 SetFinalPath
@@ -220,3 +324,4 @@ BuildSpecimen
 BuildAbout
 BuildProcedure
 BuildResult
+TransferWebFiles

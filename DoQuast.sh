@@ -27,7 +27,7 @@ for proj in "${projects_list[@]}"
 
 	if [ ${#spec_arr[@]} -gt 0 ]
                 then
-                mkdir -p ${SLBIO_SPADES_QC_QUAST}
+                mkdir -p ${SLBIO_SPADES_QC_QUAST_PATH}
 		quast_cmd_all="${QUAST_EXEC} -o ${SLBIO_SPADES_QC_QUAST_ALL} -t 40 ${SLBIO_SPADES_FILTER_PATH}"*".fasta 1>/dev/null"
 	        #echo ${quast_cmd_all}
 		eval ${quast_cmd_all}	
@@ -44,8 +44,8 @@ for proj in "${projects_list[@]}"
 
 			if [ ${#acc} -eq 0 ]
 				then
-				mkdir ${SLBIO_SPADES_QC_QUAST}"$spec"
-				missing_note_file=${SLBIO_SPADES_QC_QUAST}"${spec}/ReferenceMissing.txt"
+				mkdir ${SLBIO_SPADES_QC_QUAST_PATH}"$spec"
+				missing_note_file=${SLBIO_SPADES_QC_QUAST_PATH}"${spec}/ReferenceMissing.txt"
 				echo ${organism} > $missing_note_file
 			else
 				if grep -l "$acc" ${refpath}*".fna" 2>/dev/null  || grep -l "$acc" ${refpath}*".fa" 2>/dev/null || grep -l "$acc" ${refpath}*".fasta" 2>/dev/null 
@@ -63,11 +63,11 @@ for proj in "${projects_list[@]}"
 					organism_parameter=""
 				fi
 		
-				quast_cmd_spec="${QUAST_EXEC} --silent  -o ${SLBIO_SPADES_QC_QUAST}${spec} -r ${ref_file} ${oganism_parameter} --glimmer --conserved-genes-finding -t 40 ${SLBIO_SPADES_FILTER_PATH}${spec}_filter.fasta 1>/dev/null"
+				quast_cmd_spec="${QUAST_EXEC} --silent  -o ${SLBIO_SPADES_QC_QUAST_PATH}${spec} -r ${ref_file} ${oganism_parameter} --glimmer --conserved-genes-finding -t 40 ${SLBIO_SPADES_FILTER_PATH}${spec}_filter.fasta 1>/dev/null"
 				#echo "quast cmd is ${quast_cmd_spec}"
 				eval ${quast_cmd_spec}
-				report_file=${SLBIO_SPADES_QC_QUAST}${spec}"/report.txt"
-				summary=${SLBIO_SPADES_QC_QUAST}${spec}"/report_summary.txt"
+				report_file=${SLBIO_SPADES_QC_QUAST_PATH}${spec}"/report.txt"
+				summary=${SLBIO_SPADES_QC_QUAST_PATH}${spec}"/report_summary.txt"
 				sed -n '/^Assembly\|N50\|Genome fraction\|BUSCO/p' $report_file > $summary
 			fi
 		done

@@ -15,6 +15,7 @@ path:
  - "/mnt/Partage/LSPQ_MiSeq" #basedir LSPQ_MISEQ
  - "/home/foueri01@inspq.qc.ca/ProjetsNGS" #basedir SLBIO
  - "/home/foueri01@inspq.qc.ca/GitScript" #basedir des git script
+ - 'S:\\Partage\\LSPQ_MiSeq' #basedir LSPQ_MISEQ a partir de S:Partage
 lspq_miseq_subdir:
  - "1_Experimental"
  - "2_MiSeqRunTrace"
@@ -35,6 +36,7 @@ slbio_subdir:
  - "ANNOTATION_FUNANNOTATE"
  - "EPIDEMIO_CORESNV"
  - "LOG"
+ - "WEB_REPORT"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
    assemb_bact: ["Spades","Qualimap","Quast"]
