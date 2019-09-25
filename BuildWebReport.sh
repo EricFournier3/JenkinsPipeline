@@ -241,6 +241,15 @@ BuildResult(){
 		then
 		:
 		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}
+
+		for subdir in $(ls -d ${SLBIO_SPADES_BRUT_PATH}*)
+			do
+			spec=$(basename $subdir)
+			sudo cp ${subdir}"/contigs.fasta"  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}"${spec}.fasta"
+			#echo "subdir is $subdir and spec is $spec" 
+
+		done
+
 		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}
 		sudo cp ${SLBIO_SPADES_FILTER_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}		
 
@@ -281,6 +290,7 @@ BuildResult(){
 	 if [ -d ${SLBIO_PROKKA_PATH} ]
 		then
 		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
+		sudo cp ${SLBIO_PROKKA_PATH}*"/"*".gbk" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
 		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_PROKKA}
 		path_1=${path_1//\//\\\\}
                 path_1=${path_1//\\/\\\\}
@@ -290,7 +300,15 @@ BuildResult(){
 	if [ -d ${SLBIO_FUNANNOTATE_PATH} ] 
 		then
 		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}
-		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_PROKKA}
+
+		for specs_dir in $(ls -d ${SLBIO_FUNANNOTATE_PATH}*)
+			do
+			spec=$(basename $specs_dir)
+			spec=$(echo $spec | cut -d '_' -f 1)
+			sudo cp ${specs_dir}"/annotate_results/"*".gbk" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}"${spec}.gbk"
+		done
+
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_FUNANNOTATE}
 		path_1=${path_1//\//\\\\}
                 path_1=${path_1//\\/\\\\}
 		sed -i "/add object/a myMycAnnotResObj = new MycAnnotResObj(\"${path_1}\");" $build_resultats_slbio_js_path
@@ -300,6 +318,14 @@ BuildResult(){
 		then
 		:
             	sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV}
+		sudo cp ${SLBIO_CORESNV_PATH}*".json" ${SLBIO_CORESNV_PATH}*".txt" ${SLBIO_CORESNV_PATH}*".nwk" ${SLBIO_CORESNV_PATH}*".newick" ${SLBIO_CORESNV_PATH}*".phy"  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV} 2>/dev/null 
+
+		for tsv_file in $(ls ${SLBIO_CORESNV_PATH}*".tsv")
+			do
+			tsv=$(basename $tsv_file)
+			sudo cp $tsv_file ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV}${tsv}".txt"
+		done
+
 		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_CORESNV}
 		path_1=${path_1//\//\\\\}
                 path_1=${path_1//\\/\\\\}

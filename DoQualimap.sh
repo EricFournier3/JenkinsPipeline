@@ -108,6 +108,6 @@ for proj in "${projects_list[@]}"
 		rm ${SLBIO_SPADES_QC_QUALIMAP_PATH}${spec}/${spec}".sam"
 		rm ${SLBIO_SPADES_QC_QUALIMAP_PATH}${spec}/${spec}".bam" 
 		
-		Qualimap $spec ${SLBIO_SPADES_QC_QUALIMAP_MAP}${spec}
+		Qualimap $spec ${SLBIO_SPADES_QC_QUALIMAP_PATH}${spec}
 	done
 done

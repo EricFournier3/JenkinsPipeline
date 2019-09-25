@@ -1,4 +1,3 @@
-document.getElementById("mytest").innerHTML = project_analysis_basedir;
 BuildResDiv = function(res_name, list_item,counter){
 	
 	var res_header = document.createElement("h3");
@@ -87,13 +86,13 @@ function MycAnnotResObj(url_annot){
 	this.url_annot = url_annot;
 	this.list_item = {"Fichiers GenBank":this.url_annot};
 }
-/*
+
 function EpidemioResObj(url_epidemio){
 	this.res_name = " - Analyse e&#769pide&#769miologique";
 	this.url_epidemio = url_epidemio;
 	this.list_item = {"Core SNV":this.url_epidemio};	
 }
-*/
+
 
 var myFastqQcResObj;
 var myAssembResObj;
@@ -130,9 +129,9 @@ if(myMycAnnotResObj != undefined){
 	res_incr += 1;
 	BuildResDiv(myMycAnnotResObj.res_name, myMycAnnotResObj.list_item,res_incr);
 }
-/*
+
 if(myEpidemioResObj != undefined){
 	res_incr += 1;
-	BuidldResDiv(myEpidemioResObj.res_name, myEpidemioResObj.list_item, res_incr);
+	BuildResDiv(myEpidemioResObj.res_name, myEpidemioResObj.list_item, res_incr);
 }
-*/
+

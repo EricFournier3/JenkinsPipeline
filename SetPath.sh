@@ -42,6 +42,7 @@ SetStaticPath(){
         LSPQ_MISEQ_BASE_PATH=${path_arr[0]}"/"
         SLBIO_BASE_PATH=${path_arr[1]}"/"
         GITSCRIPT_BASE_PATH=${path_arr[2]}"/"
+	LSPQ_MISEQ_BASE_PATH_FROM_SPARTAGE=${path_arr[3]}"\\\\"
 
         lspq_miseq_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  lspq_miseq_subdir  2>&1))
         LSPQ_MISEQ_EXPERIMENTAL=${lspq_miseq_subdir_arr[0]}"/"
@@ -65,7 +66,7 @@ SetStaticPath(){
 	SLBIO_FUNANNOTATE=${slbio_subdir_arr[11]}"/"
 	SLBIO_CORESNV=${slbio_subdir_arr[12]}"/"
 	SLBIO_LOG=${slbio_subdir_arr[13]}"/"
-
+	SLBIO_WEBREPORT=${slbio_subdir_arr[14]}"/"
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
@@ -73,7 +74,9 @@ SetStaticPath(){
 SetFinalPath(){
 	PROJECT_NAME=$1
         LSPQ_MISEQ_RUN_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}/
+	LSPQ_MISEQ_RUN_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_BASE_PATH_FROM_SPARTAGE}${RUN_NAME}"\\\\"
 	LSPQ_MISEQ_ANALYSES_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_ANALYSES}
+	LSPQ_MISEQ_ANALYSE_PATH_FROM_SPARTAGE=${LSPQ_MISEQ_RUN_PATH_FROM_SPARTAGE}${LSPQ_ANALYSES}
         LSPQ_MISEQ_SAMPLESHEET_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}.csv"
         LSPQ_MISEQ_FASTQ_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_SEQ_BRUT}
         LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
@@ -98,6 +101,7 @@ SetFinalPath(){
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"JenkinsLog.log"
 	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
 	LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvMetadata_"${RUN_NAME}"_${PROJECT_NAME}.txt"
+	SLBIO_WEBREPORT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_WEBREPORT}
 }
 
 GetProjectsNamefromRunName(){
