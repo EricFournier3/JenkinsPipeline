@@ -7,11 +7,23 @@ Web reports
 
 HEADER
 
+#RUN_NAME="88888888_test1"
+
 source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
-STEP="WebReport"
+BuildProjectDesc(){
+
+	dos2unix $desc_file > /dev/null 2>&1
+	sed -i '$a\' $desc_file
+
+	while read myline
+		do
+		PROJECT_DESC+=${myline}"<br/>"
+	done < $desc_file
+
+}
 
 ImportWebFiles(){
         webfiles_basedir="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/webreport/"
@@ -53,7 +65,6 @@ ImportWebFiles(){
 
 }
 
-
 BuildInfo(){
         sed -i 's/linkpage=\"\"/linkpage=\"info\"/' $info_slbio_html
         sed -i '/<\/body>/i <script id="buildinfojs" src="BuildInfo.js"> </script>' $info_slbio_html
@@ -70,9 +81,9 @@ BuildSpecimen(){
         spec_arg=""
 
         spec_inc=0
-        nb_spec=${#spec_arr[@]}
+        nb_spec=${#proj_spec_arr[@]}
 
-        for spec in ${spec_arr[@]}
+        for spec in ${proj_spec_arr[@]}
          do
          ((++spec_inc))
          if [ $spec_inc -ne $nb_spec ]
@@ -241,16 +252,41 @@ TransferWebFiles(){
 	sudo cp ${SLBIO_WEBREPORT_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
 }
 
+BuildSpecimensList(){
+	proj_spec_arr=()
+
+	for sp in $(awk 'BEGIN{FS=","}NR>1{print $1}' $SAMPLE_SHEET)
+		do
+		proj_spec_arr+=($sp)
+	done
+}
+
+		
+ImportProjDescFromLspqMiSeq(){
+	cp $LSPQ_MISEQ_PROJ_DESC_PATH ${SLBIO_WEBREPORT_PATH}
+}
+
+
 for proj in "${projects_list[@]}"
 
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
         SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
-        spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
 
-	if [ ${#spec_arr[@]} -gt 0 ]
-        	then
+	BuildSpecimensList 
+
+	if [ ${#proj_spec_arr[@]} -gt 0 ]
+		then
+		if [ -s $LSPQ_MISEQ_PROJ_DESC_PATH ]
+			then
+			desc_file=${SLBIO_WEBREPORT_PATH}${PROJECT_NAME}"_desc.txt"
+			ImportProjDescFromLspqMiSeq
+			BuildProjectDesc
+		else
+			PROJECT_DESC="Aucun description"        	
+		fi
+
 		ImportWebFiles
 		BuildInfo
 		BuildSpecimen

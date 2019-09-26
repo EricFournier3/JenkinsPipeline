@@ -15,7 +15,7 @@ path:
  - "/mnt/Partage/LSPQ_MiSeq" #basedir LSPQ_MISEQ
  - "/home/foueri01@inspq.qc.ca/ProjetsNGS" #basedir SLBIO
  - "/home/foueri01@inspq.qc.ca/GitScript" #basedir des git script
- - 'S:\\Partage\\LSPQ_MiSeq' #basedir LSPQ_MISEQ a partir de S:Partage
+ - '\\\\swsfi52p\\Partage\\LSPQ_MiSeq' #basedir LSPQ_MISEQ a partir de S:Partage
 lspq_miseq_subdir:
  - "1_Experimental"
  - "2_MiSeqRunTrace"

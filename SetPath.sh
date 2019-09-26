@@ -80,6 +80,7 @@ SetFinalPath(){
         LSPQ_MISEQ_SAMPLESHEET_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}.csv"
         LSPQ_MISEQ_FASTQ_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_SEQ_BRUT}
         LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
+	LSPQ_MISEQ_PROJ_DESC_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_EXPERIMENTAL}${PROJECT_NAME}"_desc.txt"
 
         SLBIO_RUN_PATH=${SLBIO_BASE_PATH}"$RUN_NAME/"
         SLBIO_PROJECT_PATH=${SLBIO_RUN_PATH}"$PROJECT_NAME/"
@@ -111,6 +112,6 @@ GetProjectsNamefromRunName(){
         read -r -a projects_list <<< "$projects_list_temp"
 
         IFS=$IFS_BKP
-        echo "${projects_list[@]}"
+        #echo "${projects_list[@]}"
 }
 
