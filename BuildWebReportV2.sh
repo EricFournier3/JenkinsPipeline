@@ -7,7 +7,7 @@ Web reports
 
 HEADER
 
-#RUN_NAME="88888888_test1"
+#RUN_NAME="77777777_test2-test3"
 
 source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
@@ -273,7 +273,7 @@ for proj in "${projects_list[@]}"
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
         SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
-
+	PROJECT_DESC=""
 	BuildSpecimensList 
 
 	if [ ${#proj_spec_arr[@]} -gt 0 ]
