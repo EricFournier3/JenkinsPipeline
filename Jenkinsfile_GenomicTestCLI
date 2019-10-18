@@ -123,14 +123,21 @@ pipeline {
 	stage('WebReport'){
 	    environment{
                 RUN_NAME = "${params.runName}"
+		STAGE = "WEB_REPORT"
             }
 	    steps{
-		sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/BuildWebReportV2.sh"
+		echo "In Stage WebReport"
+		
+		sh '''#!/bin/bash
+			/home/foueri01@inspq.qc.ca/GitScript/Jenkins/BuildWebReportV2.sh"
+                	/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
+		   '''
 	    }
 	}
          stage('Clean'){
             environment{
                 RUN_NAME = "${params.runName}"
+		STAGE = "CLEAN"
             }
             steps{
                 echo "In Stage Clean"
