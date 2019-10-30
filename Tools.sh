@@ -26,8 +26,13 @@ AddNumericPrefixToSubdir(){
 					then
 					new_subdir_name="${prefix}_${subdir}"
 					new_subdir_path="${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}${new_subdir_name}"
-					sudo mv $subdir_path  $new_subdir_path
-					prefix=$(echo $((++prefix)))
+					if [ "$subdir" != "WEB_REPORT" ]
+						then
+						sudo mv $subdir_path  $new_subdir_path
+						prefix=$(echo $((++prefix)))
+						sudo sed -i "s/\\\\${subdir}\\\\/\\\\${new_subdir_name}\\\\/g" ${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}"WEB_REPORT/BuildResultats.js"
+						#echo "ANALYSIS PATH IS " ${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}
+					fi
 				        #echo "In webreport ${subdir_path}  -- ${new_subdir_path}"
 				fi
 			else
@@ -128,7 +133,7 @@ Clean(){
                 do
                 PROJECT_NAME=$proj
                 SetFinalPath $PROJECT_NAME
-                rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
+                #rm ${SLBIO_FASTQ_BRUT_PATH}*"fastq.gz"
         done
 
 	if [ -d ${LSPQ_MISEQ_FASTQ_PATH}"CORE_SNV_TEMP/" ]
