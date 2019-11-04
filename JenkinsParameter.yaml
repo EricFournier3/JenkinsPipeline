@@ -13,7 +13,7 @@ snakemake_rules:
 
 path: 
  - "/mnt/Partage/LSPQ_MiSeq" #basedir LSPQ_MISEQ
- - "/home/foueri01@inspq.qc.ca/ProjetsNGS" #basedir SLBIO
+ - "/data/Users/Eric/NGSjenkins" #basedir SLBIO
  - "/home/foueri01@inspq.qc.ca/GitScript" #basedir des git script
  - '\\\\swsfi52p\\Partage\\LSPQ_MiSeq' #basedir LSPQ_MISEQ a partir de S:Partage
 lspq_miseq_subdir:
@@ -67,7 +67,8 @@ coresnv_ref:
 coresnv_ref_path: "/home/foueri01@inspq.qc.ca/ProjetsNGS/CORESNV_REF/"
 quast_ref:
  - "Clostridium": ["CP000246.1","bacteria"]
-   "Cutibacterium acnes": ["AE017283.1","fungus"]
+   "Cutibacterium acnes": ["AE017283.1","bacteria"]
+   "Propionibacteriaceae": ["AE017283.1","bacteria"]
    "Enterobacter cloacae": ["CP026975.1","bacteria"]
    "Citrobacter freundii": ["CP025757.1","bacteria"]
    "Klebsiella oxytoca": ["CP008788.1","bacteria"]

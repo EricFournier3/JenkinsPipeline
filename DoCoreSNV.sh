@@ -120,6 +120,7 @@ for proj in "${projects_list[@]}"
 			do 
 			for primer in R1 R2
 				do
+				
 				cp ${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_${primer}_PAIR.fastq.gz" ${temp_fastq_dir}${spec}"_${primer}.fastq.gz"
 			done	
 		done
@@ -137,8 +138,12 @@ for proj in "${projects_list[@]}"
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
-		#eval $coresnv_cmd	
-		#eval $position2phyloviz_cmd
+		eval $coresnv_cmd
+			
+		eval $position2phyloviz_cmd
+
+		#ERIC FOURNIER 2019-11-01
+		sudo chmod 777 ${SLBIO_CORESNV_PATH}
 
 		MakeGrapeTreeProfile
 

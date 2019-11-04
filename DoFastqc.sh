@@ -14,6 +14,7 @@ for proj in "${projects_list[@]}"
 	do
 	PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
+	#echo "PROJ NAME IS ${PROJECT_NAME}"
         #echo "In DoFastqc $SLBIO_SPADES_FILTER_PATH"
 	echo -e "Fastqc avant trimmomatic \t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 	fastqc -q   -o $SLBIO_FASTQC_BRUT_PATH "${SLBIO_FASTQ_BRUT_PATH}"*".fastq.gz"
