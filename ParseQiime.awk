@@ -1,7 +1,3 @@
-########################################################################
-# Eric Fournier 2019-03-08                                             #
-# Utilisé par Make16sSummary.sh pour le parsing des fichier Qiime      #
-########################################################################
 
 BEGIN{FS=";"}
 
@@ -25,11 +21,13 @@ if(NR==1){
 
 percentread=(NbReads2/maxreadcount)*100;
 
+#{print percentread}
 #{print K,G,S,"--",NbReads,mysample}
 #{
 if(percentread > 1){       
 	#print percentread;
 	#printf "%s\t%s\t%s\t%s\t%s %s %s\n",mysample,"--","--",NbReads2,K,G,S;
-	printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\n",mysample,"Qiime","--","--","--",NbReads2,tax;
+	#printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\n",mysample,"Qiime","--","--","--",NbReads2,tax,percentread;
+	printf "%s\t%s\t%s\t%s\t%s\n",mysample,"Qiime2",NbReads2,percentread,tax;
 }
 }
