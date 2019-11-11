@@ -104,6 +104,19 @@ pipeline {
                 */
             }
         }
+	stage('Qiime'){
+            environment{   
+                RUN_NAME = "${params.runName}"
+            }
+            steps{
+                echo "Stage Qiime"
+                sh '''#!/bin/bash
+                    . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10
+                    /home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoQiime2.sh
+                    conda deactivate
+                '''
+            }
+        }
         stage('RunStat'){
             environment{
                 RUN_NAME = "${params.runName}"

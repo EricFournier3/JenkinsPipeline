@@ -35,6 +35,7 @@ slbio_subdir:
  - "ANNOTATION_PROKKA"
  - "ANNOTATION_FUNANNOTATE"
  - "EPIDEMIO_CORESNV"
+ - "METAGENOMIC_QIIME2"
  - "LOG"
  - "WEB_REPORT"
 jenkins_step:
@@ -44,6 +45,7 @@ jenkins_step:
    epidemio: ["CoreSNV"]
    assemb_myc: ["Spades","Qualimap","Quast"]
    annot_myc: ["Spades","Funannotate","Qualimap","Quast"]
+   metabarcoding: ["Qiime"]
 organism:
  - salmonella: 5000000
    ecoli: 5000000

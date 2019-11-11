@@ -4,6 +4,7 @@
 Eric Fournier 2019-07-09
 
 HEADER
+CURRENT_YEAR=$(echo $(date +'%Y'))
 PARAM_FILE="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/JenkinsParameter.yaml"
 GET_PARAM_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetJenkinsParamVal.py"
 RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat7.py"
@@ -16,6 +17,12 @@ POSITION2PHYLOVIZ_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI
 FUNANNOTATE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/Funannotate/funannotate/funannotate.py"
 GRAPETREE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/GrapeTree/GrapeTree/grapetree.py"
 PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
+PARSE_SPEC_TAXON_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/ParseQiime.awk"
+SILVA_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/silva-132-99-nb-classifier.qza"
+GREENGENE_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/gg-13-8-99-nb-classifier.qza"
+QIIME_TEMPLATE_SAMPLE_SHEET="/home/foueri01@inspq.qc.ca/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
+
+
 
 if grep -qs '/mnt/Partage' /proc/mounts
         then
@@ -66,8 +73,9 @@ SetStaticPath(){
 	SLBIO_PROKKA=${slbio_subdir_arr[10]}"/"
 	SLBIO_FUNANNOTATE=${slbio_subdir_arr[11]}"/"
 	SLBIO_CORESNV=${slbio_subdir_arr[12]}"/"
-	SLBIO_LOG=${slbio_subdir_arr[13]}"/"
-	SLBIO_WEBREPORT=${slbio_subdir_arr[14]}"/"
+	SLBIO_QIIME=${slbio_subdir_arr[13]}"/"
+	SLBIO_LOG=${slbio_subdir_arr[14]}"/"
+	SLBIO_WEBREPORT=${slbio_subdir_arr[15]}"/"
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
@@ -100,6 +108,7 @@ SetFinalPath(){
 	SLBIO_PROKKA_PATH=${SLBIO_PROJECT_PATH}${SLBIO_PROKKA}
 	SLBIO_FUNANNOTATE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_FUNANNOTATE}
 	SLBIO_CORESNV_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CORESNV}
+	SLBIO_QIIME_PATH=${SLBIO_PROJECT_PATH}${SLBIO_QIIME}
         SLBIO_LOG_PATH=${SLBIO_PROJECT_PATH}${SLBIO_LOG}
         SLBIO_LOG_FILE=${SLBIO_LOG_PATH}"JenkinsLog.log"
 	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
