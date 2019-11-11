@@ -59,7 +59,13 @@ function EpidemioObj(){
  this.steps = {"Mapping des reads et construction du pseudo-alignement avec ":{"prog":this.software_1,"url":this.software_1_url}, "Construction et visualisation du Minimum Spanning Tree (MSP) avec ":{"prog":this.software_2,"url":this.software_2_url}};
 }
 
-
+function QiimeObj(){
+ this.procedure_name = "Metabarcoding Qiime";
+ this.software = "Qiime2";
+ this.software_url = "https://qiime2.org/";
+ this.step1 = "Evaluer le contenu de l'e&#769chantillon en microorganismes";
+ this.steps = [this.step1];
+}
 
 var myCleanFastqObj = new CleanFastqObj();
 var myQcFastqObj = new QcFastqObj();
@@ -68,7 +74,7 @@ var myAssemblyQCObj;
 var myBactAnnotObj;
 var myMycAnnotObj;
 var myEpidemioObj;
-
+var myQiimeObj;
 
 var step_incr = 1;
 
@@ -81,6 +87,7 @@ var assemb_qc_div = document.createElement("div");
 var bact_annot_div = document.createElement("div");
 var myc_annot_div = document.createElement("div");
 var epidemio_div = document.createElement("div");
+var qiime_div = document.createElement("div");
 
 //add object
 
@@ -241,6 +248,36 @@ if (myEpidemioObj != undefined){
 	container_div.appendChild(epidemio_div);
 	step_incr += 1;
 }
+
+//Qiime
+if (myQiimeObj != undefined){
+	var qiime_header = document.createElement("h3");
+	var prog_link = document.createElement("a");
+	prog_link.href = myQiimeObj.software_url;
+	prog_link.target = "_blank";
+	prog_link.innerHTML = myQiimeObj.software;
+	
+	qiime_header.innerHTML = step_incr + " - " + myQiimeObj.procedure_name + " avec&nbsp";
+	qiime_header.appendChild(prog_link);
+
+	var qiime_ol = document.createElement("ol");
+
+	var qiime_step;
+
+	for(qiime_step of myQiimeObj.steps){
+		var new_qiime_step = document.createElement("li");
+		new_qiime_step.innerHTML = qiime_step;
+		qiime_ol.appendChild(new_qiime_step);
+	}
+	
+	qiime_div.appendChild(qiime_header);
+	qiime_div.appendChild(qiime_ol);
+	container_div.appendChild(qiime_div);
+	step_incr += 1;
+
+
+}
+
 
 //var myobj = new QcFastqObj();
 //var myobj = new CleanFastqObj();

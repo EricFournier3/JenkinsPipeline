@@ -129,6 +129,11 @@ BuildProcedure(){
                 then
                 sed -i "/add object/a  myEpidemioObj = new EpidemioObj();" $build_procedure_slbio_js_path
         fi
+
+	if [ -d ${SLBIO_QIIME_PATH} ]
+		then
+		sed -i "/add object/a  myQiimeObj = new QiimeObj();" $build_procedure_slbio_js_path
+	fi
 }
 
 BuildResult(){
@@ -244,6 +249,18 @@ BuildResult(){
                 path_1=${path_1//\\/\\\\}
 		sed -i "/add object/a myEpidemioResObj = new EpidemioResObj(\"${path_1}\");" $build_resultats_slbio_js_path
 	fi
+
+	if [ -d ${SLBIO_QIIME_PATH} ]
+		then
+            	sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME}
+		sudo cp ${SLBIO_QIIME_PATH}*.qza ${SLBIO_QIIME_PATH}*.qzv ${SLBIO_QIIME_PATH}*.txt  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME} 2>/dev/null
+
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_QIIME}
+		path_1=${path_1//\//\\\\}
+                path_1=${path_1//\\/\\\\}
+
+		sed -i "/add object/a myQiimeResObj = new QiimeResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+	fi
 	
 }
 
@@ -284,7 +301,7 @@ for proj in "${projects_list[@]}"
 			ImportProjDescFromLspqMiSeq
 			BuildProjectDesc
 		else
-			PROJECT_DESC="Aucun description"        	
+			PROJECT_DESC="Aucune description"        	
 		fi
 
 		ImportWebFiles

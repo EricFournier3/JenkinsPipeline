@@ -93,6 +93,12 @@ function EpidemioResObj(url_epidemio){
 	this.list_item = {"Core SNV":this.url_epidemio};	
 }
 
+function QiimeResObj(url_qiime){
+	this.res_name = " - Analyse Qiime";
+	this.url_qiime = url_qiime;
+	this.list_item = {"Qiime":this.url_qiime};
+
+}
 
 var myFastqQcResObj;
 var myAssembResObj;
@@ -100,6 +106,7 @@ var myAssembQcResObj;
 var myBactAnnotResObj;
 var myMycAnnotResObj;
 var myEpidemioResObj;
+var myQiimeResObj;
 //add object
 
 var res_incr = 0;
@@ -135,3 +142,7 @@ if(myEpidemioResObj != undefined){
 	BuildResDiv(myEpidemioResObj.res_name, myEpidemioResObj.list_item, res_incr);
 }
 
+if(myQiimeResObj != undefined){
+	res_incr += 1
+	BuildResDiv(myQiimeResObj.res_name, myQiimeResObj.list_item,res_incr);
+}
