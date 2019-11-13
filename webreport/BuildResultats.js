@@ -100,6 +100,13 @@ function QiimeResObj(url_qiime){
 
 }
 
+function BasecvResObj(url_basecv){
+        this.res_name = " - Analyse Basecv";
+        this.url_basecv = url_basecv;
+        this.list_item = {"Basecv":this.url_basecv};
+}
+
+
 var myFastqQcResObj;
 var myAssembResObj;
 var myAssembQcResObj;
@@ -107,6 +114,7 @@ var myBactAnnotResObj;
 var myMycAnnotResObj;
 var myEpidemioResObj;
 var myQiimeResObj;
+var myBasecvResObj;
 //add object
 
 var res_incr = 0;
@@ -146,3 +154,9 @@ if(myQiimeResObj != undefined){
 	res_incr += 1
 	BuildResDiv(myQiimeResObj.res_name, myQiimeResObj.list_item,res_incr);
 }
+
+if(myBasecvResObj != undefined){
+        res_incr += 1;
+        BuildResDiv(myBasecvResObj.res_name, myBasecvResObj.list_item, res_incr);
+}
+
