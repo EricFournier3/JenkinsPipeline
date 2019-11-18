@@ -96,6 +96,9 @@ CreateSymLink(){
 
         echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
+	sudo cp ${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}""_"*".csv" $SLBIO_RUN_PATH
+	sudo dos2unix "${SLBIO_RUN_PATH}"*".csv"
+
         sudo cp $LSPQ_MISEQ_SAMPLESHEET_PATH $SLBIO_PROJECT_PATH
         sample_sheet_name=$(basename $LSPQ_MISEQ_SAMPLESHEET_PATH)
         #convertir de DOS vers Linux format

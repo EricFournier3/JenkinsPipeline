@@ -143,16 +143,34 @@ Clean(){
 }
 
 ComputeMiSeqStat(){
-	MiSeq_Stat_Command="/usr/bin/python2.7 $RUN_QUAL_SCRIPT --runno $RUN_NAME  --param $PARAM_FILE"
-	LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}"MiSeqStat_"*
+	
+	for fullpath in $(ls -1 -d "${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}""/""${LSPQ_MISEQ_MISEQ_RUN_TRACE}"*)
+		do
+		subdir=$(echo $(basename ${fullpath}))
+		LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}""${subdir}/"MiSeqStat_"*
 
-	if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
-                then
-                :
-        else 
-                echo "Running MiSeqStat7.py ..."
-                eval $MiSeq_Stat_Command > /dev/null 2>&1
-        fi
+		if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
+			then
+			:
+		else
+			MakeCartridgeFastqLink $subdir
+			echo "Running MiSeqStat7.py ..."	
+			MiSeq_Stat_Command="/usr/bin/python2.7 $RUN_QUAL_SCRIPT --runno $RUN_NAME  --param $PARAM_FILE --subdir $subdir"
+			eval $MiSeq_Stat_Command  > /dev/null 2>&1
+		fi
+	done
+
+}
+
+
+MakeCartridgeFastqLink(){
+
+	mkdir ${SLBIO_BASE_PATH}$RUN_NAME"/"${1}
+
+	for sample in $(awk 'BEGIN{FS=","}/Sample_ID/,EOF {getline;print $1}' "${SLBIO_BASE_PATH}"$RUN_NAME/""*"_"${1}".csv")
+		do
+		ln -s ${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_SEQ_BRUT}${sample}"_"*".fastq.gz" ${SLBIO_BASE_PATH}$RUN_NAME"/"${1}
+	done	
 
 }
 
