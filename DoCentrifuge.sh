@@ -12,7 +12,7 @@ FASTQ_R2_PAIR_SUFFIX="_R2_PAIR.fastq.gz"
 FASTQ_R1_UNPAIR_SUFFIX="_R1_UNPAIR.fastq.gz"
 FASTQ_R2_UNPAIR_SUFFIX="_R2_UNPAIR.fastq.gz"
 
-base_dir="/data/Users/Eric/NGSjenkins/20191016_gono-16s-cloac/gono/"
+base_dir="/data/Users/Eric/NGSjenkins/20191120_pulsenet-blasto-metag-16s/16s/"
 fastq_trimmo_dir=${base_dir}"3_FASTQ_CLEAN_TRIMMOMATIC/"
 metagen_dir=${base_dir}"METAGENOMIC_CENTRIFUGE/"
 spec_arr=()
@@ -20,15 +20,17 @@ spec_arr=()
 mkdir $metagen_dir
 
 
-for fastq in $(ls -1 ${fastq_trimmo_dir})
+for fastq in $(ls -1 "${fastq_trimmo_dir}"*".fastq.gz")
         do
+	fastq=$(basename ${fastq})
         fastq_spec=$(echo ${fastq} | cut -d '_' -f 1)
-
         if [[ ! " ${spec_arr[@]} " =~ " ${fastq_spec} " ]]
                 then
                 spec_arr+=(${fastq_spec})
         fi
 done
+
+echo ${spec_arr[@]}
 
 for spec in ${spec_arr[@]}
 	do

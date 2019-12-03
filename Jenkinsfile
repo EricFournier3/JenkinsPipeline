@@ -97,7 +97,7 @@ pipeline {
                 echo "Stage Funannotate"
                 /*
                 sh '''#!/bin/bash
-                    . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate funannotate
+                    . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/funannotate_shared_v171
                     /home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFunannotate.sh
                     conda deactivate
                 '''

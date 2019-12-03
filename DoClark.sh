@@ -7,7 +7,7 @@ COMMENT
 
 CLARKDB="/home/foueri01@inspq.qc.ca/InternetProgram/Clark/DATABASE"
 
-base_dir="/data/Users/Eric/NGSjenkins/20191016_gono-16s-cloac/gono/"
+base_dir="/data/Users/Eric/NGSjenkins/20191120_pulsenet-blasto-metag-16s/16s/"
 fastq_trimmo_dir=${base_dir}"3_FASTQ_CLEAN_TRIMMOMATIC/"
 metagen_dir=${base_dir}"METAGENOMIC_CLARK/"
 
@@ -17,8 +17,9 @@ spec_arr=()
 
 settarget_cmd="set_targets.sh ${CLARKDB} bacteria viruses fungi"
 
-for fastq in $(ls -1 ${fastq_trimmo_dir})
+for fastq in $(ls -1 "${fastq_trimmo_dir}"*".fastq.gz")
         do
+	fastq=$(basename ${fastq})
         fastq_spec=$(echo ${fastq} | cut -d '_' -f 1)
 
         if [[ ! " ${spec_arr[@]} " =~ " ${fastq_spec} " ]]
@@ -44,7 +45,6 @@ for spec in ${spec_arr[@]}
 	
 	classify_cmd="classify_metagenome.sh -O ${fastq_concat} -n 30 -R ${out_classify} "
 	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}"
-        
 	krona_cmd="ktImportTaxonomy -o ${out_krona} -m 3 ${in_krona}"
 
 	zcat ${all_fastq_spec} > ${fastq_concat}

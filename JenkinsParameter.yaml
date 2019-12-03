@@ -78,6 +78,7 @@ quast_ref:
    "Mycobacterium chimaera": ["CP015267.1","bacteria"]
    "Candida parapsilosis": ["HE605209.1","fungus"]
    "Fusobacterium nucleatum": ["NZ_LR698955.1","bacteria"]
+   "Blastomyces dermatitidis": ["EQ999973.1","fungus"]
 quast_ref_path: "/home/foueri01@inspq.qc.ca/ProjetsNGS/QUAST_REF/"
 ...
 

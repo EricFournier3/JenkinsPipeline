@@ -96,7 +96,7 @@ CreateSymLink(){
 
         echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
-	sudo cp ${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}""_"*".csv" $SLBIO_RUN_PATH
+	sudo cp ${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}"${RUN_NAME}"*"_"*".csv" $SLBIO_RUN_PATH
 	sudo dos2unix "${SLBIO_RUN_PATH}"*".csv"
 
         sudo cp $LSPQ_MISEQ_SAMPLESHEET_PATH $SLBIO_PROJECT_PATH
@@ -106,7 +106,6 @@ CreateSymLink(){
 
         #Supprimer le header
         sed -n '/Sample_ID/,$p' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp" >  ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2"
-
         #Extraire les sample id du projet cible
         awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}"ID_list.txt"
         awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_ID"){print $0}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3"
@@ -130,8 +129,7 @@ CreateSymLink(){
 }
 
 RenameFastq(){
-
-             for fastq in $(ls ${SLBIO_FASTQ_BRUT_PATH}/*.fastq.gz)
+             for fastq in $(ls "${SLBIO_FASTQ_BRUT_PATH}"*".fastq.gz")
                 do
                 fastq_ori=$fastq
                 fastq_path=$(dirname $fastq_ori)

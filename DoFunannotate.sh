@@ -82,7 +82,9 @@ for proj in "${projects_list[@]}"
 			echo -e "Funannotate pour ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")"   >> $SLBIO_LOG_FILE
 
 			eval $funannotate_mask_cmd
+			echo $funannotate_mask_cmd
 			eval $funannotate_predict_cmd
+		        echo $funannotate_predict_cmd
 			eval $funannotate_iprscan_cmd
 			sudo chmod 777 ${SLBIO_FUNANNOTATE_PATH}"${spec}_Results/annotate_misc" 
 			eval $funannotate_annotate_cmd
