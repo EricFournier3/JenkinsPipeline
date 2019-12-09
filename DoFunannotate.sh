@@ -15,7 +15,7 @@ STEP="Funannotate"
 
 GetAugustusSpecies(){
 	echo $1
-	AUGUSTUS_SPECIES_DIR=${AUGUSTUS_CONFIG_PATH}/species/
+	#AUGUSTUS_SPECIES_DIR=${AUGUSTUS_CONFIG_PATH}/species/  path obsolete
 	species=$(awk -v specimen="^$1$" 'BEGIN{FS=","}$1~specimen{print tolower($11)}' ${SLBIO_PROJECT_PATH}${RUN_NAME}.csv.temp3)
 	species2=${species/ /_}
 	gender=$(echo $species2 | cut -d '_' -f 1)

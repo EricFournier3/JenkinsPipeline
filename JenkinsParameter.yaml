@@ -14,7 +14,7 @@ snakemake_rules:
 path: 
  - "/mnt/Partage/LSPQ_MiSeq" #basedir LSPQ_MISEQ
  - "/data/Users/Eric/NGSjenkins" #basedir SLBIO
- - "/home/foueri01@inspq.qc.ca/GitScript" #basedir des git script
+ - "/data/Applications/GitScript" #basedir des git script
  - '\\\\swsfi52p\\Partage\\LSPQ_MiSeq' #basedir LSPQ_MISEQ a partir de S:Partage
 lspq_miseq_subdir:
  - "1_Experimental"
@@ -58,7 +58,7 @@ organism:
    Inconnu: 5000000
    Rhuminococcaceae: 3800000
    Prevotella: 4000000
-GenomeLengthFile: "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/lib/ProkaryotesFungiGenomeLength.csv"
+GenomeLengthFile: "/data/Applications/GitScript/Jenkins/lib/ProkaryotesFungiGenomeLength.csv"
 coresnv_ref:
  - "Cutibacterium acnes": "NC_014039.1"
    "Staphylococcus epidermidis": "NC_004461.1"
@@ -67,7 +67,7 @@ coresnv_ref:
    "Klebsiella oxytoca": "CP008788.1"
    "Mycobacterium chimaera": "CP015267.1"
    "Candida parapsilosis": "HE605209.1"
-coresnv_ref_path: "/home/foueri01@inspq.qc.ca/ProjetsNGS/CORESNV_REF/"
+coresnv_ref_path: "/data/Databases/CORESNV_REF/"
 quast_ref:
  - "Clostridium": ["CP000246.1","bacteria"]
    "Cutibacterium acnes": ["AE017283.1","bacteria"]
@@ -79,6 +79,6 @@ quast_ref:
    "Candida parapsilosis": ["HE605209.1","fungus"]
    "Fusobacterium nucleatum": ["NZ_LR698955.1","bacteria"]
    "Blastomyces dermatitidis": ["EQ999973.1","fungus"]
-quast_ref_path: "/home/foueri01@inspq.qc.ca/ProjetsNGS/QUAST_REF/"
+quast_ref_path: "/data/Databases/QUAST_REF/"
 ...
 

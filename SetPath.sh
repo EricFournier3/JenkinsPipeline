@@ -5,23 +5,23 @@ Eric Fournier 2019-07-09
 
 HEADER
 CURRENT_YEAR=$(echo $(date +'%Y'))
-PARAM_FILE="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/JenkinsParameter.yaml"
-GET_PARAM_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetJenkinsParamVal.py"
-RUN_QUAL_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/MiSeqStat7.py"
-GET_SPECIMENS_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/GetSpecimensForTask.py"
-COMPUTE_SAMPLE_COVERAGE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/MiSeqRunQuality/ComputeExpectedGenomesCoverage.py"
-CORESNV_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckCoreSnvReference.py"
-QUAST_REFERENCE_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckQuastReference.py"
+PARAM_FILE="/data/Applications/GitScript/Jenkins/JenkinsParameter.yaml"
+GET_PARAM_SCRIPT="/data/Applications/GitScript/Jenkins/GetJenkinsParamVal.py"
+RUN_QUAL_SCRIPT="/data/Applications/GitScript/MiSeqRunQuality/MiSeqStat7.py"
+GET_SPECIMENS_SCRIPT="/data/Applications/GitScript/Jenkins/GetSpecimensForTask.py"
+COMPUTE_SAMPLE_COVERAGE_SCRIPT="/data/Applications/GitScript/MiSeqRunQuality/ComputeExpectedGenomesCoverage.py"
+CORESNV_REFERENCE_SCRIPT="/data/Applications/GitScript/Jenkins/CheckCoreSnvReference.py"
+QUAST_REFERENCE_SCRIPT="/data/Applications/GitScript/Jenkins/CheckQuastReference.py"
 CORESNV_EXEC="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/snvphyl-galaxy-cli/bin/snvphyl.py"
 POSITION2PHYLOVIZ_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/SNVPhyl_CLI/PerlScript/positions2phyloviz.pl"
 FUNANNOTATE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/Funannotate/funannotate/funannotate.py"
 GRAPETREE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/GrapeTree/GrapeTree/grapetree.py"
 PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
-PARSE_SPEC_TAXON_SCRIPT="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/ParseQiime.awk"
+PARSE_SPEC_TAXON_SCRIPT="/data/Applications/GitScript/Jenkins/ParseQiime.awk"
 SILVA_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/silva-132-99-nb-classifier.qza"
 GREENGENE_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/gg-13-8-99-nb-classifier.qza"
-QIIME_TEMPLATE_SAMPLE_SHEET="/home/foueri01@inspq.qc.ca/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
-
+QIIME_TEMPLATE_SAMPLE_SHEET="/data/Applications/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
+AUGUSTUS_SPECIES_DIR="/data/Databases/FunannotateDB_v171/trained_species/"
 
 
 if grep -qs '/mnt/Partage' /proc/mounts
