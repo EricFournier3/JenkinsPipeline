@@ -40,7 +40,7 @@ new_sample_sheet_name="qiime_sample_sheet.tsv"
 fastq_qza="FASTQ.qza"
 fastq_qzv="FASTQ.qzv"
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
@@ -165,7 +165,7 @@ MakeClassificationSummary(){
 
 }
 
-parse_spec_taxon_script="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/ParseQiime.awk"
+parse_spec_taxon_script="/data/Applications/GitScript/Jenkins/ParseQiime.awk"
 
 current_year=$(echo $(date +'%Y'))
 
@@ -184,7 +184,7 @@ res_tax_classifier=${metagen_dir}"${classification_res_dir}/*/data/level-7.csv"
 fastq_concat_dir=${metagen_dir}"TEMP_FASTQ_CONCAT/"
 spec_arr=("L166501-16S" "L165803-16S")
 
-template_sample_sheet="/home/foueri01@inspq.qc.ca/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
+template_sample_sheet="/data/Applications/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
 template_sample_sheet_path=${base_dir}"${template_sample_sheet_name}"
 
 new_sample_sheet_name="qiime_sample_sheet.tsv"

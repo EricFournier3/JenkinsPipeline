@@ -5,9 +5,8 @@ Eric Fournier 2019-07-09
 
 HEADER
 
-#PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 

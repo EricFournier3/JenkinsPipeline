@@ -9,7 +9,7 @@ HEADER
 
 SPADES_EXEC="spades.py -m 200 -k 77,99,127 --careful -t 20"
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 

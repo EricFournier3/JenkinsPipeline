@@ -7,12 +7,12 @@ Trimmomatic
 HEADER
 
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
-EXEC="/home/foueri01@inspq.qc.ca/InternetProgram/Trimmomatic/Trimmomatic-0.36/trimmomatic-0.36.jar"
-ADAPTFILE="/home/foueri01@inspq.qc.ca/InternetProgram/Trimmomatic/Trimmomatic-0.36/adapters/NexteraPE-PE.fa"
+EXEC="/data/Applications/Trimmomatic/Trimmomatic-0.36/trimmomatic-0.36.jar"
+ADAPTFILE="/data/Applications/Trimmomatic/Trimmomatic-0.36/adapters/NexteraPE-PE.fa"
 
 for proj in "${projects_list[@]}"
 	do

@@ -5,7 +5,7 @@ Qualimap
 
 HEADER
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 
 SetStaticPath
 GetProjectsNamefromRunName

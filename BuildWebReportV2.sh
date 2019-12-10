@@ -9,7 +9,7 @@ HEADER
 
 #RUN_NAME="77777777_test2-test3"
 
-source "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/SetPath.sh"
+source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
 
@@ -26,7 +26,7 @@ BuildProjectDesc(){
 }
 
 ImportWebFiles(){
-        webfiles_basedir="/home/foueri01@inspq.qc.ca/GitScript/Jenkins/webreport/"
+        webfiles_basedir="/data/Applications/GitScript/Jenkins/webreport/"
         build_header_js_path="${webfiles_basedir}BuildHeader.js"
         build_info_js_path="${webfiles_basedir}BuildInfo.js"
         build_procedure_js_path="${webfiles_basedir}BuildProcedure.js"
