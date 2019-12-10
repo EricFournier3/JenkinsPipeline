@@ -12,7 +12,7 @@ pipeline {
                             steps {
 
                                 echo "Stage InputRunName"
-                                sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/CheckRunName.sh ${params.runName}"
+                                sh "/data/Applications/GitScript/Jenkins/CheckRunName.sh ${params.runName}"
                             }
         }
         stage('Init'){
@@ -22,8 +22,8 @@ pipeline {
             steps{
                 echo "Stage Init"
                     sh 'echo "In Jenkins file $RUN_NAME"'
-              //      sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/InitGenomicPipeline.sh"
-              //      sh '/home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CoreSnvReference'
+              //      sh "/data/Applications/GitScript/Jenkins/InitGenomicPipeline.sh"
+              //      sh '/data/Applications/GitScript/Jenkins/Tools.sh CoreSnvReference'
             }
         }
         stage('Trimmomatic'){
@@ -32,7 +32,7 @@ pipeline {
             }
             steps{
                 echo "Stage Trimmomatic"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoTrimmomatic.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoTrimmomatic.sh"
             }
         }
         stage('Fastqc'){
@@ -41,7 +41,7 @@ pipeline {
             }
             steps{
                 echo "Stage Fastqc"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFastqc.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoFastqc.sh"
             }
         }
         stage('Spades'){
@@ -50,7 +50,7 @@ pipeline {
             }
             steps{
                 echo "Stage Spades"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoSpades.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoSpades.sh"
             }
         }
         stage('Qualimap'){
@@ -59,7 +59,7 @@ pipeline {
             }
             steps{
                 echo "Stage Qualimap"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoQualimap.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoQualimap.sh"
             }
         }
         stage('Quast'){
@@ -68,7 +68,7 @@ pipeline {
             }
             steps{
                 echo "Stage Quast"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoQuast.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoQuast.sh"
             }
         }
         stage('Prokka'){
@@ -77,7 +77,7 @@ pipeline {
             }
             steps{
                 echo "Stage Prokka"
-                //sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoProkka.sh"
+                //sh "/data/Applications/GitScript/Jenkins/DoProkka.sh"
             }
         }
         stage('CoreSNV'){
@@ -86,7 +86,7 @@ pipeline {
             }
             steps{
                 echo "Stage CoreSNV"
-                sh "/home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoCoreSNV.sh"
+                sh "/data/Applications/GitScript/Jenkins/DoCoreSNV.sh"
             }
         }
         stage('Funannotate'){
@@ -97,8 +97,8 @@ pipeline {
                 echo "Stage Funannotate"
                 /*
                 sh '''#!/bin/bash
-                    . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/funannotate_shared_v171
-                    /home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoFunannotate.sh
+                    . /data/Applications/Miniconda/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/funannotate_shared_v171
+                    /data/Applications/GitScript/Jenkins/DoFunannotate.sh
                     conda deactivate
                 '''
                 */
@@ -111,8 +111,8 @@ pipeline {
             steps{
                 echo "Stage Qiime"
                 sh '''#!/bin/bash
-                    . /home/foueri01@inspq.qc.ca/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10
-                    /home/foueri01@inspq.qc.ca/GitScript/Jenkins/DoQiime2.sh
+                    . /data/Applications/Miniconda/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10
+                    /data/Applications/GitScript/Jenkins/DoQiime2.sh
                     conda deactivate
                 '''
             }
@@ -126,9 +126,9 @@ pipeline {
                 //voir https://stackoverflow.com/questions/40213654/how-to-invoke-bash-functions-defined-in-a-resource-file-from-a-jenkins-pipeline?rq=1
                 /*
                 sh '''#!/bin/bash
-                      /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
-                      /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh CountReads
-                      /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
+                      /data/Applications/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
+                      /data/Applications/GitScript/Jenkins/Tools.sh CountReads
+                      /data/Applications/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
                 '''
                 */
             }
@@ -142,8 +142,8 @@ pipeline {
                 echo "In Stage WebReport"
                 /*
                 sh '''#!/bin/bash
-                /home/foueri01@inspq.qc.ca/GitScript/Jenkins/BuildWebReportV2.sh
-                /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
+                /data/Applications/GitScript/Jenkins/BuildWebReportV2.sh
+                /data/Applications/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
                 '''
                 */
             }
@@ -157,8 +157,8 @@ pipeline {
                 echo "In Stage Clean"
                 /*
                 sh '''#!/bin/bash
-                      /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh Clean
-                      /home/foueri01@inspq.qc.ca/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
+                      /data/Applications/GitScript/Jenkins/Tools.sh Clean
+                      /data/Applications/GitScript/Jenkins/Tools.sh AddNumericPrefixToSubdir
                     '''
                 */    
             }
