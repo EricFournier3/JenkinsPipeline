@@ -52,7 +52,8 @@ for proj in "${projects_list[@]}"
 	        then
 		
 		funannotate_mask_base_cmd="funannotate mask --cpus 30 --repeatmasker_species fungi "
-		funannotate_iprscan_base_cmd="sudo python $FUNANNOTATE_SCRIPT iprscan -m docker --cpus 30 "	
+		#funannotate_iprscan_base_cmd="sudo python $FUNANNOTATE_SCRIPT iprscan -m docker --cpus 30 "	
+		funannotate_iprscan_base_cmd="funannotate iprscan -m docker --cpus 30 "	
 		funannotate_annotate_base_cmd="funannotate annotate --cpus 30"
 
 		mkdir ${SLBIO_FUNANNOTATE_PATH}

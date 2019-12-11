@@ -47,6 +47,7 @@ jenkins_step:
    annot_myc: ["Spades","Funannotate","Qualimap","Quast"]
    metabarcoding: ["Qiime"]
    pulsenet: ["Trimmomatic","Fastqc"]
+   metagenomique: ["Trimmomatic","Fastqc"]
 organism:
  - salmonella: 5000000
    ecoli: 5000000
