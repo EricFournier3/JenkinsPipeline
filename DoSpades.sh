@@ -22,7 +22,7 @@ for proj in "${projects_list[@]}"
 	SetFinalPath $PROJECT_NAME
 	SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
 	spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
-#	echo "In DoSpades $SLBIO_SPADES_FILTER_PATH"
+	#echo "In DoSpades ${spec_arr[@]}"
 
 	if [ ${#spec_arr[@]} -gt 0 ]
 	then

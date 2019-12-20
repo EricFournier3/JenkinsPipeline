@@ -77,7 +77,11 @@ pipeline {
             }
             steps{
                 echo "Stage Prokka"
-                //sh "/data/Applications/GitScript/Jenkins/DoProkka.sh"
+		sh '''#!/bin/bash
+                    . /data/Applications/Miniconda/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/Prokka
+                    /data/Applications/GitScript/Jenkins/DoProkka.sh
+                    conda deactivate
+                '''
             }
         }
         stage('CoreSNV'){
