@@ -81,6 +81,7 @@ quast_ref:
    "Fusobacterium nucleatum": ["NZ_LR698955.1","bacteria"]
    "Blastomyces dermatitidis": ["EQ999973.1","fungus"]
    "Salmonella enterica": ["NC_003198.1","bacteria"]
+   "Staphylococcus aureus": ["NC_007795.1","bacteria"]
 quast_ref_path: "/data/Databases/QUAST_REF/"
 ...
 

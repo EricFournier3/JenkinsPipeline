@@ -15,7 +15,7 @@ GetProjectsNamefromRunName
 
 STEP="Qualimap"
 
-QUAST_EXEC="quast.py "
+QUAST_EXEC="quast "
 
 for proj in "${projects_list[@]}"
 

@@ -68,7 +68,12 @@ pipeline {
             }
             steps{
                 echo "Stage Quast"
-                //sh "/data/Applications/GitScript/Jenkins/DoQuast.sh"
+
+		sh '''#!/bin/bash
+                   . /data/Applications/Miniconda/miniconda3/bin/activate /data/Applications/Miniconda/miniconda3/envs/Quast
+                   /data/Applications/GitScript/Jenkins/DoQuast.sh
+                   conda deactivate
+                '''
             }
         }
         stage('Prokka'){
