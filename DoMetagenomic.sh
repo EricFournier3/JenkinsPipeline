@@ -27,12 +27,14 @@ DoKraken(){
 DoCentrifuge(){
 	
 	echo "In centrifuge"
+	
 	current_centrifuge_spec=$1
 	echo -e "Centrifuge on ${current_centrifuge_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
-	PAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R1_PAIR.fastq.gz"
-        UNPAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R1_UNPAIR.fastq.gz"
-        PAIR_R2_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R2_PAIR.fastq.gz"
-        UNPAIR_R2_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R2_UNPAIR.fastq.gz"	
+	PAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${current_centrifuge_spec}"_R1_PAIR.fastq.gz"
+
+        UNPAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${current_centrifuge_spec}"_R1_UNPAIR.fastq.gz"
+        PAIR_R2_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${current_centrifuge_spec}"_R2_PAIR.fastq.gz"
+        UNPAIR_R2_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${current_centrifuge_spec}"_R2_UNPAIR.fastq.gz"	
 	
 	centrifuge_cmd="centrifuge -x ${CENTRIFUGEDB} -1 ${PAIR_R1_TRIMMO} -2 ${PAIR_R2_TRIMMO} -U ${UNPAIR_R1_TRIMMO},${UNPAIR_R2_TRIMMO} -S ${SLBIO_CENTRIFUGE_PATH}${current_centrifuge_spec}_ClassificationResult.txt  --report-file ${SLBIO_CENTRIFUGE_PATH}${current_centrifuge_spec}_ClassificationSummary.txt --thread 30"
 
@@ -44,6 +46,34 @@ DoCentrifuge(){
 
 DoClark(){
 	echo "In Clark"
+	settarget_cmd="set_targets.sh ${CLARKDB} bacteria viruses fungi"
+	current_clark_spec=$1
+	echo -e "Clark on ${current_clark_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+	all_fastq=$(ls ${SLBIO_FASTQ_TRIMMO_PATH}${current_clark_spec}*fastq.gz)
+	fastq_concat=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}".fastq"
+	out_classify=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_out"
+	out_abundance_1=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_abundance.txt"
+	out_abundance_2=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"results.krn"
+	
+	in_krona=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_krona.krn"
+	out_krona=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_krona.html"
+
+	classify_cmd="classify_metagenome.sh -O ${fastq_concat} -n 30 -R ${out_classify} "
+	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}"
+	krona_cmd="ktImportTaxonomy -o ${out_krona} -m 3 ${in_krona}"
+
+#	zcat ${all_fastq} > ${fastq_concat}
+
+#	eval ${settarget_cmd}
+#       eval ${classify_cmd}
+#       eval ${abundance_cmd}
+
+#	mv ${out_abundance_2} ${in_krona}
+
+#	eval ${krona_cmd}
+
+ #      rm ${fastq_concat}
+
 }
 
 
@@ -65,6 +95,7 @@ for proj in "${projects_list[@]}"
 			do
 			DoKraken $spec
 			DoCentrifuge $spec			
+			DoClark $spec
 		done	
 		 
 	fi
