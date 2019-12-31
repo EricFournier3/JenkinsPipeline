@@ -22,6 +22,9 @@ SILVA_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Cl
 GREENGENE_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/gg-13-8-99-nb-classifier.qza"
 QIIME_TEMPLATE_SAMPLE_SHEET="/data/Applications/GitScript/Metagenomic/BasicWorkSheetTemplate2.tsv"
 AUGUSTUS_SPECIES_DIR="/data/Databases/FunannotateDB_v171/trained_species/"
+KRAKENDB="/data/Databases/KRAKEN_DB"
+CENTRIFUGEDB="/data/Databases/CENTRIFUGE_DB/abv"
+CLARKDB="/data/Databases/CLARK_DB"
 
 
 if grep -qs '/mnt/Partage' /proc/mounts
@@ -76,6 +79,10 @@ SetStaticPath(){
 	SLBIO_QIIME=${slbio_subdir_arr[13]}"/"
 	SLBIO_LOG=${slbio_subdir_arr[14]}"/"
 	SLBIO_WEBREPORT=${slbio_subdir_arr[15]}"/"
+	SLBIO_METAGENOMIC_SHOTGUN=${slbio_subdir_arr[16]}"/"
+	SLBIO_KRAKEN=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[17]}"/"
+	SLBIO_CENTRIFUGE=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[18]}"/"
+	SLBIO_CLARK=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[19]}"/"
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 
@@ -114,6 +121,9 @@ SetFinalPath(){
 	LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvSamplesToAdd_"${RUN_NAME}"_${PROJECT_NAME}.txt"
 	LSPQ_MISEQ_CORESNV_METADATA_FILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/1_Experimental/CoreSnvMetadata_"${RUN_NAME}"_${PROJECT_NAME}.txt"
 	SLBIO_WEBREPORT_PATH=${SLBIO_PROJECT_PATH}${SLBIO_WEBREPORT}
+	SLBIO_KRAKEN_PATH=${SLBIO_PROJECT_PATH}${SLBIO_KRAKEN}
+	SLBIO_CENTRIFUGE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CENTRIFUGE}
+	SLBIO_CLARK_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CLARK}
 }
 
 GetProjectsNamefromRunName(){

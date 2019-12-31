@@ -38,6 +38,10 @@ slbio_subdir:
  - "METAGENOMIC_QIIME2"
  - "LOG"
  - "WEB_REPORT"
+ - "METAGENOMIC_SHOTGUN"
+ - "KRAKEN"
+ - "CENTRIFUGE"
+ - "CLARK"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
    assemb_bact: ["Spades","Qualimap","Quast"]
@@ -47,7 +51,7 @@ jenkins_step:
    annot_myc: ["Spades","Funannotate","Qualimap","Quast"]
    metabarcoding: ["Qiime"]
    pulsenet: ["Trimmomatic","Fastqc"]
-   metagenomique: ["Trimmomatic","Fastqc"]
+   metagenomique: ["Metagenomic"]
 organism:
  - salmonella: 5000000
    ecoli: 5000000

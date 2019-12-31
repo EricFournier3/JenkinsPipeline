@@ -44,6 +44,15 @@ pipeline {
                 //sh "/data/Applications/GitScript/Jenkins/DoFastqc.sh"
             }
         }
+	stage('Metagenomic'){
+            environment{
+                RUN_NAME = "${params.runName}"
+            }
+            steps{
+                echo "Stage Metagenomic"
+                sh "/data/Applications/GitScript/Jenkins/DoMetagenomic.sh"
+            }
+        }
         stage('Spades'){
             environment{
                 RUN_NAME = "${params.runName}"
