@@ -13,15 +13,13 @@ GetProjectsNamefromRunName
 
 STEP="Metagenomic"
 
-
-
 DoKraken(){
 	echo "In Kraken"
 	current_kraken_spec=$1
 	echo -e "Kraken on ${current_kraken_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 	all_fastq=${SLBIO_FASTQ_TRIMMO_PATH}${current_kraken_spec}*"fastq.gz"
 	kraken_cmd="kraken2 --db ${KRAKENDB} --output  ${SLBIO_KRAKEN_PATH}Out_${current_kraken_spec} --report ${SLBIO_KRAKEN_PATH}Report_${current_kraken_spec} --thread 30 <(zcat ${all_fastq})"
-	#eval ${kraken_cmd}
+	eval ${kraken_cmd}
 }
 
 DoCentrifuge(){
@@ -50,32 +48,31 @@ DoClark(){
 	current_clark_spec=$1
 	echo -e "Clark on ${current_clark_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 	all_fastq=$(ls ${SLBIO_FASTQ_TRIMMO_PATH}${current_clark_spec}*fastq.gz)
-	fastq_concat=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}".fastq"
-	out_classify=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_out"
-	out_abundance_1=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_abundance.txt"
-	out_abundance_2=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"results.krn"
+	fastq_concat=${SLBIO_CLARK_PATH}${current_clark_spec}".fastq"
+	out_classify=${SLBIO_CLARK_PATH}${current_clark_spec}"_out"
+	out_abundance_1=${SLBIO_CLARK_PATH}${current_clark_spec}"_abundance.txt"
+	out_abundance_2=${PWD}/"results.krn"
 	
-	in_krona=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_krona.krn"
-	out_krona=${SLBIO_CENTRIFUGE_PATH}${current_clark_spec}"_krona.html"
+	in_krona=${SLBIO_CLARK_PATH}${current_clark_spec}"_krona.krn"
+	out_krona=${SLBIO_CLARK_PATH}${current_clark_spec}"_krona.html"
 
 	classify_cmd="classify_metagenome.sh -O ${fastq_concat} -n 30 -R ${out_classify} "
-	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}"
+	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}" #cette commande genere aussi le fichier results.krn
 	krona_cmd="ktImportTaxonomy -o ${out_krona} -m 3 ${in_krona}"
 
-#	zcat ${all_fastq} > ${fastq_concat}
+	zcat ${all_fastq} > ${fastq_concat}
 
-#	eval ${settarget_cmd}
-#       eval ${classify_cmd}
-#       eval ${abundance_cmd}
+	eval ${settarget_cmd}
+        eval ${classify_cmd}
+        eval ${abundance_cmd}
 
-#	mv ${out_abundance_2} ${in_krona}
+	mv ${out_abundance_2} ${in_krona}
 
-#	eval ${krona_cmd}
+	eval ${krona_cmd}
 
- #      rm ${fastq_concat}
+        rm ${fastq_concat}
 
 }
-
 
 
 for proj in "${projects_list[@]}"

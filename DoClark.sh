@@ -38,24 +38,29 @@ for spec in ${spec_arr[@]}
 	
 	out_classify=${metagen_dir}${spec}"_out"
 	out_abundance_1=${metagen_dir}${spec}"_abundance.txt"
-	out_abundance_2=${metagen_dir}"results.krn"
+	out_abundance_2=${PWD}/"results.krn"
 	
+	echo "PATH IS ${out_abundance_2}"
+
 	in_krona=${metagen_dir}${spec}"_krona.krn"
 	out_krona=${metagen_dir}${spec}"_krona.html"
 	
 	classify_cmd="classify_metagenome.sh -O ${fastq_concat} -n 30 -R ${out_classify} "
-	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}"
+	abundance_cmd="estimate_abundance.sh -F ${out_classify}.csv -D ${CLARKDB} --krona > ${out_abundance_1}" #cette commande genere aussi le fichier results.krn
 	krona_cmd="ktImportTaxonomy -o ${out_krona} -m 3 ${in_krona}"
 
 	zcat ${all_fastq_spec} > ${fastq_concat}
 	eval ${settarget_cmd}	
+	echo "END SET TARGET OK"
 	eval ${classify_cmd}
+	echo "END CLASSIFY"
 	eval ${abundance_cmd}
-		
-	mv ${out_abundance_2} ${in_krona}
-	eval ${krona_cmd}
-	
-	rm ${fastq_concat}
+	echo "END ABUNDANCE"
+	#mv ${out_abundance_2} ${in_krona}
+	echo "END MOVE"
+	#eval ${krona_cmd}
+	echo "END KRONA"
+	#rm ${fastq_concat}
 	
 done
 
