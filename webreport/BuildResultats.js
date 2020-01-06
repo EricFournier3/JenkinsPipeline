@@ -100,6 +100,24 @@ function QiimeResObj(url_qiime){
 
 }
 
+function ClarkResObj(url_clark){
+	this.res_name = " - Analyse Clark";
+        this.url_clark = url_clark;
+        this.list_item = {"Clark":this.url_clark};
+}
+
+function CentrifugeResObj(url_centrifuge){
+	this.res_name = " - Analyse Centrifuge";
+        this.url_centrifuge = url_centrifuge;
+        this.list_item = {"Centrifuge":this.url_centrifuge};
+}
+
+function KrakenResObj(url_kraken){
+	this.res_name = " - Analyse Kraken";
+        this.url_kraken = url_kraken;
+        this.list_item = {"Kraken":this.url_kraken};
+}
+
 function BasecvResObj(url_basecv){
         this.res_name = " - Analyse Basecv";
         this.url_basecv = url_basecv;
@@ -115,6 +133,10 @@ var myMycAnnotResObj;
 var myEpidemioResObj;
 var myQiimeResObj;
 var myBasecvResObj;
+
+var myClarkResObj;
+var myCentrifugeResObj;
+var myKrakenResObj;
 //add object
 
 var res_incr = 0;
@@ -160,3 +182,18 @@ if(myBasecvResObj != undefined){
         BuildResDiv(myBasecvResObj.res_name, myBasecvResObj.list_item, res_incr);
 }
 
+
+if(myClarkResObj != undefined){
+	res_incr += 1;
+	BuildResDiv(myClarkResObj.res_name, myClarkResObj.list_item, res_incr);
+}
+
+if(myCentrifugeResObj != undefined){
+	res_incr += 1;
+	BuildResDiv(myCentrifugeResObj.res_name, myCentrifugeResObj.list_item, res_incr);
+}
+
+if(myKrakenResObj != undefined){
+	res_incr += 1;
+	BuildResDiv(myKrakenResObj.res_name, myKrakenResObj.list_item, res_incr);
+}

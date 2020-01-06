@@ -295,7 +295,7 @@ BuildResult(){
 		path_3=${path_3//\//\\\\}
                 path_3=${path_3//\\/\\\\}
 
-		sed -i "/add object/a myClarkResObj = new ClarkResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+		sed -i "/add object/a myClarkResObj = new ClarkResObj(\"${path_3}\");" $build_resultats_slbio_js_path
 	fi
 	
 }
