@@ -67,6 +67,31 @@ function QiimeObj(){
  this.steps = [this.step1];
 }
 
+function ClarkObj(){
+   this.procedure_name = "Metagenomic Clark";
+   this.software = "Clark";
+   this.software_url = "http://clark.cs.ucr.edu/";  
+   this.step1 = "Evaluer le contenu de l'e&#769chantillon en microorganismes";
+   this.steps = [this.step1];
+}
+
+function CentrifugeObj(){
+   this.procedure_name = "Metagenomic Centrifuge";
+   this.software = "Centrifuge";
+   this.software_url = "https://ccb.jhu.edu/software/centrifuge/";  
+   this.step1 = "Evaluer le contenu de l'e&#769chantillon en microorganismes";
+   this.steps = [this.step1];
+}
+
+
+function KrakenObj(){
+   this.procedure_name = "Metagenomic Kraken";
+   this.software = "Kraken";
+   this.software_url = "https://ccb.jhu.edu/software/kraken/";  
+   this.step1 = "Evaluer le contenu de l'e&#769chantillon en microorganismes";
+   this.steps = [this.step1];
+}
+
 var myCleanFastqObj = new CleanFastqObj();
 var myQcFastqObj = new QcFastqObj();
 var myAssemblyObj;
@@ -75,6 +100,10 @@ var myBactAnnotObj;
 var myMycAnnotObj;
 var myEpidemioObj;
 var myQiimeObj;
+var myClarkObj;
+var myCentrifugeObj;
+var myKrakenObj;
+
 
 var step_incr = 1;
 
@@ -88,6 +117,11 @@ var bact_annot_div = document.createElement("div");
 var myc_annot_div = document.createElement("div");
 var epidemio_div = document.createElement("div");
 var qiime_div = document.createElement("div");
+
+var clark_div = document.createElement("div");
+var centrifuge_div = document.createElement("div");
+var kraken_div = document.createElement("div");
+
 
 //add object
 
@@ -278,6 +312,87 @@ if (myQiimeObj != undefined){
 
 }
 
+
+//Metagenomic Clark
+if (myClarkObj != undefined){
+	var clark_header = document.createElement("h3");
+	var prog_link = document.createElement("a");
+	prog_link.href = myClarkObj.software_url;
+	prog_link.target = "_blank";
+	prog_link.innerHTML = myClarkObj.software;
+
+	clark_header.innerHTML = step_incr + " - " + myClarkObj.procedure_name + " avec&nbsp";
+	clark_header.appendChild(prog_link);
+
+	var clark_ol = document.createElement("ol");
+	
+	var clark_step;
+
+	for(clark_step of myClarkObj.steps){
+		var new_clark_step = document.createElement("li");
+		new_clark_step.innerHTML = clark_step;
+		clark_ol.appendChild(new_clark_step);
+	}
+
+	clark_div.appendChild(clark_header);
+	clark_div.appendChild(clark_ol);
+	container_div.appendChild(clark_div);
+	step_incr += 1;
+}
+
+//Metagenomic Centrifuge
+if (myCentrifugeObj != undefined){
+	var centrifuge_header = document.createElement("h3");
+	var prog_link = document.createElement("a");
+	prog_link.href = myCentrifugeObj.software_url;
+	prog_link.target = "_blank";
+	prog_link.innerHTML = myCentrifugeObj.software;
+
+	centrifuge_header.innerHTML = step_incr + " - " + myCentrifugeObj.procedure_name + " avec&nbsp";
+	centrifuge_header.appendChild(prog_link);
+
+	var centrifuge_ol = document.createElement("ol");
+	
+	var centrifuge_step;
+
+	for(centrifuge_step of myCentrifugeObj.steps){
+		var new_centrifuge_step = document.createElement("li");
+		new_centrifuge_step.innerHTML = centrifuge_step;
+		centrifuge_ol.appendChild(new_centrifuge_step);
+	}
+
+	centrifuge_div.appendChild(centrifuge_header);
+	centrifuge_div.appendChild(centrifuge_ol);
+	container_div.appendChild(centrifuge_div);
+	step_incr += 1;
+}
+
+//Metagenomic Kraken
+if (myKrakenObj != undefined){
+	var kraken_header = document.createElement("h3");
+	var prog_link = document.createElement("a");
+	prog_link.href = myKrakenObj.software_url;
+	prog_link.target = "_blank";
+	prog_link.innerHTML = myKrakenObj.software;
+
+	kraken_header.innerHTML = step_incr + " - " + myKrakenObj.procedure_name + " avec&nbsp";
+	kraken_header.appendChild(prog_link);
+
+	var kraken_ol = document.createElement("ol");
+	
+	var kraken_step;
+
+	for(kraken_step of myKrakenObj.steps){
+		var new_kraken_step = document.createElement("li");
+		new_kraken_step.innerHTML = kraken_step;
+		kraken_ol.appendChild(new_kraken_step);
+	}
+
+	kraken_div.appendChild(kraken_header);
+	kraken_div.appendChild(kraken_ol);
+	container_div.appendChild(kraken_div);
+	step_incr += 1;
+}
 
 //var myobj = new QcFastqObj();
 //var myobj = new CleanFastqObj();

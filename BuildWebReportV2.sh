@@ -39,7 +39,7 @@ ImportWebFiles(){
         webfiles_arr=($about_ef_path $about_ef_path $about_sam_path $build_header_js_path $build_info_js_path $build_procedure_js_path $build_resultats_js_path $build_specimens_js_path $header_css_path  $bioinfo_icon_png $build_aboutsam_js_path $build_aboutef_js_path)
 
         for webfile in ${webfiles_arr[@]}
-         do
+         do 
           cp $webfile $SLBIO_WEBREPORT_PATH
         done
 
@@ -134,6 +134,15 @@ BuildProcedure(){
 		then
 		sed -i "/add object/a  myQiimeObj = new QiimeObj();" $build_procedure_slbio_js_path
 	fi
+	
+	if [ -d ${SLBIO_METAGENOMIC_SHOTGUN_PATH} ]
+		then
+		sed -i "/add object/a  myKrakenObj = new KrakenObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myCentrifugeObj = new CentrifugeObj();" $build_procedure_slbio_js_path
+		sed -i "/add object/a  myClarkObj = new ClarkObj();" $build_procedure_slbio_js_path
+
+	fi
+		
 }
 
 BuildResult(){
@@ -260,6 +269,33 @@ BuildResult(){
                 path_1=${path_1//\\/\\\\}
 
 		sed -i "/add object/a myQiimeResObj = new QiimeResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+	fi
+
+	if [ -d ${SLBIO_METAGENOMIC_SHOTGUN_PATH} ]
+		then
+		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CENTRIFUGE}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CLARK}
+
+		sudo cp ${SLBIO_KRAKEN_PATH}"Report_"* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN}	
+		sudo cp ${SLBIO_CENTRIFUGE_PATH}*"_ClassificationResult_Kraken.txt" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CENTRIFUGE}
+		sudo cp ${SLBIO_CLARK_PATH}*".html" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CLARK}
+
+		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_KRAKEN}
+		path_1=${path_1//\//\\\\}
+                path_1=${path_1//\\/\\\\}
+
+		sed -i "/add object/a myKrakenResObj = new KrakenResObj(\"${path_1}\");" $build_resultats_slbio_js_path
+
+		path_2=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_CENTRIFUGE}
+		path_2=${path_2//\//\\\\}
+                path_2=${path_2//\\/\\\\}
+
+		sed -i "/add object/a myCentrifugeResObj = new CentrifugeResObj(\"${path_2}\");" $build_resultats_slbio_js_path
+
+		path_3=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_CLARK}
+		path_3=${path_3//\//\\\\}
+                path_3=${path_3//\\/\\\\}
+
+		sed -i "/add object/a myClarkResObj = new ClarkResObj(\"${path_1}\");" $build_resultats_slbio_js_path
 	fi
 	
 }
