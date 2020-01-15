@@ -42,6 +42,7 @@ slbio_subdir:
  - "KRAKEN"
  - "CENTRIFUGE"
  - "CLARK"
+ - "MAPPING_FILES"
 jenkins_step:
  - base: ["Trimmomatic","Fastqc"]
    assemb_bact: ["Spades","Qualimap","Quast"]

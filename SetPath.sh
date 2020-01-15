@@ -25,7 +25,8 @@ AUGUSTUS_SPECIES_DIR="/data/Databases/FunannotateDB_v171/trained_species/"
 KRAKENDB="/data/Databases/KRAKEN_DB"
 CENTRIFUGEDB="/data/Databases/CENTRIFUGE_DB/abv"
 CLARKDB="/data/Databases/CLARK_DB"
-
+CORE_SNV_GALAXY_URL="http://localhost:48890/"
+CORE_SNV_GALAXY_KEY="0abbae19c25ebcf2d75f059af756ea05"
 
 if grep -qs '/mnt/Partage' /proc/mounts
         then
@@ -83,6 +84,7 @@ SetStaticPath(){
 	SLBIO_KRAKEN=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[17]}"/"
 	SLBIO_CENTRIFUGE=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[18]}"/"
 	SLBIO_CLARK=${SLBIO_METAGENOMIC_SHOTGUN}${slbio_subdir_arr[19]}"/"
+	SLBIO_CORESNV_MAP_DIR=${slbio_subdir_arr[20]}"/"
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 }
 

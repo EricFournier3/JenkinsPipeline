@@ -60,6 +60,25 @@ ConcatContig(){
 	ref_file=${refpath}${acc}"_temp2.fna"
 }
 
+IndexBamFile(){
+  
+  bam_file_dir=${SLBIO_CORESNV_PATH}${SLBIO_CORESNV_MAP_DIR}
+  sudo chmod 777 ${bam_file_dir}  
+
+  for bamfile in $(ls ${bam_file_dir}*".bam")
+   do
+   bamname=$(basename $bamfile)
+   bamname_sort=${bamfile%.bam}"_sort"
+
+   samtool_sort_cmd="samtools sort ${bamfile} ${bamname_sort}"
+   samtool_index_cmd="samtools index ${bamname_sort}.bam"
+
+   eval $samtool_sort_cmd
+   eval $samtool_index_cmd
+   sudo rm -f ${bamfile}
+  done
+}
+
 
 for proj in "${projects_list[@]}"
 
@@ -133,14 +152,27 @@ for proj in "${projects_list[@]}"
 		else
 			sudo service docker start	
 		fi
-              
-		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2"
+             
+		#s assurer que le container SnvPhy_EricF2 est a up
+		core_snv_galaxy_isup=$(sudo docker inspect -f '{{.State.Running}}' SnvPhy_EricF2)
+
+		if [ "${core_snv_galaxy_isup}" = "true" ]
+		  then
+		  :
+		else
+		  sudo docker start SnvPhy_EricF2
+		fi
+ 
+		#coresnv_cmd_obsolete="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2"
+		
+		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --galaxy-url ${CORE_SNV_GALAXY_URL} --galaxy-api-key ${CORE_SNV_GALAXY_KEY} --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir ${SLBIO_CORESNV_PATH} --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2 --run-name ${RUN_NAME} --map-outdir ${SLBIO_CORESNV_MAP_DIR}"
+	
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
-		eval $coresnv_cmd
+        	eval $coresnv_cmd
 			
-		eval $position2phyloviz_cmd
+        	eval $position2phyloviz_cmd
 
 		#ERIC FOURNIER 2019-11-01
 		sudo chmod 777 ${SLBIO_CORESNV_PATH}
@@ -157,7 +189,11 @@ for proj in "${projects_list[@]}"
 		eval $grapetree_cmd
 
 		rm -r $temp_fastq_dir
-		
+	
+
+		#indexer les fichiers bam
+		IndexBamFile
+	
 		if [ -e  ${refpath}${acc}"_temp.fna" ]
 			then
 			rm ${refpath}${acc}"_temp.fna"
