@@ -143,13 +143,10 @@ Clean(){
 }
 
 ComputeMiSeqStat(){
-	
 	for fullpath in $(ls -1 -d "${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}""/""${LSPQ_MISEQ_MISEQ_RUN_TRACE}"*)
 		do
 		subdir=$(echo $(basename ${fullpath}))
 		LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}""${subdir}/"MiSeqStat_"*
-
-
 		if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
 			then
 			:
@@ -169,7 +166,7 @@ MakeCartridgeFastqLink(){
 
 	mkdir ${SLBIO_BASE_PATH}$RUN_NAME"/"${1}
 
-	for sample in $(awk 'BEGIN{FS=","}/Sample_ID/,EOF {print $1}' "${SLBIO_BASE_PATH}"$RUN_NAME/""*"_"${1}".csv" | sed -n '/Sample_ID/!p')
+	for sample in $(awk 'BEGIN{FS=","}/Sample_ID/,EOF {print $1}' "${SLBIO_BASE_PATH}"$RUN_NAME/""*"_"${1}".csv" | sed -n '/Sample_Name/!p')
 		do
 		ln -s ${LSPQ_MISEQ_BASE_PATH}${RUN_NAME}"/"${LSPQ_MISEQ_SEQ_BRUT}${sample}"_"*".fastq.gz" ${SLBIO_BASE_PATH}$RUN_NAME"/"${1}
 	done	
