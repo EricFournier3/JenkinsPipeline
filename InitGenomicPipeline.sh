@@ -54,7 +54,8 @@ CreateSymLinkForCoreSNV(){
 
 	while read spec run
 		do
-		fastq_path=${LSPQ_MISEQ_BASE_PATH}${run}"/3_SequencesBrutes/"
+                #Modif_20200130
+		fastq_path=${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${run}"/3_SequencesBrutes/"
 		fastq_arr=($(find ${fastq_path} -maxdepth 1 -name "$spec"* | xargs -I % sh -c 'basename %'))
 
 		for fastq in "${fastq_arr[@]}"

@@ -10,9 +10,13 @@ source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 
 input_run_name=$1
+#Modif_20200130
+run_year=${input_run_name:0:4}
 echo "Input run is $input_run_name"
 #echo ${LSPQ_MISEQ_BASE_PATH}
-if [ -d "${LSPQ_MISEQ_BASE_PATH}${input_run_name}" ]
+#Modif_20200130
+echo "Run is ${LSPQ_MISEQ_BASE_PATH}${run_year}/${input_run_name}"
+if [ -d "${LSPQ_MISEQ_BASE_PATH}${run_year}/${input_run_name}" ]
 	then
 	:
 else
