@@ -16,7 +16,7 @@ CORESNV_EXEC="/data/Applications/SnvPhyl_Client/snvphyl-galaxy-cli/bin/snvphyl.p
 POSITION2PHYLOVIZ_SCRIPT="/data/Applications/GitScript/Jenkins/positions2phyloviz.pl"
 FUNANNOTATE_SCRIPT="/home/foueri01@inspq.qc.ca/InternetProgram/Funannotate/funannotate/funannotate.py"
 GRAPETREE_SCRIPT="/data/Applications/GrapeTree/grapetree.py"
-PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
+#PASS_FILE="/home/foueri01@inspq.qc.ca/pass.txt"
 PARSE_SPEC_TAXON_SCRIPT="/data/Applications/GitScript/Jenkins/ParseQiime.awk"
 SILVA_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/silva-132-99-nb-classifier.qza"
 GREENGENE_CLASSIFIER="/data/Applications/Miniconda/miniconda3/envs/qiime2-2019.10/Classifier/gg-13-8-99-nb-classifier.qza"
@@ -28,13 +28,18 @@ CLARKDB="/data/Databases/CLARK_DB"
 CORE_SNV_GALAXY_URL="http://localhost:48890/"
 CORE_SNV_GALAXY_KEY="0abbae19c25ebcf2d75f059af756ea05"
 
+slbio_user=$(whoami)
+ldap_user=$(echo ${slbio_user} | cut -d '@' -f 1)
+PASS_FILE="/home/${slbio_user}/pass.txt"
+
+
 if grep -qs '/mnt/Partage' /proc/mounts
         then
         :
 else
         echo "mount /mnt/Partage"
         read pw < $PASS_FILE
-        sudo mount -t cifs -o username=foueri01,password=$pw,vers=3.0 "//swsfi52p/partage" /mnt/Partage
+        sudo mount -t cifs -o username=${ldap_user},password=$pw,vers=3.0 "//swsfi52p/partage" /mnt/Partage
 fi
 
 errno=$?

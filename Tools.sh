@@ -149,7 +149,8 @@ ComputeMiSeqStat(){
 		LSPQ_MISEQ_RUNQUALFILE_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}"/"${LSPQ_MISEQ_MISEQ_RUN_TRACE}""${subdir}/"MiSeqStat_"*
 		if [ -e $LSPQ_MISEQ_RUNQUALFILE_PATH ]
 			then
-			:
+                        echo "MiSeq Stat already computed for cartridge ${subdir}"
+			
 		else
 			MakeCartridgeFastqLink $subdir
 			echo "Running MiSeqStat7.py ..."	
