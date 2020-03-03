@@ -7,7 +7,8 @@ Prokka
 
 HEADER
 
-PROKKA_EXEC="prokka --addgenes --compliant --force --cpus 28 --quiet"
+#PROKKA_EXEC="prokka --addgenes --compliant --force --cpus 28 --quiet" # l'option --compliant modifie le nom des contigs dans le fichier .gbk
+PROKKA_EXEC="prokka --addgenes  --force --cpus 28 --quiet" 
 
 source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 
@@ -36,6 +37,7 @@ for proj in "${projects_list[@]}"
 			echo -e "Annotation Prokka pour ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 			PROKKA_CMD="${PROKKA_EXEC} --outdir $OUTDIR --prefix $spec --locustag $spec $FASTA_FILTERED"
 			eval $PROKKA_CMD
+                        sed -i  '/LOCUS/s/\.000000/ /g' "${OUTDIR}/"*".gbk"
 		done
 	fi
 

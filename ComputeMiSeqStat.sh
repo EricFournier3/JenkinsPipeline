@@ -21,7 +21,11 @@ MakeCartridgeFastqLink(){
 
   for sample in $(awk 'BEGIN{FS=","}/Sample_ID/,EOF {print $1}' "${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/${LSPQ_MISEQ_EXPERIMENTAL}"*"_"${cartridge}".csv" | sed -n '/Sample_Name/!p')
                 do
-                ln -s "${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/${LSPQ_MISEQ_SEQ_BRUT}${sample}_"*".fastq.gz"  ${fastq_link_subdir} 2>/dev/null
+                if  ls "${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/${LSPQ_MISEQ_SEQ_BRUT}${sample}"*".fastq.gz" 1>/dev/null  2>&1
+		  then
+                  ln -s "${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/${LSPQ_MISEQ_SEQ_BRUT}${sample}_"*".fastq.gz"  ${fastq_link_subdir} 2>/dev/null
+                  #ln -s "${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/${LSPQ_MISEQ_SEQ_BRUT}${sample}_"*".fastq.gz"  ${fastq_link_subdir} 
+                fi
         done
 
 
@@ -30,7 +34,7 @@ MakeCartridgeFastqLink(){
 
 
 slbio_user=$(whoami)
-ldap_user=$(echo foueri01@inspq.qc.ca | cut -d '@' -f 1)
+ldap_user=$(echo ${slbio_user} | cut -d '@' -f 1)
 PASS_FILE="/home/${slbio_user}/pass.txt"
 
 if grep -qs '/mnt/Partage' /proc/mounts

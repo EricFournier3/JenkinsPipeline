@@ -26,7 +26,7 @@ for proj in "${projects_list[@]}"
 
 	if [ ${#spec_arr[@]} -gt 0 ]
 	then
-
+                
 		mkdir ${SLBIO_SPADES_PATH}
 		mkdir ${SLBIO_SPADES_BRUT_PATH}
 		mkdir ${SLBIO_SPADES_FILTER_PATH}	
@@ -45,13 +45,19 @@ for proj in "${projects_list[@]}"
 
 			echo -e "Assemblage Spades pour ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 			SPADES_CMD="${SPADES_EXEC} --pe1-1 $PAIR_R1_TRIMMO --pe1-2 $PAIR_R2_TRIMMO --pe1-s $UNPAIR_R1_TRIMMO --pe1-s  $UNPAIR_R2_TRIMMO -o $OUTDIR"
+			
 			eval $SPADES_CMD > /dev/null 2>&1
 			
 			echo -e "Assembly filtration for ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
 			seqkit fx2tab ${OUTDIR}"/contigs.fasta" | awk -v min_l=1000 'BEGIN{FS="_"}{if($4>=min_l){print $0}}' | seqkit tab2fx > ${OUT_FASTA_FILTERED}".tmp" 2>/dev/null
-			dedupe2.sh in=${OUT_FASTA_FILTERED}".tmp" out=$OUT_FASTA_FILTERED 2>/dev/null
-			rm ${OUT_FASTA_FILTERED}".tmp"
+			
+                        #dedupe2.sh in=${OUT_FASTA_FILTERED}".tmp" out=$OUT_FASTA_FILTERED".tmp2" 2>/dev/null
+			
+
+                        seqkit replace -p "(NODE_\d+_length_\d+_cov_\d+)\.\d*" -r '$1.000000' $OUT_FASTA_FILTERED".tmp" > $OUT_FASTA_FILTERED
+ 
+                        rm $OUT_FASTA_FILTERED".tmp"
 
 			echo -e "Calcul des statistiques d'assemblage pour ${spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
@@ -60,6 +66,7 @@ for proj in "${projects_list[@]}"
 			rm ${OUT_STAT}".tmp"	
 			to_delete=$(echo "${OUTDIR}/"{"K"*,"assembly_"*,"before"*,"corrected","dataset"*,"input_dataset.yaml","misc","mismatch_corrector","scaffolds.paths","tmp"})
                         rm_cmd="rm -r $to_delete" 
+			
 			eval $rm_cmd
 		done
 

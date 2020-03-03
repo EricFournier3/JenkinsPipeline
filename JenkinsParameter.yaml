@@ -53,6 +53,7 @@ jenkins_step:
    metabarcoding: ["Qiime"]
    pulsenet: ["Trimmomatic","Fastqc"]
    metagenomique: ["Metagenomic"]
+   na: []
 organism:
  - salmonella: 5000000
    ecoli: 5000000
@@ -87,6 +88,10 @@ quast_ref:
    "Blastomyces dermatitidis": ["EQ999973.1","fungus"]
    "Salmonella enterica": ["NC_003198.1","bacteria"]
    "Staphylococcus aureus": ["NC_007795.1","bacteria"]
+   "Campylobacter jejuni": ["NC_002163.1","bacteria"]
+   "Staphylococcus epidermidis": ["NC_004461.1","bacteria"]
+   "Streptococcus sanguinis": ["NC_009009.1","bacteria"]
+   "Pseudomonas aeruginosa": ["NC_009656.1","bacteria"]
 quast_ref_path: "/data/Databases/QUAST_REF/"
 ...
 

@@ -228,7 +228,7 @@ BuildResult(){
 		then
 		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}
 
-		for specs_dir in $(ls -d ${SLBIO_FUNANNOTATE_PATH}*)
+		for specs_dir in $(ls -d "${SLBIO_FUNANNOTATE_PATH}"*"/")
 			do
 			spec=$(basename $specs_dir)
 			spec=$(echo $spec | cut -d '_' -f 1)
