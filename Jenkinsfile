@@ -23,6 +23,7 @@ pipeline {
                 echo "Stage Init"
                     sh 'echo "In Jenkins file $RUN_NAME"'
               //      sh "/data/Applications/GitScript/Jenkins/InitGenomicPipeline.sh"
+              //        sh "/data/Applications/GitScript/Jenkins/Tools.sh ComputeMiSeqStat"
               //      sh '/data/Applications/GitScript/Jenkins/Tools.sh CoreSnvReference'
             }
         }
@@ -144,7 +145,6 @@ pipeline {
                 //voir https://stackoverflow.com/questions/40213654/how-to-invoke-bash-functions-defined-in-a-resource-file-from-a-jenkins-pipeline?rq=1
                 /*
                 sh '''#!/bin/bash
-                      /data/Applications/GitScript/Jenkins/Tools.sh ComputeMiSeqStat
                       /data/Applications/GitScript/Jenkins/Tools.sh CountReads
                       /data/Applications/GitScript/Jenkins/Tools.sh ComputeExpectedGenomesCoverage
                 '''
