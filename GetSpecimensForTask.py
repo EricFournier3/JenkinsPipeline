@@ -11,6 +11,7 @@ jenkins_param = sys.argv[1]
 #Le sample sheet des specimens de ce projet
 sample_sheet = sys.argv[2]
 
+
 #L etape Jenkins
 step = sys.argv[3]
 
@@ -32,6 +33,7 @@ sample_sheet_handle.readline()
 
 #Les specimens du projets et leur(s) pipeline(s) respectif(s)
 all_spec_pipelines_tup = ()
+
 
 for line in sample_sheet_handle:
     #print line,

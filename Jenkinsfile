@@ -22,9 +22,10 @@ pipeline {
             steps{
                 echo "Stage Init"
                     sh 'echo "In Jenkins file $RUN_NAME"'
-              //      sh "/data/Applications/GitScript/Jenkins/InitGenomicPipeline.sh"
-              //        sh "/data/Applications/GitScript/Jenkins/Tools.sh ComputeMiSeqStat"
-              //      sh '/data/Applications/GitScript/Jenkins/Tools.sh CoreSnvReference'
+              //    sh "/data/Applications/GitScript/Jenkins/InitGenomicPipeline.sh"
+              //    plus necessaire le ComputeMiSeqStat
+              //    sh "/data/Applications/GitScript/Jenkins/Tools.sh ComputeMiSeqStat"
+              //    sh '/data/Applications/GitScript/Jenkins/Tools.sh CoreSnvReference'
             }
         }
         stage('Trimmomatic'){

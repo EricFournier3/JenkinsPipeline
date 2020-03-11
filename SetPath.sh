@@ -143,6 +143,17 @@ SetFinalPath(){
 	SLBIO_KRAKEN_PATH=${SLBIO_PROJECT_PATH}${SLBIO_KRAKEN}
 	SLBIO_CENTRIFUGE_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CENTRIFUGE}
 	SLBIO_CLARK_PATH=${SLBIO_PROJECT_PATH}${SLBIO_CLARK}
+
+	#Modif_20200309
+	LSPQ_MISEQ_TRACE_PATH=${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_MISEQ_RUN_TRACE}
+
+#        GetAllCartridge
+#        GetCurrentCartridge
+
+#	echo "============ current_cartridge_list ${current_cartridge_list[@]}"
+#	echo "============ all_cartridge_list ${all_cartridge_list[@]}"
+
+ #       BuildSampleSheetName
 }
 
 GetProjectsNamefromRunName(){
@@ -154,4 +165,98 @@ GetProjectsNamefromRunName(){
         IFS=$IFS_BKP
         #echo "${projects_list[@]}"
 }
+
+#Modif_20200309
+
+
+GetCurrentCartridge(){
+   current_cartridge_list=()
+
+
+  if [ -f ${SLBIO_PROJECT_PATH}"CartridgeDone.txt" ]
+    then
+    new_run="false"
+    done_cartridge_list=()
+
+    while read cartridge
+      do
+      done_cartridge_list+=(${cartridge})
+    done < ${SLBIO_PROJECT_PATH}"CartridgeDone.txt"
+
+    for catrdg in ${all_cartridge_list[@]}
+      do
+        if [[ " ${done_cartridge_list[@]} " =~ " $catrdg " ]]
+          then
+          :
+        else
+         current_cartridge_list+=${catrdg}
+
+        fi
+    done
+
+  else
+    echo "NEWWWWWWWWWWWWWWWWWWW"
+    echo "ALL " ${all_cartridge_list[@]}
+    new_run="true"
+    current_cartridge_list=(${all_cartridge_list[@]})
+  fi
+
+ 
+  for cartridge in ${current_cartridge_list[@]}
+    do
+    echo $cartridge >>  ${SLBIO_PROJECT_PATH}"CartridgeDone.txt"
+
+  done
+}
+
+GetAllCartridge(){
+  echo "HERE 1"
+  all_cartridge_list=()
+  for cartridge in $(ls -d "${LSPQ_MISEQ_TRACE_PATH}"*"/")
+    do
+    echo "CARTRIDGE "$cartridge
+    all_cartridge=$(basename ${cartridge})
+    all_cartridge_list+=(${all_cartridge})
+  done
+ 
+  echo "ALL CARTYRIDGE "${all_cartridge_list[@]} 
+  
+  
+}
+
+
+#Modif_20200309
+GetDoneCartridge(){
+  done_cartridge_list=()
+
+  if [ -f ${SLBIO_PROJECT_PATH}"CartridgeDone.txt" ]
+    then
+    while read cartridge
+      do
+      done_cartridge_list+=(${cartridge})
+     done < ${SLBIO_PROJECT_PATH}"CartridgeDone.txt" 
+  
+  fi
+}
+
+#Modif_20200309
+BuildSampleSheetName(){
+  suffix=$(printf "%s_" "${current_cartridge_list[@]}")
+  echo "suffix before "$suffix
+  samplesheet_suffix=${suffix%_}
+  #prefix=$(basename "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}")
+  prefix=${RUN_NAME}
+
+  echo "Suffix ${samplesheet_suffix}"
+  echo "prefix ${prefix}"
+
+  final_sample_sheet_name=${prefix}_${samplesheet_suffix}"_final.csv"
+  id_list_file_name="ID_list_"${samplesheet_suffix}".txt"
+  echo "---- final_sample_sheet_name ${final_sample_sheet_name}"
+  echo "----id_list_file_name ${id_list_file_name}"
+
+  echo ${SLBIO_PROJECT_PATH}${id_list_file_name} > ${SLBIO_PROJECT_PATH}"CurrentIDlistFileName.txt"  
+  echo ${SLBIO_PROJECT_PATH}${final_sample_sheet_name} > ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt" 
+}
+
 
