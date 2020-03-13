@@ -24,3 +24,28 @@ else
 	exit 1
 fi
 	
+
+
+param_samplesheet_name=$2
+echo "****** param_samplesheet_name ${param_samplesheet_name}"
+
+
+if [ "${param_samplesheet_name}" = "no_sample_sheet" ]
+  then
+  echo "Aucun sample sheet en parametre"
+else
+  echo "Un samplesheet en parametre"
+
+  if [ -f ${LSPQ_MISEQ_BASE_PATH}${run_year}/${input_run_name}/${LSPQ_MISEQ_EXPERIMENTAL}${param_samplesheet_name} ]
+    then
+    echo "OK SAMPLESHEET EXIST"
+    
+  else
+    
+    echo "ERREUR: La samplesheet ${LSPQ_MISEQ_BASE_PATH}${run_year}/${input_run_name}/${LSPQ_MISEQ_EXPERIMENTAL}${param_samplesheet_name} n'existe pas !!!!!!!!!!"
+    exit 1
+  fi
+
+fi
+
+

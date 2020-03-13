@@ -13,7 +13,7 @@ GetProjectsNamefromRunName
 
 EXEC="/data/Applications/Trimmomatic/Trimmomatic-0.36/trimmomatic-0.36.jar"
 ADAPTFILE="/data/Applications/Trimmomatic/Trimmomatic-0.36/adapters/NexteraPE-PE.fa"
-
+echo "IN TRIMMO *******  "${PARAM_SAMPLESHEET_NAME}
 
 echo "PROJECT LIST "${projects_list[@]}
 

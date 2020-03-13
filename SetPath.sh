@@ -93,6 +93,8 @@ SetStaticPath(){
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 	#Modif_20200130
 	RUN_YEAR=${RUN_NAME:0:4}
+
+        
 }
 
 
@@ -169,9 +171,22 @@ GetProjectsNamefromRunName(){
 #Modif_20200309
 
 
+
 GetCurrentCartridge(){
    current_cartridge_list=()
 
+  if [ "$1" = "newpipeline" ]
+    then
+    #echo "NEW PIPELINE NEEDED"
+    echo ${SLBIO_PROJECT_PATH}"CartridgeDone.txt"
+    while read cartridge
+      do
+      done_cartridge_list+=(${cartridge})
+    done < ${SLBIO_PROJECT_PATH}"CartridgeDone.txt"
+
+    current_cartridge_list=(${done_cartridge_list[@]})
+    return 
+  fi
 
   if [ -f ${SLBIO_PROJECT_PATH}"CartridgeDone.txt" ]
     then
@@ -195,8 +210,8 @@ GetCurrentCartridge(){
     done
 
   else
-    echo "NEWWWWWWWWWWWWWWWWWWW"
-    echo "ALL " ${all_cartridge_list[@]}
+   # echo "NEWWWWWWWWWWWWWWWWWWW"
+    #echo "ALL " ${all_cartridge_list[@]}
     new_run="true"
     current_cartridge_list=(${all_cartridge_list[@]})
   fi
@@ -210,16 +225,16 @@ GetCurrentCartridge(){
 }
 
 GetAllCartridge(){
-  echo "HERE 1"
+  #echo "HERE 1"
   all_cartridge_list=()
   for cartridge in $(ls -d "${LSPQ_MISEQ_TRACE_PATH}"*"/")
     do
-    echo "CARTRIDGE "$cartridge
+   # echo "CARTRIDGE "$cartridge
     all_cartridge=$(basename ${cartridge})
     all_cartridge_list+=(${all_cartridge})
   done
  
-  echo "ALL CARTYRIDGE "${all_cartridge_list[@]} 
+  #echo "ALL CARTYRIDGE "${all_cartridge_list[@]} 
   
   
 }
@@ -241,19 +256,34 @@ GetDoneCartridge(){
 
 #Modif_20200309
 BuildSampleSheetName(){
+
+  if [ "$1" = "newpipeline" ]
+    then 
+   # echo  "MY RUN NAME "${RUN_NAME}
+    final_sample_sheet_name="$2"
+    #echo "FOR NEW PIPELINE SAMPLESHEET IS ${final_sample_sheet_name}"
+    samplesheet_suffix=$(echo ${final_sample_sheet_name/%.csv/} | cut -d '_' -f 3)
+    id_list_file_name="ID_list_"${samplesheet_suffix}".txt"
+   # echo "ID LIST FILE NAME "${id_list_file_name}
+    echo ${SLBIO_PROJECT_PATH}${id_list_file_name} > ${SLBIO_PROJECT_PATH}"CurrentIDlistFileName.txt"
+    echo ${SLBIO_PROJECT_PATH}${final_sample_sheet_name} > ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt"
+    return 
+  fi
+
+
   suffix=$(printf "%s_" "${current_cartridge_list[@]}")
-  echo "suffix before "$suffix
+  #echo "suffix before "$suffix
   samplesheet_suffix=${suffix%_}
   #prefix=$(basename "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}")
   prefix=${RUN_NAME}
 
-  echo "Suffix ${samplesheet_suffix}"
-  echo "prefix ${prefix}"
+  #echo "Suffix ${samplesheet_suffix}"
+  #echo "prefix ${prefix}"
 
   final_sample_sheet_name=${prefix}_${samplesheet_suffix}"_final.csv"
   id_list_file_name="ID_list_"${samplesheet_suffix}".txt"
-  echo "---- final_sample_sheet_name ${final_sample_sheet_name}"
-  echo "----id_list_file_name ${id_list_file_name}"
+ # echo "---- final_sample_sheet_name ${final_sample_sheet_name}"
+ # echo "----id_list_file_name ${id_list_file_name}"
 
   echo ${SLBIO_PROJECT_PATH}${id_list_file_name} > ${SLBIO_PROJECT_PATH}"CurrentIDlistFileName.txt"  
   echo ${SLBIO_PROJECT_PATH}${final_sample_sheet_name} > ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt" 

@@ -28,13 +28,19 @@ BuildSlbioStruct(){
           echo -e "Création des sous répertoires FASTQ_BRUT QC_FASTQC_BRUT_FASTQC FASTQ_CLEAN_TRIMMOMATIC  QC_FASTQ_CLEAN_FASTQC\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
         fi
 
-        GetAllCartridge
-        GetCurrentCartridge
+        if [ ${PARAM_SAMPLESHEET_NAME} = "no_sample_sheet" ]
+          then
+          GetAllCartridge
+          GetCurrentCartridge
+          BuildSampleSheetName
+        else
+          GetCurrentCartridge "newpipeline"
+          BuildSampleSheetName "newpipeline" ${PARAM_SAMPLESHEET_NAME}
+        fi
 
         echo "============ current_cartridge_list ${current_cartridge_list[@]}"
         echo "============ all_cartridge_list ${all_cartridge_list[@]}"
 
-        BuildSampleSheetName
 }
 
 
@@ -109,6 +115,37 @@ CreateSymLinkForCoreSNV(){
 
 
 CreateSymLink(){
+  echo "IN NEW CREATESYMLINK"
+
+
+  if [ ${PARAM_SAMPLESHEET_NAME} = "no_sample_sheet" ]
+    then
+    :
+    #ICI LE CODE DE CreateSymLinkOBSOLETE
+  
+  else
+    :
+    #sudo cp "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${PARAM_SAMPLESHEET_NAME}" $SLBIO_PROJECT_PATH
+
+    #awk '{sub("\r$", "");print}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}" >  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp"
+    #sed -n '/Sample_ID/,$p' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2"
+
+    #awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_Name"){print $0}}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3"
+   
+    #sudo rm  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
+    #cat "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
+    #echo "mmmmmmmmmmmmmmmmmmmmmmmmmm ${final_sample_sheet_name}" 
+   
+    awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}" > ${SLBIO_PROJECT_PATH}${id_list_file_name} 
+    
+  fi
+
+
+}
+
+
+
+CreateSymLinkOBSOLETE(){
   for cartridge in ${current_cartridge_list[@]} 
     do
     echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq de la cartouche ${cartridge} vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
@@ -271,7 +308,7 @@ for proj in "${projects_list[@]}"
         #
         #TODO IL NE FAUT PAS REFEAIRE LES CASSETTE DEJA FAITE 
         #TODO AREACTIVER
-	RenameFastq
+	#RenameFastq
 done
 
 
