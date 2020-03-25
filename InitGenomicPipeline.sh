@@ -114,81 +114,80 @@ CreateSymLinkForCoreSNV(){
 }
 
 
-CreateSymLink(){
-  echo "IN NEW CREATESYMLINK"
+CreateSampleSheetForNewPipeline(){
+    echo " ************************************************************************************ IN CreateSampleSheetForNewPipeline"
 
 
-  if [ ${PARAM_SAMPLESHEET_NAME} = "no_sample_sheet" ]
-    then
-    :
-    #ICI LE CODE DE CreateSymLinkOBSOLETE
-  
-  else
-    :
-    #sudo cp "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${PARAM_SAMPLESHEET_NAME}" $SLBIO_PROJECT_PATH
+    sudo cp "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${PARAM_SAMPLESHEET_NAME}" $SLBIO_PROJECT_PATH
 
-    #awk '{sub("\r$", "");print}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}" >  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp"
-    #sed -n '/Sample_ID/,$p' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2"
+    awk '{sub("\r$", "");print}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}" >  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp"
+    sed -n '/Sample_ID/,$p' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2"
 
-    #awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_Name"){print $0}}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3"
+    awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_Name"){print $0}}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp2" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3"
    
-    #sudo rm  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
-    #cat "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
+    sudo rm  "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
+    cat "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}.temp3" > "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}"
     #echo "mmmmmmmmmmmmmmmmmmmmmmmmmm ${final_sample_sheet_name}" 
    
     awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' "${SLBIO_PROJECT_PATH}${PARAM_SAMPLESHEET_NAME}" > ${SLBIO_PROJECT_PATH}${id_list_file_name} 
     
-  fi
 
 
 }
 
 
 
-CreateSymLinkOBSOLETE(){
-  for cartridge in ${current_cartridge_list[@]} 
-    do
-    echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq de la cartouche ${cartridge} vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
+CreateSymLink(){
 
-    sudo cp "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}_${cartridge}.csv"  $SLBIO_PROJECT_PATH
-    sample_sheet_name=$(basename "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}_${cartridge}.csv")
-
-    awk '{sub("\r$", "");print}' ${SLBIO_PROJECT_PATH}${sample_sheet_name} > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp"
-   
-    #Supprimer le header
-    sed -n '/Sample_ID/,$p' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp" >  ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2"
-
-    #Extraire les sample id du projet cible
-    #awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" >> ${SLBIO_PROJECT_PATH}"ID_list.txt"
-    awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_Name"){print $0}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3"
+   if [ ! ${PARAM_SAMPLESHEET_NAME} = "no_sample_sheet" ]
+    then
+    CreateSampleSheetForNewPipeline
  
-    cat ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3" >> ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}".temp"
+   else
 
-  done
+	  for cartridge in ${current_cartridge_list[@]} 
+	    do
+	    echo -e "Création des liens symboliques fastq.gz de S:Partage/LSPQ_MiSeq de la cartouche ${cartridge} vers FASTQ_BRUT\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 
-  sed  '2,${/Sample_Name/d}' ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}".temp" > ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}
-  echo "HERE 2 "${id_list_file_name}
-  awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}  > ${SLBIO_PROJECT_PATH}${id_list_file_name}
+	    sudo cp "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}_${cartridge}.csv"  $SLBIO_PROJECT_PATH
+	    sample_sheet_name=$(basename "${LSPQ_MISEQ_RUN_PATH}${LSPQ_MISEQ_EXPERIMENTAL}${RUN_NAME}_${cartridge}.csv")
+
+	    awk '{sub("\r$", "");print}' ${SLBIO_PROJECT_PATH}${sample_sheet_name} > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp"
+	   
+	    #Supprimer le header
+	    sed -n '/Sample_ID/,$p' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp" >  ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2"
+
+	    #Extraire les sample id du projet cible
+	    #awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" >> ${SLBIO_PROJECT_PATH}"ID_list.txt"
+	    awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project || $1 == "Sample_Name"){print $0}}' ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp2" > ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3"
+	 
+	    cat ${SLBIO_PROJECT_PATH}${sample_sheet_name}".temp3" >> ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}".temp"
+
+	  done
+
+	  sed  '2,${/Sample_Name/d}' ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}".temp" > ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}
+	  echo "HERE 2 "${id_list_file_name}
+	  awk -v project=$PROJECT_NAME 'BEGIN{FS=","}{if($9 == project){print $1}}' ${SLBIO_PROJECT_PATH}${final_sample_sheet_name}  > ${SLBIO_PROJECT_PATH}${id_list_file_name}
 
 
-  CountNumberOfCoreSnvSpec
-   
-  if [ $NUMBER_OF_CORE_SNV_SPEC -gt 0 ] && [ -s $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH ]
-                then
-                CreateSymLinkForCoreSNV
-  else
-                myarr=();
-                for i in $(cat ${SLBIO_PROJECT_PATH}${id_list_file_name})
-                        do
-                        myarr+=($i)
-                done
+	  CountNumberOfCoreSnvSpec
+	   
+	  if [ $NUMBER_OF_CORE_SNV_SPEC -gt 0 ] && [ -s $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH ]
+			then
+			CreateSymLinkForCoreSNV
+	  else
+			myarr=();
+			for i in $(cat ${SLBIO_PROJECT_PATH}${id_list_file_name})
+				do
+				myarr+=($i)
+			done
 
-                for j in ${myarr[@]}
-                        do
-                        ln -s ${LSPQ_MISEQ_FASTQ_PATH}${j}"_"*".fastq.gz" $SLBIO_FASTQ_BRUT_PATH
-                done
-  fi
-
+			for j in ${myarr[@]}
+				do
+				ln -s ${LSPQ_MISEQ_FASTQ_PATH}${j}"_"*".fastq.gz" $SLBIO_FASTQ_BRUT_PATH
+			done
+	  fi
+fi
 }
 
 
@@ -297,18 +296,15 @@ for proj in "${projects_list[@]}"
 	do
 	PROJECT_NAME=$proj
 	SetFinalPath $PROJECT_NAME
-        #Modif_20200309
-        #GetDoneCartridge
-        #GetCurrentCartridge
-        #TODO AREACTER LES  SUIVANTS
 	BuildSlbioStruct	
-        #BuildSampleSheetName
         CreateSymLink
-	echo "NUMBER OF CORE SNV SPEC "$NUMBER_OF_CORE_SNV_SPEC
-        #
-        #TODO IL NE FAUT PAS REFEAIRE LES CASSETTE DEJA FAITE 
-        #TODO AREACTIVER
-	#RenameFastq
+
+        if [ ${PARAM_SAMPLESHEET_NAME} = "no_sample_sheet" ]
+          then
+          echo "****************************** ON RENOMME LES FASTQ"
+	  RenameFastq
+         fi
+
 done
 
 

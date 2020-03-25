@@ -65,6 +65,7 @@ organism:
    Inconnu: 5000000
    Rhuminococcaceae: 3800000
    Prevotella: 4000000
+   Mycoplasma: 1000000
 GenomeLengthFile: "/data/Applications/GitScript/Jenkins/lib/ProkaryotesFungiGenomeLength.csv"
 coresnv_ref:
  - "Cutibacterium acnes": "NC_014039.1"
@@ -92,6 +93,7 @@ quast_ref:
    "Staphylococcus epidermidis": ["NC_004461.1","bacteria"]
    "Streptococcus sanguinis": ["NC_009009.1","bacteria"]
    "Pseudomonas aeruginosa": ["NC_009656.1","bacteria"]
+   "Mycoplasma hominis": ["NC_013511.1","bacteria"] 
 quast_ref_path: "/data/Databases/QUAST_REF/"
 ...
 

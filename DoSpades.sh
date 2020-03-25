@@ -15,6 +15,21 @@ GetProjectsNamefromRunName
 
 STEP="Spades"
 
+
+CheckIfSpadesAlreadyDone(){
+  echo "IN CheckIfSpadesAlreadyDone for spec ${1}"
+  spades_done="false"  
+
+  if [ -d ${SLBIO_SPADES_BRUT_PATH}${1} ]
+     then
+     spades_done="true"
+  else
+     spades_done="false"
+  fi
+  
+}
+
+
 for proj in "${projects_list[@]}"
 
         do
@@ -41,6 +56,16 @@ for proj in "${projects_list[@]}"
 
 	  for spec in "${spec_arr[@]}"
                         do
+
+			CheckIfSpadesAlreadyDone ${spec}
+
+			echo "%%%%%%%%%%%%%%%%%%%5 for ${spec} spades status is ${spades_done} "
+
+                        if [ "$spades_done" = "true" ]
+                          then continue
+                        fi
+			
+ 		        echo "Do SPades for ${spec}"
 
                         PAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R1_PAIR.fastq.gz"
                         UNPAIR_R1_TRIMMO=${SLBIO_FASTQ_TRIMMO_PATH}${spec}"_R1_UNPAIR.fastq.gz"
