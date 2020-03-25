@@ -13,6 +13,18 @@ GetProjectsNamefromRunName
 
 STEP="Metagenomic"
 
+CheckIfMetagenomicAlreadyDone(){
+  echo "In CheckIfMetagenomicAlreadyDone"
+  if [ -f "${SLBIO_CENTRIFUGE_PATH}${1}_ClassificationSummary.txt" ]
+    then
+    metagenomic_done="true"
+  else
+    metagenomic_done="false"
+  fi
+}
+
+
+
 DoKraken(){
 	echo "In Kraken"
 	current_kraken_spec=$1
@@ -74,6 +86,48 @@ DoClark(){
 
 }
 
+
+for proj in "${projects_list[@]}"
+        do
+        PROJECT_NAME=$proj
+        SetFinalPath $PROJECT_NAME
+        SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
+        spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
+
+        if [ ${#spec_arr[@]} -gt 0 ]
+        then
+
+		if [ -d ${SLBIO_KRAKEN_PATH} ]
+		  then
+		  :
+		else
+                  mkdir -p  $SLBIO_KRAKEN_PATH
+                  mkdir -p  $SLBIO_CENTRIFUGE_PATH 
+                  mkdir -p  $SLBIO_CLARK_PATH
+		fi
+          	
+		for spec in "${spec_arr[@]}"
+			do
+			CheckIfMetagenomicAlreadyDone $spec
+
+			if [ ${metagenomic_done} = "true" ]
+			  then
+                          continue
+			fi                        
+
+			DoKraken $spec
+			DoCentrifuge $spec			
+			DoClark $spec
+		done	
+		 
+	fi
+done
+
+
+exit 0
+
+
+#CODE OBSOLETE CI-DESSOUS
 
 for proj in "${projects_list[@]}"
         do
