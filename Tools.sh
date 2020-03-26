@@ -5,7 +5,101 @@ SetStaticPath
 GetProjectsNamefromRunName
 
 
+RemoveNumericPrefixFromSubDir(){
+
+       #for d in $(ls -d */);do current=$d;echo "CURRENT: "${current};new=$(echo $d | cut -d '_' -f2-);echo "NEW: "$new;done
+
+        #re='^[0-9]+$'
+	#if ! [[ $yournumber =~ $re ]] ; then
+   	#	echo "error: Not a number" >&2; exit 1
+	#fi
+
+
+	echo "IN RemoveNumericPrefixFromSubDir"
+
+
+        for proj in "${projects_list[@]}"
+	  do
+          PROJECT_NAME=$proj
+     
+	  SetFinalPath $PROJECT_NAME
+
+
+	  for mydir in $(ls -d "${SLBIO_PROJECT_PATH}"*"/")
+            do
+            current_dirname=$(basename ${mydir})
+            dir_prefix=$(echo ${current_dirname} | cut -d '_' -f1)
+
+            regex="^[0-9]+$"
+            if  [[ ${dir_prefix} =~ $regex ]]
+              then 
+	      echo "CURRENT DIRNAME ${current_dirname}"
+             
+              new_dirname=$(echo ${current_dirname} | cut -d '_' -f2-)
+              echo "NEW DIRNAME ${new_dirname}"
+         
+	      echo ""
+
+            fi
+
+
+          done
+
+
+	done
+
+
+}
+
+
 AddNumericPrefixToSubdir(){
+ 	slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
+		
+	echo "stage is $STAGE"
+
+	for proj in "${projects_list[@]}"
+                do
+		prefix=1
+                PROJECT_NAME=$proj
+                SetFinalPath $PROJECT_NAME
+		
+		for subdir in "${slbio_subdir_arr[@]}"
+			do
+			
+			if [ "$STAGE" = "WEB_REPORT" ]
+				then
+				subdir_path=${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}${subdir}
+				if [ -d ${subdir_path} ]
+					then
+					new_subdir_name="${prefix}_${subdir}"
+					new_subdir_path="${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}${new_subdir_name}"
+					if [ "$subdir" != "WEB_REPORT" ]
+						then
+						sudo mv $subdir_path  $new_subdir_path
+						prefix=$(echo $((++prefix)))
+						sudo sed -i "s/\\\\${subdir}\\\\/\\\\${new_subdir_name}\\\\/g" ${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}"WEB_REPORT/BuildResultats.js"
+						#echo "ANALYSIS PATH IS " ${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}
+					fi
+				        #echo "In webreport ${subdir_path}  -- ${new_subdir_path}"
+				fi
+			else
+				subdir_path=${SLBIO_PROJECT_PATH}${subdir}
+				if [ -d ${subdir_path} ]
+                                        then
+                                        new_subdir_name="${prefix}_${subdir}"
+                                        new_subdir_path="${SLBIO_PROJECT_PATH}${new_subdir_name}"
+                                        mv $subdir_path  $new_subdir_path
+                                        prefix=$(echo $((++prefix)))
+					#echo "In clean ${subdir_path}  -- ${new_subdir_path}"
+
+                                fi
+			fi
+
+		done
+	done
+}
+
+AddNumericPrefixToSubdir_OBSOLETE_20200326(){
  	slbio_subdir_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  slbio_subdir  2>&1))
 		
 	echo "stage is $STAGE"
@@ -242,7 +336,8 @@ CountReads(){
 			do
 			fastq_name=$(echo $(basename $i))
 
-                        if grep -l "${fastq_name}" $read_count_file_before  2>/dev/null
+                        if grep -l "${fastq_name}" $read_count_file_before   > /dev/null 2>&1
+
 			  then
                           :
                         else
@@ -261,7 +356,7 @@ CountReads(){
 			do
 			fastq_name=$(echo $(basename $i))
 
-			if grep -l "${fastq_name}"  $read_count_file_after  2>/dev/null
+			if grep -l "${fastq_name}"  $read_count_file_after > /dev/null 2>&1
 			  then
 			  :
                         else

@@ -153,10 +153,19 @@ BuildResult(){
 	
 	sed -i "1i var project_analysis_basedir = \"$LSPQ_MISEQ_PROJECT_ANALYSES_PATH\";" $build_resultats_slbio_js_path
 
-	sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1}
+
+	if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1} ]
+          then
+	  sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1}
+        fi
 	sudo cp ${SLBIO_FASTQC_BRUT_PATH}*".html" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_1}
-	sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2}
+
+        if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2} ]
+          then
+	  sudo mkdir ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2}
+        fi
 	sudo cp ${SLBIO_FASTQC_TRIMMO_PATH}*".html" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FASTQC_2}
+
 	path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_FASTQC_1}
 	path_1=${path_1//\//\\\\}
 	path_1=${path_1//\\/\\\\}
@@ -170,7 +179,11 @@ BuildResult(){
 	if [ -d ${SLBIO_SPADES_PATH} ]
 		then
 		:
-		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}
+
+                if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT} ]
+                  then
+         	  sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}
+                fi
 
 		for subdir in $(ls -d ${SLBIO_SPADES_BRUT_PATH}*)
 			do
@@ -178,10 +191,16 @@ BuildResult(){
 			sudo cp ${subdir}"/contigs.fasta"  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_BRUT}"${spec}.fasta"
 		done
 
-		sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}
+		if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER} ]
+                  then
+                  sudo mkdir -p  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}
+                fi
 		sudo cp ${SLBIO_SPADES_FILTER_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_FILTER}		
 
-		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUALIMAP}
+		if [ ! ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUALIMAP} ]
+                  then 
+		  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUALIMAP}
+                fi
 
 		for subdir in $(ls -d ${SLBIO_SPADES_QC_QUALIMAP_PATH}*)
 			do
@@ -190,7 +209,10 @@ BuildResult(){
 			
 		done
 
-		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST}
+                if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST} ]
+                  then
+		  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST}
+                fi
 		sudo cp -r ${SLBIO_SPADES_QC_QUAST_ALL}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_SPADES_QC_QUAST} 2>/dev/null
 
 		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_SPADES_BRUT}
@@ -216,7 +238,11 @@ BuildResult(){
 
 	 if [ -d ${SLBIO_PROKKA_PATH} ]
 		then
-		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
+
+		if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA} ]
+                  then
+ 		  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
+                fi
 		sudo cp ${SLBIO_PROKKA_PATH}*"/"*".gbk" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_PROKKA}
 		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_PROKKA}
 		path_1=${path_1//\//\\\\}
@@ -226,7 +252,11 @@ BuildResult(){
 
 	if [ -d ${SLBIO_FUNANNOTATE_PATH} ] 
 		then
-		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}
+
+		if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE} ]
+                  then
+		  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_FUNANNOTATE}
+		fi
 
 		for specs_dir in $(ls -d "${SLBIO_FUNANNOTATE_PATH}"*"/")
 			do
@@ -244,7 +274,11 @@ BuildResult(){
 	if [ -d ${SLBIO_CORESNV_PATH} ]
 		then
 		:
-            	sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV}
+
+                if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV} ]
+                  then
+            	  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV}
+                fi
 		sudo cp ${SLBIO_CORESNV_PATH}*".json" ${SLBIO_CORESNV_PATH}*".txt" ${SLBIO_CORESNV_PATH}*".nwk" ${SLBIO_CORESNV_PATH}*".newick" ${SLBIO_CORESNV_PATH}*".phy"  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CORESNV} 2>/dev/null 
 
 		for tsv_file in $(ls ${SLBIO_CORESNV_PATH}*".tsv")
@@ -261,7 +295,12 @@ BuildResult(){
 
 	if [ -d ${SLBIO_QIIME_PATH} ]
 		then
-            	sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME}
+
+                if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME} ]
+                  then
+            	  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME}
+                fi
+
 		sudo cp ${SLBIO_QIIME_PATH}*.qza ${SLBIO_QIIME_PATH}*.qzv ${SLBIO_QIIME_PATH}*.txt  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_QIIME} 2>/dev/null
 
 		path_1=${LSPQ_MISEQ_PROJECT_ANALYSES_PATH_FROM_SPARTAGE}${SLBIO_QIIME}
@@ -273,7 +312,11 @@ BuildResult(){
 
 	if [ -d ${SLBIO_METAGENOMIC_SHOTGUN_PATH} ]
 		then
-		sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CENTRIFUGE}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CLARK}
+
+		if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN} ]
+		  then
+		  sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CENTRIFUGE}  ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CLARK}
+                fi    
 
 		sudo cp ${SLBIO_KRAKEN_PATH}"Report_"* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_KRAKEN}	
 		sudo cp ${SLBIO_CENTRIFUGE_PATH}*"_ClassificationResult_Kraken.txt" ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_CENTRIFUGE}
@@ -301,11 +344,31 @@ BuildResult(){
 }
 
 TransferWebFiles(){
-        sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
+
+        if [ ! -d ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT} ]
+          then
+          sudo mkdir -p ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
+        fi
 	sudo cp ${SLBIO_WEBREPORT_PATH}* ${LSPQ_MISEQ_PROJECT_ANALYSES_PATH}${SLBIO_WEBREPORT}
 }
 
+
 BuildSpecimensList(){
+	proj_spec_arr=()
+
+	for id_list_file in $(ls -1 ${SLBIO_PROJECT_PATH}ID_list_C*);
+          do
+		for sp in $(awk '{print $1}' ${id_list_file})
+			do
+			proj_spec_arr+=($sp)
+		done
+        done
+
+}
+
+
+
+BuildSpecimensListOBSOLETE(){
 	proj_spec_arr=()
 
 	for sp in $(awk 'BEGIN{FS=","}NR>1{print $1}' $SAMPLE_SHEET)
@@ -325,7 +388,8 @@ for proj in "${projects_list[@]}"
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
-        SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
+	SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
+
 	PROJECT_DESC=""
 	BuildSpecimensList 
 
