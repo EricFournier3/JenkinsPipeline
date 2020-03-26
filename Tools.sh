@@ -103,6 +103,52 @@ CoreSnvReference(){
 
 
 ComputeExpectedGenomesCoverage(){
+       
+
+	echo "Genome file is $GENOME_LENGTH_FILE"
+	temp_file_base=$(echo $(dirname $GENOME_LENGTH_FILE))/
+	temp_file=${temp_file_base}"temp.txt"
+	echo "temp is $temp_file"
+        awk 'BEGIN{FS=","}NR>1{print $1"\t"$8}' $GENOME_LENGTH_FILE > $temp_file
+
+
+        is_new_pipeline="false"
+
+	
+	OUT_FILE=${SLBIO_RUN_PATH}"ExpectedGenomeCoverage.txt"
+
+
+        if [ ! -f ${OUT_FILE} ]
+	  then
+            echo -e "Sample\tOrganism\tGenomeLength\tCoverage\n" > $OUT_FILE
+	else
+	    :
+        fi
+
+	for proj in "${projects_list[@]}"
+                do
+                PROJECT_NAME=$proj
+                SetFinalPath $PROJECT_NAME
+
+		samp_sheet=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
+
+		if [[ ${samp_sheet} == *"New"* ]] #Pas besoin de recalculer pour new pipeline
+		  then
+		  return
+		else
+		  compute_cov_cmd="/usr/bin/python2.7 $COMPUTE_SAMPLE_COVERAGE_SCRIPT  $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH  $temp_file  $LSPQ_MISEQ_RUN_PATH $OUT_FILE $SLBIO_FASTQ_BRUT ${samp_sheet}"
+
+                  eval $compute_cov_cmd
+                fi 
+	done
+
+	sudo cp $OUT_FILE ${LSPQ_MISEQ_RUN_PATH}${LSPQ_ANALYSES}
+	#sudo rm $OUT_FILE on ne supprime pas, on le garde pour les autres cassettes
+	rm $temp_file
+}
+
+
+ComputeExpectedGenomesCoverageOBSOLETE(){
 	echo "Genome file is $GENOME_LENGTH_FILE"
 	temp_file_base=$(echo $(dirname $GENOME_LENGTH_FILE))/
 	temp_file=${temp_file_base}"temp.txt"
@@ -126,7 +172,6 @@ ComputeExpectedGenomesCoverage(){
 	sudo rm $OUT_FILE
 	rm $temp_file
 }
-
 
 Clean(){
         for proj in "${projects_list[@]}"
@@ -175,7 +220,65 @@ MakeCartridgeFastqLink(){
 
 }
 
+
+
 CountReads(){
+	for proj in "${projects_list[@]}"
+		do
+		PROJECT_NAME=$proj
+        	SetFinalPath $PROJECT_NAME
+		read_count_file_name="ReadCount.txt"
+		read_count_file_before=${SLBIO_FASTQ_BRUT_PATH}"$read_count_file_name"
+		read_count_file_after=${SLBIO_FASTQ_TRIMMO_PATH}"$read_count_file_name"
+
+
+		if [ ! -f ${read_count_file_before} ]
+                  then
+                      echo -e "Fichier_FASTQ\tRead_Count\n" > $read_count_file_before
+		fi
+
+
+		for i in $(ls -1 ${SLBIO_FASTQ_BRUT_PATH}*".fastq.gz")
+			do
+			fastq_name=$(echo $(basename $i))
+
+                        if grep -l "${fastq_name}" $read_count_file_before  2>/dev/null
+			  then
+                          :
+                        else
+			    echo -e "Count reads for $fastq_name \t$(date "+%Y-%m-%d @ %H:%M")" >>$SLBIO_LOG_FILE
+			    count=$(zcat $i | expr $(wc -l) / 4)
+			    echo -e "$fastq_name\t$count" >> $read_count_file_before
+		        fi
+		done
+
+		if [ ! -f ${read_count_file_after} ]
+                  then
+	             echo -e "Fichier_FASTQ\tRead_Count\n" > $read_count_file_after
+		fi
+
+		for i in $(ls -1 ${SLBIO_FASTQ_TRIMMO_PATH}*".fastq.gz")
+			do
+			fastq_name=$(echo $(basename $i))
+
+			if grep -l "${fastq_name}"  $read_count_file_after  2>/dev/null
+			  then
+			  :
+                        else
+			  echo -e "Count reads for $fastq_name \t$(date "+%Y-%m-%d @ %H:%M")" >>$SLBIO_LOG_FILE
+			  count=$(zcat $i | expr $(wc -l) / 4)
+			  echo -e "$fastq_name\t$count" >> $read_count_file_after
+                        fi
+		done
+	done
+
+}
+
+
+
+
+
+CountReadsOBSOLETE(){
 	for proj in "${projects_list[@]}"
 		do
 		PROJECT_NAME=$proj

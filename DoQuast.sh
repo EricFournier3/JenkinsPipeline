@@ -20,7 +20,7 @@ QUAST_EXEC="quast "
 
 CheckIfQuastAlreadyDone(){
   echo "In CheckIfQuastAlreadyDone for spec ${1}"
-  if [ -d ${SLBIO_SPADES_QC_QUAST_PATH}${spec} ]
+  if [ -d ${SLBIO_SPADES_QC_QUAST_PATH}${1} ]
     then
     quast_done="true"
   else

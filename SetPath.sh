@@ -93,6 +93,7 @@ SetStaticPath(){
 	GENOME_LENGTH_FILE=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  genome_length_file  2>&1))
 	#Modif_20200130
 	RUN_YEAR=${RUN_NAME:0:4}
+        SLBIO_RUN_PATH=${SLBIO_BASE_PATH}"$RUN_NAME/"
 
         
 }

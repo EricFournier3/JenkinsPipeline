@@ -85,7 +85,7 @@ for proj in "${projects_list[@]}"
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
-	SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
+	SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
 	spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
         
 	to_concat_spec_arr=()
@@ -110,7 +110,7 @@ for proj in "${projects_list[@]}"
 	
 	if [ ${#spec_arr[@]} -gt 0 ]
 		then
-		organism=$(sed -n '/epidemio/p' ${SLBIO_PROJECT_PATH}${RUN_NAME}.csv.temp3 | awk 'BEGIN{FS=","}NR==1{print $11}')
+		organism=$(sed -n '/epidemio/p' ${SAMPLE_SHEET} | awk 'BEGIN{FS=","}NR==1{print $11}')
 		get_ref_cmd="/usr/bin/python2.7 $CORESNV_REFERENCE_SCRIPT $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH $PARAM_FILE \"${organism}\" get 2>&1"
 		ref_acc_refpath=($(eval $get_ref_cmd))
 		acc=${ref_acc_refpath[0]}

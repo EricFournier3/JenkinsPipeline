@@ -50,7 +50,7 @@ for proj in "${projects_list[@]}"
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
-        SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
+        SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
         spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
 
 	if [ ${#spec_arr[@]} -gt 0 ]
