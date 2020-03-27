@@ -85,9 +85,12 @@ for proj in "${projects_list[@]}"
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
+
+
 	SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
 	spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
-        
+       
+
 	to_concat_spec_arr=()
 
         if [ -s $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH ]
@@ -110,6 +113,13 @@ for proj in "${projects_list[@]}"
 	
 	if [ ${#spec_arr[@]} -gt 0 ]
 		then
+
+         	if [ -d  ${SLBIO_CORESNV_PATH} ]
+                  then 
+                    echo "WARNING : Pour le projet $proj, l'étape CoreSNV a déja été executé avec une autre cartouche"
+                    continue
+	        fi
+
 		organism=$(sed -n '/epidemio/p' ${SAMPLE_SHEET} | awk 'BEGIN{FS=","}NR==1{print $11}')
 		get_ref_cmd="/usr/bin/python2.7 $CORESNV_REFERENCE_SCRIPT $SLBIO_RUN_PATH  $SLBIO_PROJECT_PATH $PARAM_FILE \"${organism}\" get 2>&1"
 		ref_acc_refpath=($(eval $get_ref_cmd))
@@ -170,9 +180,9 @@ for proj in "${projects_list[@]}"
 
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
-        	eval $coresnv_cmd
+         	eval $coresnv_cmd
 			
-        	eval $position2phyloviz_cmd
+         	eval $position2phyloviz_cmd
 
 		#ERIC FOURNIER 2019-11-01
 		sudo chmod 777 ${SLBIO_CORESNV_PATH}

@@ -17,7 +17,6 @@ BuildSlbioStruct(){
 	if [ -d $SLBIO_RUN_PATH ]
 		then :
                 RemoveNumericPrefixFromSubDir
-                echo "${SLBIO_RUN_PATH} existe déjà !"
         else
 		mkdir $SLBIO_RUN_PATH
 	fi

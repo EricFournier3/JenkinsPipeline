@@ -50,12 +50,20 @@ for proj in "${projects_list[@]}"
         do
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
+
+
+
         SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
         spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
 
 	if [ ${#spec_arr[@]} -gt 0 ]
 		then
 		
+		if [ -d  ${SLBIO_QIIME_PATH} ]
+          	  then
+          	  echo "WARNING : Pour le projet $proj, l'étape Qiime2 a déja été executé avec une autre cartouche"
+          	  continue
+        fi
 		tmp_dir=${SLBIO_QIIME_PATH}"TEMP"
 		fastq_concat_dir=${SLBIO_QIIME_PATH}"TEMP_FASTQ_CONCAT/"
 		mkdir -p ${fastq_concat_dir}  ${tmp_dir}
