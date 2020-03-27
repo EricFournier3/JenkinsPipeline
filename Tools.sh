@@ -7,24 +7,13 @@ GetProjectsNamefromRunName
 
 RemoveNumericPrefixFromSubDir(){
 
-       #for d in $(ls -d */);do current=$d;echo "CURRENT: "${current};new=$(echo $d | cut -d '_' -f2-);echo "NEW: "$new;done
-
-        #re='^[0-9]+$'
-	#if ! [[ $yournumber =~ $re ]] ; then
-   	#	echo "error: Not a number" >&2; exit 1
-	#fi
-
-
-	echo "IN RemoveNumericPrefixFromSubDir"
-
-
-        for proj in "${projects_list[@]}"
-	  do
+     for proj in "${projects_list[@]}"
+	do
           PROJECT_NAME=$proj
      
 	  SetFinalPath $PROJECT_NAME
 
-
+          #pour slbio00d
 	  for mydir in $(ls -d "${SLBIO_PROJECT_PATH}"*"/")
             do
             current_dirname=$(basename ${mydir})
@@ -33,22 +22,35 @@ RemoveNumericPrefixFromSubDir(){
             regex="^[0-9]+$"
             if  [[ ${dir_prefix} =~ $regex ]]
               then 
-	      echo "CURRENT DIRNAME ${current_dirname}"
-             
+                   
               new_dirname=$(echo ${current_dirname} | cut -d '_' -f2-)
-              echo "NEW DIRNAME ${new_dirname}"
-         
-	      echo ""
+              
+              new_dirpath=${SLBIO_PROJECT_PATH}${new_dirname}
+
+	      mv $mydir ${new_dirpath}
 
             fi
 
-
           done
 
+	  #pour LSPQ_MiSeq
+          for mydir in $(ls -d "${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}"*"/")
+            do
+              current_dirname=$(basename ${mydir})
+              dir_prefix=$(echo ${current_dirname} | cut -d '_' -f1)
 
-	done
+              regex="^[0-9]+$"
+              if  [[ ${dir_prefix} =~ $regex ]]
+                then
 
+                new_dirname=$(echo ${current_dirname} | cut -d '_' -f2-)
 
+                new_dirpath=${LSPQ_MISEQ_ANALYSIS_PROJECT_PATH}${new_dirname}
+                sudo  mv $mydir ${new_dirpath}
+
+              fi
+	  done
+     done
 }
 
 
