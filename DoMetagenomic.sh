@@ -14,7 +14,6 @@ GetProjectsNamefromRunName
 STEP="Metagenomic"
 
 CheckIfMetagenomicAlreadyDone(){
-  echo "In CheckIfMetagenomicAlreadyDone"
   if [ -f "${SLBIO_CENTRIFUGE_PATH}${1}_ClassificationSummary.txt" ]
     then
     metagenomic_done="true"
@@ -26,7 +25,6 @@ CheckIfMetagenomicAlreadyDone(){
 
 
 DoKraken(){
-	echo "In Kraken"
 	current_kraken_spec=$1
 	echo -e "Kraken on ${current_kraken_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
 	all_fastq=${SLBIO_FASTQ_TRIMMO_PATH}${current_kraken_spec}*"fastq.gz"
@@ -35,8 +33,6 @@ DoKraken(){
 }
 
 DoCentrifuge(){
-	
-	echo "In centrifuge"
 	
 	current_centrifuge_spec=$1
 	echo -e "Centrifuge on ${current_centrifuge_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
@@ -55,7 +51,6 @@ DoCentrifuge(){
 }
 
 DoClark(){
-	echo "In Clark"
 	settarget_cmd="set_targets.sh ${CLARKDB} bacteria viruses fungi"
 	current_clark_spec=$1
 	echo -e "Clark on ${current_clark_spec}\t$(date "+%Y-%m-%d @ %H:%M$S")" >> $SLBIO_LOG_FILE
@@ -126,29 +121,4 @@ done
 
 exit 0
 
-
-#CODE OBSOLETE CI-DESSOUS
-
-for proj in "${projects_list[@]}"
-        do
-        PROJECT_NAME=$proj
-        SetFinalPath $PROJECT_NAME
-        SAMPLE_SHEET="${SLBIO_PROJECT_PATH}"*".temp3"
-        spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
-
-        if [ ${#spec_arr[@]} -gt 0 ]
-        then
-                mkdir -p  $SLBIO_KRAKEN_PATH
-                mkdir -p  $SLBIO_CENTRIFUGE_PATH 
-                mkdir -p  $SLBIO_CLARK_PATH
-          	
-		for spec in "${spec_arr[@]}"
-			do
-			DoKraken $spec
-			DoCentrifuge $spec			
-			DoClark $spec
-		done	
-		 
-	fi
-done
 

@@ -86,11 +86,9 @@ for proj in "${projects_list[@]}"
         PROJECT_NAME=$proj
         SetFinalPath $PROJECT_NAME
 
-
 	SAMPLE_SHEET=$(cat ${SLBIO_PROJECT_PATH}"CurrentSampleSheetName.txt")
 	spec_arr=($(/usr/bin/python2.7 $GET_SPECIMENS_SCRIPT  $PARAM_FILE  $SAMPLE_SHEET $STEP  2>&1))
        
-
 	to_concat_spec_arr=()
 
         if [ -s $LSPQ_MISEQ_SAMPLE_LIST_TO_ADD_FILE_PATH ]
@@ -116,7 +114,7 @@ for proj in "${projects_list[@]}"
 
          	if [ -d  ${SLBIO_CORESNV_PATH} ]
                   then 
-                    echo "WARNING : Pour le projet $proj, l'étape CoreSNV a déja été executé avec une autre cartouche"
+                    echo "WARNING: Pour le projet $proj, l'étape CoreSNV a déja été executé avec une autre cartouche"
                     continue
 	        fi
 
@@ -173,18 +171,14 @@ for proj in "${projects_list[@]}"
 		  sudo docker start SnvPhy_EricF2
 		fi
  
-		#coresnv_cmd_obsolete="sudo /usr/bin/python2.7 $CORESNV_EXEC --deploy-docker --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir $SLBIO_CORESNV_PATH --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2"
-		
 		coresnv_cmd="sudo /usr/bin/python2.7 $CORESNV_EXEC --galaxy-url ${CORE_SNV_GALAXY_URL} --galaxy-api-key ${CORE_SNV_GALAXY_KEY} --fastq-dir $temp_fastq_dir --reference-file $ref_file --min-coverage 20 --output-dir ${SLBIO_CORESNV_PATH} --min-mean-mapping 30 --relative-snv-abundance 0.75  --filter-density-window 20  --filter-density-threshold 2 --run-name ${RUN_NAME} --map-outdir ${SLBIO_CORESNV_MAP_DIR}"
 	
-
 		position2phyloviz_cmd="sudo perl $POSITION2PHYLOVIZ_SCRIPT -i ${SLBIO_CORESNV_PATH}snvTable.tsv --reference-name $acc -b ${SLBIO_CORESNV_PATH}prefix"
 	
          	eval $coresnv_cmd
 			
          	eval $position2phyloviz_cmd
 
-		#ERIC FOURNIER 2019-11-01
 		sudo chmod 777 ${SLBIO_CORESNV_PATH}
 
 		MakeGrapeTreeProfile
@@ -200,7 +194,6 @@ for proj in "${projects_list[@]}"
 
 		rm -r $temp_fastq_dir
 	
-
 		#indexer les fichiers bam
 		IndexBamFile
 	

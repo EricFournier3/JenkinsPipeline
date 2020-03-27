@@ -7,8 +7,6 @@ Web reports
 
 HEADER
 
-#RUN_NAME="77777777_test2-test3"
-
 source "/data/Applications/GitScript/Jenkins/SetPath.sh"
 SetStaticPath
 GetProjectsNamefromRunName
@@ -366,17 +364,6 @@ BuildSpecimensList(){
 
 }
 
-
-
-BuildSpecimensListOBSOLETE(){
-	proj_spec_arr=()
-
-	for sp in $(awk 'BEGIN{FS=","}NR>1{print $1}' $SAMPLE_SHEET)
-		do
-		proj_spec_arr+=($sp)
-	done
-}
-
 		
 ImportProjDescFromLspqMiSeq(){
 	cp $LSPQ_MISEQ_PROJ_DESC_PATH ${SLBIO_WEBREPORT_PATH}
@@ -413,8 +400,5 @@ for proj in "${projects_list[@]}"
 		TransferWebFiles
 	fi
 done
-
-
-		
 
 

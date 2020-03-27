@@ -55,6 +55,11 @@ fi
 
 SetStaticPath(){
 
+        green_message="\e[32m"
+        white_message="\e[39m"
+	red_message="\e[31m"
+	yellow_message="\e[33m"
+
         path_arr=($(/usr/bin/python2.7 $GET_PARAM_SCRIPT  $PARAM_FILE  path  2>&1))
         LSPQ_MISEQ_BASE_PATH=${path_arr[0]}"/"
         SLBIO_BASE_PATH=${path_arr[1]}"/"
