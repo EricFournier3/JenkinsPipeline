@@ -108,7 +108,7 @@ SetStaticPath(){
 	#Modif_20200130
 	RUN_YEAR=${RUN_NAME:0:4}
         SLBIO_RUN_PATH=${SLBIO_BASE_PATH}"$RUN_NAME/"
-
+	LSPQ_MISEQ_RUN_PATH=${LSPQ_MISEQ_BASE_PATH}${RUN_YEAR}/${RUN_NAME}/
         
 }
 
@@ -180,7 +180,6 @@ GetProjectsNamefromRunName(){
         read -r -a projects_list <<< "$projects_list_temp"
 
         IFS=$IFS_BKP
-        #echo "${projects_list[@]}"
 }
 
 #Modif_20200309
